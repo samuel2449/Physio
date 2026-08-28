@@ -306,7 +306,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .offline-mobile-nav{grid-template-columns:repeat(4,1fr)!important}
 .offline-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-size:12px;font-weight:800}
 
-/* v1.2.2 – Versionsanzeige / Update */
+/* v1.2.3 – Versionsanzeige / Update */
 .brand-title-row{display:flex;align-items:center;gap:8px;min-width:0}
 .version-badge{
   display:inline-flex;align-items:center;justify-content:center;
@@ -329,7 +329,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .update-banner-inner span{display:block;margin-top:2px;color:#d0d5dd;font-size:12px}
 .update-banner-inner button{min-height:42px;white-space:nowrap}
 
-/* v1.2.2 – Navbar wirklich starr am unteren Bildschirmrand */
+/* v1.2.3 – Navbar wirklich starr am unteren Bildschirmrand */
 @media(max-width:700px){
   .mobile-nav{
     display:grid!important;
@@ -351,7 +351,7 @@ body.tv-mode #soundTestButton{display:none!important}
   }
 }
 
-/* v1.2.2 – Dynamic Island / Notch:
+/* v1.2.3 – Dynamic Island / Notch:
    black-translucent wurde deaktiviert. Zusätzlich reservieren wir
    in installierten iPhone-Web-Apps bewusst Schutzflächen. */
 body.webapp-mode{
@@ -411,7 +411,7 @@ body.tv-mode #message{
 body.tv-mode .update-banner{display:none!important}
 
 
-/* v1.2.2 – Apple-inspirierte Liquid-Glass Bottom Navigation */
+/* v1.2.3 – Apple-inspirierte Liquid-Glass Bottom Navigation */
 @media(max-width:700px){
   .offline-mobile-nav{
     grid-template-columns:repeat(4,minmax(0,1fr))!important;
@@ -550,7 +550,7 @@ body.tv-mode .update-banner{display:none!important}
 }
 
 
-/* v1.2.2 – Medien unten + schönerer Button */
+/* v1.2.3 – Medien unten + schönerer Button */
 .training-media-bottom{
   margin-top:16px !important;
   border-radius:20px;
@@ -585,14 +585,137 @@ body.tv-mode .update-banner{display:none!important}
 .training-media-button .media-text{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;text-align:left}
 .training-media-button .media-text small{color:#475467;font-size:11px;font-weight:650}
 
+
+/* v1.2.3 – Video-Overlay mit eigenen Controls + schönerer TV-Modus */
+#mediaViewerOverlay{
+  display:none;position:fixed;inset:0;z-index:10100;
+  background:
+    radial-gradient(circle at top, rgba(58,72,104,.22), transparent 36%),
+    rgba(4,7,12,.975);
+  align-items:center;justify-content:center;flex-direction:column;
+  padding:max(16px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));
+  box-sizing:border-box;gap:16px;
+}
+#mediaViewerOverlay.active{display:flex}
+#mediaViewerContent{
+  width:min(100%,1200px);height:min(74vh,100%);display:flex;align-items:center;justify-content:center;
+}
+#mediaViewerContent video,#mediaViewerContent img{
+  width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;background:#000;border-radius:18px;
+  box-shadow:0 22px 60px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.08);
+}
+#mediaViewerControls{
+  width:min(100%,860px);display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+}
+#mediaViewerControls.hidden{display:none!important}
+#mediaViewerControls button,
+#mediaViewerClose{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:46px;padding:10px 16px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);color:#fff;
+  background:linear-gradient(180deg,rgba(34,40,52,.76),rgba(18,22,32,.72));
+  backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 12px 32px rgba(0,0,0,.28);
+}
+#mediaViewerClose{
+  position:absolute;right:max(18px,calc(env(safe-area-inset-right) + 12px));
+  top:max(18px,calc(env(safe-area-inset-top) + 12px));z-index:2;
+  min-height:38px;padding:8px 12px;font-size:13px;opacity:.72;
+}
+#mediaViewerClose:hover{opacity:.92}
+#mediaViewerPlayPause{background:linear-gradient(180deg,rgba(59,130,246,.92),rgba(29,78,216,.92));}
+#mediaViewerMute.is-muted{background:linear-gradient(180deg,rgba(87,87,98,.86),rgba(55,55,66,.84));}
+
+body.tv-mode{
+  background:
+    radial-gradient(circle at top, rgba(29,78,216,.24), transparent 33%),
+    radial-gradient(circle at bottom, rgba(124,58,237,.16), transparent 36%),
+    #02040a;
+}
+body.tv-mode #training{
+  background:transparent!important;
+}
+body.tv-mode .training-card{
+  position:relative;
+  width:100%;height:100%;
+  padding:min(4vh,32px) 0!important;
+  background:transparent!important;
+  color:#fff;
+}
+body.tv-mode .training-card::before{
+  content:"";
+  position:absolute;inset:4.5% 3.5%;border-radius:36px;
+  background:linear-gradient(180deg,rgba(12,18,30,.68),rgba(5,8,15,.54));
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 30px 80px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%);
+  pointer-events:none;
+}
+body.tv-mode .training-card > *{position:relative;z-index:1}
+body.tv-mode #trainCount{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  width:auto;padding:10px 18px!important;border-radius:999px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+  color:#cbd5e1;letter-spacing:.01em;margin-bottom:8px;
+}
+body.tv-mode .progress{
+  width:min(72vw,980px)!important;height:10px!important;border-radius:999px;
+  background:rgba(255,255,255,.11)!important;overflow:hidden;
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.06);
+}
+body.tv-mode #bar{background:linear-gradient(90deg,#60a5fa,#7c3aed)!important}
+body.tv-mode #trainName{
+  text-shadow:0 4px 18px rgba(0,0,0,.32);
+}
+body.tv-mode #timer{
+  text-shadow:0 8px 30px rgba(0,0,0,.34);
+}
+body.tv-mode #message{
+  padding:12px 18px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07)
+}
+body.tv-mode .training-actions .primary,
+body.tv-mode .secondary-actions button,
+body.tv-mode #tvVideoClose{
+  border:none!important;
+  border-radius:999px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.08))!important;
+  color:#fff!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 14px 28px rgba(0,0,0,.2)!important;
+  backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%);
+}
+body.tv-mode .training-actions .primary{
+  background:linear-gradient(180deg,rgba(59,130,246,.9),rgba(37,99,235,.82))!important;
+}
+body.tv-mode #tvExitButton{
+  display:none;position:fixed;right:max(var(--tv-island-guard),calc(env(safe-area-inset-right) + 18px))!important;
+  top:max(18px,calc(env(safe-area-inset-top) + 12px));z-index:10040;
+  min-height:34px;padding:7px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg,rgba(17,24,39,.42),rgba(17,24,39,.34));color:#e5e7eb;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 20px rgba(0,0,0,.18);
+  font-size:12px;opacity:.58;
+}
+body.tv-mode #tvExitButton:hover{opacity:.86}
+body.tv-mode #tvVideoButton.has-media{
+  background:linear-gradient(180deg,rgba(124,58,237,.9),rgba(91,33,182,.84))!important;
+}
+@media (orientation:landscape) and (max-height:520px){
+  body.tv-mode .training-card::before{inset:2.5% 2.8%;border-radius:28px}
+  body.tv-mode .progress{height:8px!important;width:min(78vw,1040px)!important}
+}
+
 </style>
 </head>
 <body>
 <audio id="signalAudioEl" preload="auto" playsinline></audio>
 <audio id="voiceAudioEl" preload="auto" playsinline></audio>
 <div id="mediaViewerOverlay">
-  <button id="mediaViewerClose" type="button" onclick="closeMediaViewer()">Zurück zum Training</button>
+  <button id="mediaViewerClose" type="button" onclick="closeMediaViewer()">Schließen</button>
   <div id="mediaViewerContent"></div>
+  <div id="mediaViewerControls" class="hidden">
+    <button id="mediaViewerPlayPause" type="button" onclick="toggleMediaViewerPlayback()">▶︎ Abspielen</button>
+    <button id="mediaViewerRestart" type="button" onclick="restartMediaViewerVideo()">↺ Neu starten</button>
+    <button id="mediaViewerMute" type="button" onclick="toggleMediaViewerMute()">🔊 Ton an</button>
+  </div>
 </div>
 
 
@@ -604,7 +727,7 @@ body.tv-mode .update-banner{display:none!important}
   </div>
 </div>
 
-<button id="tvExitButton" onclick="exitTvMode()">TV-Modus beenden</button>
+<button id="tvExitButton" onclick="exitTvMode()">TV beenden</button>
 <div id="tvVideoOverlay">
   <button id="tvVideoClose" onclick="closeTvMedia()">Zurück zum Training</button>
   <div id="tvVideoContent" style="width:100%;height:100%"></div>
@@ -618,7 +741,7 @@ body.tv-mode .update-banner{display:none!important}
 <div class="header-inner">
   <div class="brandrow">
     <div class="brand">
-        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.2.2</span><span class="beta-badge">BETA</span></div>
+        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.2.3</span><span class="beta-badge">BETA</span></div>
         <small>Offline · lokal auf diesem Gerät</small>
       </div>
     <div id="saveState" class="save-state"></div>
@@ -733,7 +856,7 @@ body.tv-mode .update-banner{display:none!important}
       <p id="trainDesc" class="training-description muted"></p>
       <div id="trainMeta" class="training-meta"></div>
       <div id="autoPauseNote" class="small muted" style="margin-top:6px"></div>
-      <div id="audioStatus" class="small muted" style="margin-top:4px">Ton wird beim ersten Start aktiviert.</div>
+      <div id="audioStatus" class="small muted" style="margin-top:4px">Ton über „Ton testen / aktivieren“ einmal freischalten.</div>
       <button id="soundTestButton" type="button" onclick="testMobileSound()">Ton testen / aktivieren</button>
       <label class="row" style="justify-content:center;margin-top:10px">
         <input id="voiceToggle" type="checkbox" checked style="width:auto;min-height:auto" onchange="setVoiceAnnouncements(this.checked)">
@@ -796,7 +919,7 @@ body.tv-mode .update-banner{display:none!important}
       <button class="primary" onclick="setupOfflineNow()">Offline einrichten</button>
       <button onclick="checkOfflineStatus(true)">Offline-Status prüfen</button>
     </div>
-    <p class="small muted">Version 1.2.2</p>
+    <p class="small muted">Version 1.2.3</p>
   </div>
 </section>
 </main>
@@ -830,7 +953,7 @@ body.tv-mode .update-banner{display:none!important}
 
 <script>
 let data={exercises:[],plans:[],history:[],settings:{}};
-const APP_VERSION='1.2.2';
+const APP_VERSION='1.2.3';
 const DB_NAME='PhysioTrainerOffline';
 const DB_VERSION=1;
 let dbPromise=null;
@@ -917,6 +1040,39 @@ function segmentSummary(item){
 
 
 
+
+let mediaViewerVideo=null;
+
+function updateMediaViewerControls(){
+  const controls=document.getElementById('mediaViewerControls');
+  const playBtn=document.getElementById('mediaViewerPlayPause');
+  const muteBtn=document.getElementById('mediaViewerMute');
+  if(!controls||!playBtn||!muteBtn)return;
+  if(!mediaViewerVideo){
+    controls.classList.add('hidden');
+    return;
+  }
+  controls.classList.remove('hidden');
+  playBtn.textContent = mediaViewerVideo.paused ? '▶︎ Abspielen' : '❚❚ Pause';
+  muteBtn.textContent = mediaViewerVideo.muted || mediaViewerVideo.volume===0 ? '🔇 Ton aus' : '🔊 Ton an';
+  muteBtn.classList.toggle('is-muted', !!(mediaViewerVideo.muted || mediaViewerVideo.volume===0));
+}
+
+function bindMediaViewerVideo(video){
+  mediaViewerVideo=video;
+  if(!video)return;
+  video.controls=true;
+  video.muted=false;
+  video.defaultMuted=false;
+  video.volume=1;
+  video.playsInline=true;
+  video.setAttribute('playsinline','');
+  ['play','pause','volumechange','ended','loadedmetadata'].forEach(evt=>{
+    video.addEventListener(evt, updateMediaViewerControls);
+  });
+  updateMediaViewerControls();
+}
+
 function openMediaViewer(){
   if(!trainingState)return;
   let ex;
@@ -924,32 +1080,78 @@ function openMediaViewer(){
   if(!ex?.mediaUrl)return;
   const overlay=document.getElementById('mediaViewerOverlay');
   const content=document.getElementById('mediaViewerContent');
-  if(!overlay||!content)return;
+  const controls=document.getElementById('mediaViewerControls');
+  if(!overlay||!content||!controls)return;
+  mediaViewerVideo=null;
+  controls.classList.add('hidden');
   if(ex.mediaType==='video'){
     content.innerHTML=`<video src="${esc(ex.mediaUrl)}" controls playsinline preload="metadata"></video>`;
     const video=content.querySelector('video');
-    if(video){
-      video.muted=false;
-      video.defaultMuted=false;
-      video.volume=1;
-      video.controls=true;
-      video.setAttribute('controls','');
-      video.setAttribute('playsinline','');
-    }
+    bindMediaViewerVideo(video);
   }else{
     content.innerHTML=`<img src="${esc(ex.mediaUrl)}" alt="${esc(ex.name||'Übungsfoto')}">`;
   }
   overlay.classList.add('active');
 }
+
+async function toggleMediaViewerPlayback(){
+  const video=mediaViewerVideo;
+  if(!video)return;
+  try{
+    if(video.paused){
+      video.muted=false;
+      video.defaultMuted=false;
+      if(video.volume===0)video.volume=1;
+      await video.play();
+    }else{
+      video.pause();
+    }
+  }catch(err){
+    console.warn('Video play/pause failed', err);
+  }
+  updateMediaViewerControls();
+}
+
+async function restartMediaViewerVideo(){
+  const video=mediaViewerVideo;
+  if(!video)return;
+  try{
+    video.currentTime=0;
+    video.muted=false;
+    video.defaultMuted=false;
+    if(video.volume===0)video.volume=1;
+    await video.play();
+  }catch(err){
+    console.warn('Video restart failed', err);
+  }
+  updateMediaViewerControls();
+}
+
+function toggleMediaViewerMute(){
+  const video=mediaViewerVideo;
+  if(!video)return;
+  if(video.muted || video.volume===0){
+    video.muted=false;
+    video.defaultMuted=false;
+    video.volume=1;
+  }else{
+    video.muted=true;
+  }
+  updateMediaViewerControls();
+}
+
 function closeMediaViewer(){
   const overlay=document.getElementById('mediaViewerOverlay');
   const content=document.getElementById('mediaViewerContent');
-  if(!overlay||!content)return;
-  const video=content.querySelector('video');
-  try{video?.pause()}catch{}
+  const controls=document.getElementById('mediaViewerControls');
+  if(!overlay||!content||!controls)return;
+  try{mediaViewerVideo?.pause()}catch{}
   overlay.classList.remove('active');
+  controls.classList.add('hidden');
   content.innerHTML='';
+  mediaViewerVideo=null;
 }
+
 function syncTvMediaState(){
   const btn=document.getElementById('tvVideoButton');
   if(!btn)return;
@@ -2287,7 +2489,7 @@ function playExerciseFinishedSound(){
     audioSessionReady=true;
     updateAudioStatus('Ton aktiv ✓');
   }else{
-    updateAudioStatus('Ton nicht aktiv – bitte „Ton testen / aktivieren“ antippen.');
+    updateAudioStatus('Ton noch nicht freigeschaltet – bitte „Ton testen / aktivieren“ antippen.');
   }
   if(navigator.vibrate)navigator.vibrate([140,80,220]);
 }
@@ -2298,7 +2500,7 @@ function playPauseFinishedSound(){
     audioSessionReady=true;
     updateAudioStatus('Ton aktiv ✓');
   }else{
-    updateAudioStatus('Ton nicht aktiv – bitte „Ton testen / aktivieren“ antippen.');
+    updateAudioStatus('Ton noch nicht freigeschaltet – bitte „Ton testen / aktivieren“ antippen.');
   }
   if(navigator.vibrate)navigator.vibrate([90,60,90,60,150]);
 }
@@ -2344,7 +2546,7 @@ async function activateLocalAudioSession(){
   }catch(err){
     console.warn('audio resume failed',err);
     audioSessionReady=false;
-    updateAudioStatus('Ton blockiert – bitte „Ton testen / aktivieren“ antippen.');
+    updateAudioStatus('Ton noch nicht freigeschaltet – bitte „Ton testen / aktivieren“ antippen.');
     return false;
   }
 }

@@ -158,3 +158,12 @@ UPDATE 1.2.2 BETA – TON + MEDIEN UNTEN
 - Foto/Video-Block ist im Training jetzt ganz unten
 - Medien-Button neu gestaltet, mit Symbol + schönerer Optik
 - Video bleibt manuell, mit nativen Controls, Play/Pause und eigenem Video-Ton
+
+
+UPDATE 1.2.3 BETA – TV-MODUS + VIDEO-CONTROLS
+==============================================
+- Video-Overlay mit eigenen Play/Pause-, Neu starten- und Ton-Buttons
+- Video bleibt manuell, mit Ton und steuerbarer Wiedergabe
+- Mediensteuerung jetzt robuster, auch wenn iOS die nativen Controls schlecht anzeigt
+- TV-Modus optisch aufgewertet: dunkler Glas-Look, elegantere Buttons, schönerer Fortschritt
+- TV-Modus-Beenden-Button deutlich dezenter
