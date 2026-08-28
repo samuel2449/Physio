@@ -306,7 +306,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .offline-mobile-nav{grid-template-columns:repeat(4,1fr)!important}
 .offline-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-size:12px;font-weight:800}
 
-/* v1.2.1 – Versionsanzeige / Update */
+/* v1.2.2 – Versionsanzeige / Update */
 .brand-title-row{display:flex;align-items:center;gap:8px;min-width:0}
 .version-badge{
   display:inline-flex;align-items:center;justify-content:center;
@@ -329,7 +329,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .update-banner-inner span{display:block;margin-top:2px;color:#d0d5dd;font-size:12px}
 .update-banner-inner button{min-height:42px;white-space:nowrap}
 
-/* v1.2.1 – Navbar wirklich starr am unteren Bildschirmrand */
+/* v1.2.2 – Navbar wirklich starr am unteren Bildschirmrand */
 @media(max-width:700px){
   .mobile-nav{
     display:grid!important;
@@ -351,7 +351,7 @@ body.tv-mode #soundTestButton{display:none!important}
   }
 }
 
-/* v1.2.1 – Dynamic Island / Notch:
+/* v1.2.2 – Dynamic Island / Notch:
    black-translucent wurde deaktiviert. Zusätzlich reservieren wir
    in installierten iPhone-Web-Apps bewusst Schutzflächen. */
 body.webapp-mode{
@@ -411,7 +411,7 @@ body.tv-mode #message{
 body.tv-mode .update-banner{display:none!important}
 
 
-/* v1.2.1 – Apple-inspirierte Liquid-Glass Bottom Navigation */
+/* v1.2.2 – Apple-inspirierte Liquid-Glass Bottom Navigation */
 @media(max-width:700px){
   .offline-mobile-nav{
     grid-template-columns:repeat(4,minmax(0,1fr))!important;
@@ -549,6 +549,42 @@ body.tv-mode .update-banner{display:none!important}
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)
 }
 
+
+/* v1.2.2 – Medien unten + schönerer Button */
+.training-media-bottom{
+  margin-top:16px !important;
+  border-radius:20px;
+  padding:14px;
+  background:linear-gradient(180deg,rgba(248,250,252,.92),rgba(240,244,248,.86));
+  border:1px solid rgba(15,23,42,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.92),0 10px 30px rgba(15,23,42,.07);
+}
+.training-media-compact{display:flex;align-items:center;justify-content:center;margin:0 auto}
+.training-media-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  min-height:52px;padding:12px 18px;border-radius:18px;border:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(235,243,255,.92));
+  color:#0f172a;font-weight:800;
+  box-shadow:0 10px 24px rgba(37,99,235,.16),inset 0 1px 0 rgba(255,255,255,1),inset 0 0 0 1px rgba(191,219,254,.75);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+}
+.training-media-button:hover{transform:translateY(-1px)}
+.training-media-button:active{transform:scale(.98)}
+.training-media-button .media-icon-wrap{
+  width:34px;height:34px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,#60a5fa,#2563eb);color:#fff;flex:0 0 auto;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 14px rgba(37,99,235,.22)
+}
+.training-media-button.photo .media-icon-wrap{
+  background:linear-gradient(180deg,#a78bfa,#7c3aed);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 14px rgba(124,58,237,.22)
+}
+.training-media-button svg{
+  width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round
+}
+.training-media-button .media-text{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;text-align:left}
+.training-media-button .media-text small{color:#475467;font-size:11px;font-weight:650}
+
 </style>
 </head>
 <body>
@@ -582,7 +618,7 @@ body.tv-mode .update-banner{display:none!important}
 <div class="header-inner">
   <div class="brandrow">
     <div class="brand">
-        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.2.1</span><span class="beta-badge">BETA</span></div>
+        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.2.2</span><span class="beta-badge">BETA</span></div>
         <small>Offline · lokal auf diesem Gerät</small>
       </div>
     <div id="saveState" class="save-state"></div>
@@ -693,8 +729,7 @@ body.tv-mode .update-banner{display:none!important}
     <div class="card training-card">
       <div id="trainCount" class="progress-meta"></div>
       <div class="progress"><div id="bar"></div></div>
-      <div id="trainingMedia" class="training-media hidden"></div>
-      <h2 id="trainName"></h2>
+            <h2 id="trainName"></h2>
       <p id="trainDesc" class="training-description muted"></p>
       <div id="trainMeta" class="training-meta"></div>
       <div id="autoPauseNote" class="small muted" style="margin-top:6px"></div>
@@ -720,6 +755,7 @@ body.tv-mode .update-banner{display:none!important}
         <button id="tvVideoButton" onclick="openTvMedia()">Video ansehen</button>
       </div>
       <div style="margin-top:10px"><button class="ghost" onclick="endTraining()">Training beenden</button></div>
+      <div id="trainingMedia" class="training-media training-media-bottom hidden"></div>
     </div>
   </div>
 </section>
@@ -760,7 +796,7 @@ body.tv-mode .update-banner{display:none!important}
       <button class="primary" onclick="setupOfflineNow()">Offline einrichten</button>
       <button onclick="checkOfflineStatus(true)">Offline-Status prüfen</button>
     </div>
-    <p class="small muted">Version 1.2.1</p>
+    <p class="small muted">Version 1.2.2</p>
   </div>
 </section>
 </main>
@@ -794,7 +830,7 @@ body.tv-mode .update-banner{display:none!important}
 
 <script>
 let data={exercises:[],plans:[],history:[],settings:{}};
-const APP_VERSION='1.2.1';
+const APP_VERSION='1.2.2';
 const DB_NAME='PhysioTrainerOffline';
 const DB_VERSION=1;
 let dbPromise=null;
@@ -891,6 +927,15 @@ function openMediaViewer(){
   if(!overlay||!content)return;
   if(ex.mediaType==='video'){
     content.innerHTML=`<video src="${esc(ex.mediaUrl)}" controls playsinline preload="metadata"></video>`;
+    const video=content.querySelector('video');
+    if(video){
+      video.muted=false;
+      video.defaultMuted=false;
+      video.volume=1;
+      video.controls=true;
+      video.setAttribute('controls','');
+      video.setAttribute('playsinline','');
+    }
   }else{
     content.innerHTML=`<img src="${esc(ex.mediaUrl)}" alt="${esc(ex.name||'Übungsfoto')}">`;
   }
@@ -1782,12 +1827,16 @@ function renderTrainingMedia(ex){
   }
   trainingMedia.classList.remove('hidden');
   const isVideo=ex.mediaType==='video';
-  const label=isVideo?'Video ansehen':'Foto ansehen';
+  const label=isVideo?'Video öffnen':'Foto öffnen';
+  const subtitle=isVideo?'Mit Ton und Play/Pause':'Zum Vergrößern antippen';
   const icon=isVideo
-    ?'<svg viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"/><rect x="3" y="4" width="18" height="16" rx="3"/></svg>'
-    :'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8" cy="9" r="2"/><path d="m21 15-5-5L5 20"/></svg>';
+    ?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 7 8 5-8 5V7Z"/><rect x="3" y="4" width="18" height="16" rx="3"/></svg>'
+    :'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8" cy="9" r="2"/><path d="m21 15-5-5L5 20"/></svg>';
   trainingMedia.innerHTML=`<div class="training-media-compact">
-    <button type="button" class="training-media-button" onclick="openMediaViewer()">${icon}<span>${label}</span></button>
+    <button type="button" class="training-media-button ${isVideo?'video':'photo'}" onclick="openMediaViewer()">
+      <span class="media-icon-wrap">${icon}</span>
+      <span class="media-text"><span>${label}</span><small>${subtitle}</small></span>
+    </button>
   </div>`;
   syncTvMediaState();
 }
@@ -2168,8 +2217,8 @@ async function endTraining(){
   show('plans');
 }
 let audioSessionReady=false;
-let signalAudio=null;
-let voiceAudio=null;
+let audioContext=null;
+let chosenSpeechVoice=null;
 
 function voiceAnnouncementsEnabled(){
   return data?.settings?.voiceAnnouncements!==false;
@@ -2179,115 +2228,147 @@ async function setVoiceAnnouncements(enabled){
   data.settings.voiceAnnouncements=!!enabled;
   await persist();
 }
-function getAudioChannels(){
-  if(!signalAudio)signalAudio=document.getElementById('signalAudioEl');
-  if(!voiceAudio)voiceAudio=document.getElementById('voiceAudioEl');
-  return {signalAudio,voiceAudio};
-}
 function updateAudioStatus(text){
   const status=document.getElementById('audioStatus');
   if(status)status.textContent=text;
 }
-function prepareChannel(el,path,volume=1){
-  if(!el)return;
-  try{
-    el.pause();
-    el.src=path;
-    el.volume=Math.max(0,Math.min(1,volume));
-    el.load();
-    el.currentTime=0;
-  }catch{}
+function getAudioContext(){
+  const Ctx=window.AudioContext||window.webkitAudioContext;
+  if(!Ctx)return null;
+  if(!audioContext)audioContext=new Ctx();
+  return audioContext;
 }
-async function unlockChannel(el){
-  if(!el)return false;
-  prepareChannel(el,'./audio/unlock.mp3',0.08);
+function pickGermanVoice(){
+  const synth=window.speechSynthesis;
+  if(!synth||!synth.getVoices)return null;
+  const voices=synth.getVoices()||[];
+  chosenSpeechVoice=
+    voices.find(v=>/^de[-_]/i.test(v.lang) && /siri|anna|petra|markus|deutsch|german/i.test(v.name)) ||
+    voices.find(v=>/^de[-_]/i.test(v.lang)) ||
+    null;
+  return chosenSpeechVoice;
+}
+function speakGerman(text){
+  if(!voiceAnnouncementsEnabled())return;
   try{
-    const p=el.play();
-    if(p?.then)await p;
-    el.pause();
-    el.currentTime=0;
-    return true;
-  }catch{
-    return false;
+    if(!('speechSynthesis' in window))return;
+    const utter=new SpeechSynthesisUtterance(text);
+    utter.lang='de-DE';
+    utter.rate=0.98;
+    utter.pitch=1;
+    utter.volume=1;
+    utter.voice=chosenSpeechVoice || pickGermanVoice();
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utter);
+  }catch(err){
+    console.warn('speech failed',err);
   }
 }
-async function activateLocalAudioSession(){
-  const {signalAudio,voiceAudio}=getAudioChannels();
-  const a=await unlockChannel(signalAudio);
-  const b=await unlockChannel(voiceAudio);
-  audioSessionReady=!!(a&&b);
-  updateAudioStatus(audioSessionReady?'Ton aktiv ✓':'Ton nicht aktiv – „Ton testen / aktivieren“ antippen.');
-  return audioSessionReady;
-}
-function unlockAudio(){
-  activateLocalAudioSession().catch(()=>{});
+function makeTone(freq=880,duration=0.22,gainValue=0.14,type='sine',delay=0){
+  const ctx=getAudioContext();
+  if(!ctx || ctx.state!=='running')return false;
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.type=type;
+  osc.frequency.value=freq;
+  gain.gain.setValueAtTime(0.0001,ctx.currentTime+delay);
+  gain.gain.exponentialRampToValueAtTime(gainValue,ctx.currentTime+delay+0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+delay+duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(ctx.currentTime+delay);
+  osc.stop(ctx.currentTime+delay+duration+0.03);
   return true;
 }
-async function playChannel(el,path,volume=1){
-  if(!el)return false;
-  try{
-    prepareChannel(el,path,volume);
-    const p=el.play();
-    if(p?.then)await p;
+function playExerciseFinishedSound(){
+  const ok1=makeTone(880,0.18,0.12,'sine',0);
+  const ok2=makeTone(1174,0.22,0.12,'sine',0.18);
+  if(ok1||ok2){
     audioSessionReady=true;
     updateAudioStatus('Ton aktiv ✓');
+  }else{
+    updateAudioStatus('Ton nicht aktiv – bitte „Ton testen / aktivieren“ antippen.');
+  }
+  if(navigator.vibrate)navigator.vibrate([140,80,220]);
+}
+function playPauseFinishedSound(){
+  const ok1=makeTone(640,0.14,0.11,'triangle',0);
+  const ok2=makeTone(820,0.2,0.12,'triangle',0.18);
+  if(ok1||ok2){
+    audioSessionReady=true;
+    updateAudioStatus('Ton aktiv ✓');
+  }else{
+    updateAudioStatus('Ton nicht aktiv – bitte „Ton testen / aktivieren“ antippen.');
+  }
+  if(navigator.vibrate)navigator.vibrate([90,60,90,60,150]);
+}
+function playLocalAudio(path,volume=1){
+  const p=String(path||'');
+  if(p.includes('/voice/')){
+    const file=p.split('/').pop()||'';
+    if(file==='weiter.mp3')speakGerman('Weiter');
+    else if(file==='pause.mp3')speakGerman('Pause');
+    else{
+      const mm=file.match(/^pause-(\d+)\.mp3$/);
+      if(mm)speakGerman(`${Number(mm[1])} Sekunden Pause`);
+    }
     return true;
+  }
+  if(p.includes('pause-end.mp3')){
+    playPauseFinishedSound();
+    return true;
+  }
+  playExerciseFinishedSound();
+  return true;
+}
+function cleanupAudio(){}
+function resetLocalAudioSession(){
+  try{window.speechSynthesis?.cancel?.()}catch{}
+  audioSessionReady=false;
+  updateAudioStatus('Ton bitte einmal aktivieren.');
+}
+async function activateLocalAudioSession(){
+  const ctx=getAudioContext();
+  if(!ctx){
+    audioSessionReady=false;
+    updateAudioStatus('Dieses Gerät unterstützt den App-Ton nicht.');
+    return false;
+  }
+  try{
+    await ctx.resume();
+    pickGermanVoice();
+    makeTone(440,0.05,0.0002,'sine',0);
+    audioSessionReady=ctx.state==='running';
+    updateAudioStatus(audioSessionReady?'Ton aktiv ✓':'Ton nicht aktiv – bitte erneut tippen.');
+    return audioSessionReady;
   }catch(err){
-    console.warn('Audio playback failed',path,err);
+    console.warn('audio resume failed',err);
     audioSessionReady=false;
     updateAudioStatus('Ton blockiert – bitte „Ton testen / aktivieren“ antippen.');
     return false;
   }
 }
-async function playLocalAudio(path,volume=1){
-  const {signalAudio,voiceAudio}=getAudioChannels();
-  return playChannel(path.includes('/voice/')?voiceAudio:signalAudio,path,volume);
+function unlockAudio(){
+  activateLocalAudioSession().catch(()=>{});
+  return true;
 }
-function cleanupAudio(){}
-function resetLocalAudioSession(){
-  const {signalAudio,voiceAudio}=getAudioChannels();
-  for(const el of [signalAudio,voiceAudio]){
-    try{el.pause();el.removeAttribute('src');el.load()}catch{}
+async function ensureAudioReady(){
+  const ctx=getAudioContext();
+  if(!ctx)return false;
+  if(ctx.state!=='running'){
+    try{await ctx.resume()}catch{}
   }
-  audioSessionReady=false;
-  updateAudioStatus('Ton bitte einmal aktivieren.');
+  audioSessionReady=ctx.state==='running';
+  return audioSessionReady;
 }
 async function testMobileSound(){
-  const ok=unlockAudio();
+  const ok=await activateLocalAudioSession();
   if(!ok)return;
-  await playLocalAudio('./audio/pause-end.mp3',1);
+  playPauseFinishedSound();
   if(voiceAnnouncementsEnabled()){
-    setTimeout(()=>playLocalAudio('./audio/voice/weiter.mp3',1),450);
+    setTimeout(()=>speakGerman('Weiter'),500);
   }
 }
-function localPauseVoicePath(text){
-  if(/^Weiter$/i.test(text))return './audio/voice/weiter.mp3';
-  if(/^Pause$/i.test(text))return './audio/voice/pause.mp3';
-  let m=text.match(/^(\d+) Sekunde(?:n)? Pause$/i);
-  if(m){
-    const n=Number(m[1]);
-    if(n>=1&&n<=120)return `./audio/voice/pause-${n}.mp3`;
-    return './audio/voice/pause.mp3';
-  }
-  return null;
-}
-
-function speakGerman(text){
-  if(!voiceAnnouncementsEnabled())return;
-  const path=localPauseVoicePath(text);
-  if(path)playLocalAudio(path,1);
-}
-
-function playExerciseFinishedSound(){
-  playLocalAudio('./audio/exercise-end.mp3',1);
-  if(navigator.vibrate)navigator.vibrate([140,80,220]);
-}
-
-function playPauseFinishedSound(){
-  playLocalAudio('./audio/pause-end.mp3',1);
-  if(navigator.vibrate)navigator.vibrate([90,60,90,60,150]);
-}
-
 function beep(){playExerciseFinishedSound()}
 function formatDateTime(iso){return new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(iso))}
 function formatTime(iso){return new Intl.DateTimeFormat('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date(iso))}
@@ -2427,6 +2508,13 @@ document.addEventListener('visibilitychange',()=>{
 
 
 setTimeout(checkForAppUpdate,700);
+
+if('speechSynthesis' in window){
+  try{
+    window.speechSynthesis.onvoiceschanged=()=>pickGermanVoice();
+    pickGermanVoice();
+  }catch{}
+}
 </script>
 </body>
 </html>

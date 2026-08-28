@@ -148,3 +148,13 @@ UPDATE 1.2.1 BETA
 - Video wird im Training nur als "Video ansehen"-Button gezeigt
 - große Ansicht nur nach explizitem Tippen
 - Schließen der Medienansicht pausiert Video
+
+
+UPDATE 1.2.2 BETA – TON + MEDIEN UNTEN
+======================================
+- App-Ton auf Web Audio API umgestellt
+- "Ton testen / aktivieren" aktiviert den AudioContext direkt per Benutzer-Tipp
+- Sprachansagen verwenden die iPhone-Systemstimme (de-DE), wenn verfügbar
+- Foto/Video-Block ist im Training jetzt ganz unten
+- Medien-Button neu gestaltet, mit Symbol + schönerer Optik
+- Video bleibt manuell, mit nativen Controls, Play/Pause und eigenem Video-Ton
