@@ -306,7 +306,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .offline-mobile-nav{grid-template-columns:repeat(4,1fr)!important}
 .offline-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-size:12px;font-weight:800}
 
-/* v1.1.3 – Versionsanzeige / Update */
+/* v1.2.0 – Versionsanzeige / Update */
 .brand-title-row{display:flex;align-items:center;gap:8px;min-width:0}
 .version-badge{
   display:inline-flex;align-items:center;justify-content:center;
@@ -329,7 +329,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .update-banner-inner span{display:block;margin-top:2px;color:#d0d5dd;font-size:12px}
 .update-banner-inner button{min-height:42px;white-space:nowrap}
 
-/* v1.1.3 – Navbar wirklich starr am unteren Bildschirmrand */
+/* v1.2.0 – Navbar wirklich starr am unteren Bildschirmrand */
 @media(max-width:700px){
   .mobile-nav{
     display:grid!important;
@@ -351,7 +351,7 @@ body.tv-mode #soundTestButton{display:none!important}
   }
 }
 
-/* v1.1.3 – Dynamic Island / Notch:
+/* v1.2.0 – Dynamic Island / Notch:
    black-translucent wurde deaktiviert. Zusätzlich reservieren wir
    in installierten iPhone-Web-Apps bewusst Schutzflächen. */
 body.webapp-mode{
@@ -410,6 +410,104 @@ body.tv-mode #message{
 }
 body.tv-mode .update-banner{display:none!important}
 
+
+/* v1.2.0 – Apple-inspirierte Liquid-Glass Bottom Navigation */
+@media(max-width:700px){
+  .offline-mobile-nav{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    left:12px!important;
+    right:12px!important;
+    bottom:max(8px,env(safe-area-inset-bottom))!important;
+    width:auto!important;
+    padding:6px!important;
+    gap:3px!important;
+    border:1px solid rgba(255,255,255,.62)!important;
+    border-radius:26px!important;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.72),rgba(245,248,252,.54))!important;
+    box-shadow:
+      0 14px 42px rgba(15,23,42,.16),
+      inset 0 1px 0 rgba(255,255,255,.9),
+      inset 0 -1px 0 rgba(255,255,255,.32)!important;
+    backdrop-filter:blur(28px) saturate(180%)!important;
+    -webkit-backdrop-filter:blur(28px) saturate(180%)!important;
+    overflow:hidden;
+  }
+  .offline-mobile-nav::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 22% -20%,rgba(255,255,255,.85),transparent 42%),
+      radial-gradient(circle at 78% 130%,rgba(175,205,255,.22),transparent 42%);
+    pointer-events:none;
+  }
+  .offline-mobile-nav .nav-tab{
+    position:relative;z-index:1;
+    display:flex!important;flex-direction:column;align-items:center;justify-content:center;
+    min-width:0;min-height:55px!important;
+    gap:3px;padding:6px 4px!important;margin:0!important;
+    border:0!important;border-radius:20px!important;
+    background:transparent!important;
+    color:#667085!important;
+    transition:
+      background .22s ease,
+      color .22s ease,
+      transform .18s ease,
+      box-shadow .22s ease!important;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .offline-mobile-nav .nav-tab:active{transform:scale(.96)}
+  .offline-mobile-nav .nav-tab.active{
+    color:#0a63d8!important;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.92),rgba(228,239,255,.76))!important;
+    box-shadow:
+      0 7px 18px rgba(31,103,210,.17),
+      inset 0 1px 0 rgba(255,255,255,1),
+      inset 0 0 0 1px rgba(255,255,255,.5)!important;
+  }
+  .offline-mobile-nav .nav-tab.active::after{
+    content:"";
+    position:absolute;left:50%;bottom:4px;
+    width:18px;height:3px;border-radius:999px;
+    transform:translateX(-50%);
+    background:currentColor;
+    opacity:.88;
+  }
+  .offline-mobile-nav .nav-icon{
+    display:flex!important;align-items:center;justify-content:center;
+    width:25px;height:25px;margin:0!important;
+    font-size:0!important;line-height:1!important;
+  }
+  .offline-mobile-nav .nav-icon svg{
+    width:23px;height:23px;display:block;
+    fill:none;stroke:currentColor;stroke-width:1.85;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+  .offline-mobile-nav .nav-label{
+    display:block;font-size:10.5px;font-weight:720;line-height:1.1;
+    letter-spacing:-.01em;white-space:nowrap;
+  }
+  .shell{
+    padding-bottom:calc(102px + env(safe-area-inset-bottom))!important;
+  }
+  .update-banner{
+    bottom:calc(98px + env(safe-area-inset-bottom))!important;
+  }
+}
+
+/* Querformat: Liquid-Glass-Leiste bleibt außerhalb der Dynamic-Island-Schutzfläche. */
+@media(max-width:700px) and (orientation:landscape){
+  body.webapp-mode:not(.tv-mode) .offline-mobile-nav{
+    left:max(118px,calc(env(safe-area-inset-left) + 24px))!important;
+    right:max(118px,calc(env(safe-area-inset-right) + 24px))!important;
+    padding-left:6px!important;
+    padding-right:6px!important;
+  }
+}
+
+/* Dark TV mode does not show the phone nav anyway; glass styling stays phone-only. */
+
 </style>
 </head>
 <body>
@@ -436,7 +534,7 @@ body.tv-mode .update-banner{display:none!important}
 <div class="header-inner">
   <div class="brandrow">
     <div class="brand">
-        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.1.3</span></div>
+        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.2.0</span></div>
         <small>Offline · lokal auf diesem Gerät</small>
       </div>
     <div id="saveState" class="save-state"></div>
@@ -614,21 +712,41 @@ body.tv-mode .update-banner{display:none!important}
       <button class="primary" onclick="setupOfflineNow()">Offline einrichten</button>
       <button onclick="checkOfflineStatus(true)">Offline-Status prüfen</button>
     </div>
-    <p class="small muted">Version 1.1.3</p>
+    <p class="small muted">Version 1.2.0</p>
   </div>
 </section>
 </main>
 
-<nav class="mobile-nav offline-mobile-nav">
-  <button onclick="show('plans')"><span class="nav-icon">▤</span>Pläne</button>
-  <button onclick="show('exercises')"><span class="nav-icon">●</span>Übungen</button>
-  <button onclick="show('history')"><span class="nav-icon">◷</span>Historie</button>
-  <button onclick="show('backup')"><span class="nav-icon">↥</span>Backup</button>
+<nav class="mobile-nav offline-mobile-nav" aria-label="Hauptnavigation">
+  <button type="button" data-view="plans" class="nav-tab active" onclick="show('plans')" aria-label="Pläne">
+    <span class="nav-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M7 4h10M7 9h10M7 14h6M5 4h.01M5 9h.01M5 14h.01M5 19h.01M7 19h8"/></svg>
+    </span>
+    <span class="nav-label">Pläne</span>
+  </button>
+  <button type="button" data-view="exercises" class="nav-tab" onclick="show('exercises')" aria-label="Übungen">
+    <span class="nav-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M7 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM4 22v-6a3 3 0 0 1 3-3h2l3-4 3 4h2a3 3 0 0 1 3 3v6M9 22v-5M15 22v-5"/></svg>
+    </span>
+    <span class="nav-label">Übungen</span>
+  </button>
+  <button type="button" data-view="history" class="nav-tab" onclick="show('history')" aria-label="Historie">
+    <span class="nav-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></svg>
+    </span>
+    <span class="nav-label">Historie</span>
+  </button>
+  <button type="button" data-view="backup" class="nav-tab" onclick="show('backup')" aria-label="Backup">
+    <span class="nav-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+    </span>
+    <span class="nav-label">Backup</span>
+  </button>
 </nav>
 
 <script>
 let data={exercises:[],plans:[],history:[],settings:{}};
-const APP_VERSION='1.1.3';
+const APP_VERSION='1.2.0';
 const DB_NAME='PhysioTrainerOffline';
 const DB_VERSION=1;
 let dbPromise=null;
@@ -1258,12 +1376,23 @@ async function persist(){
   }
 }
 
+function setActiveNav(id){
+  const navView=(id==='training'||id==='planEdit')?'plans':id;
+  document.querySelectorAll('.mobile-nav .nav-tab').forEach(btn=>{
+    const active=btn.dataset.view===navView;
+    btn.classList.toggle('active',active);
+    if(active)btn.setAttribute('aria-current','page');
+    else btn.removeAttribute('aria-current');
+  });
+}
+
 function show(id){
   if(id==='training'&&!trainingState){
     id='plans';
   }
 
   ids.forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));
+  setActiveNav(id);
   window.scrollTo(0,0);
 
   if(id==='plans')renderPlans();
@@ -2005,6 +2134,11 @@ let audioSessionReady=false;
 let audioSessionToken=Date.now().toString(36);
 let audioPlayCounter=0;
 let activeAudio=[];
+let signalAudio=null;
+let voiceAudio=null;
+let signalObjectUrl='';
+let voiceObjectUrl='';
+const audioBlobCache=new Map();
 
 function voiceAnnouncementsEnabled(){
   return data?.settings?.voiceAnnouncements!==false;
@@ -2017,46 +2151,18 @@ async function setVoiceAnnouncements(enabled){
   if(enabled)activateLocalAudioSession();
 }
 
-function freshAudioUrl(path){
-  audioPlayCounter++;
-  // Fragment erzeugt für das Audio-Element eine frische URL, wird aber NICHT
-  // an den Server/Service-Worker gesendet. Dadurch funktionieren vorab
-  // gecachte MP3-Dateien auch komplett offline.
-  return `${path}#play-${audioSessionToken}-${audioPlayCounter}`;
+function createPersistentAudioChannel(){
+  const el=document.createElement('audio');
+  el.preload='auto';
+  el.playsInline=true;
+  el.setAttribute('playsinline','');
+  el.setAttribute('webkit-playsinline','');
+  return el;
 }
 
-function cleanupAudio(el){
-  const i=activeAudio.indexOf(el);
-  if(i>=0)activeAudio.splice(i,1);
-  try{el.pause();el.removeAttribute('src');el.load()}catch{}
-}
-
-async function playLocalAudio(path,volume=1){
-  try{
-    const el=new Audio();
-    el.preload='auto';
-    el.playsInline=true;
-    el.volume=Math.max(0,Math.min(1,volume));
-    el.src=freshAudioUrl(path);
-    activeAudio.push(el);
-    el.addEventListener('ended',()=>cleanupAudio(el),{once:true});
-    el.addEventListener('error',()=>cleanupAudio(el),{once:true});
-    await el.play();
-    audioSessionReady=true;
-    updateAudioStatus('Ton aktiv ✓');
-    return true;
-  }catch(err){
-    updateAudioStatus('Ton blockiert – bitte „Ton testen“ tippen.');
-    return false;
-  }
-}
-
-function resetLocalAudioSession(){
-  for(const el of [...activeAudio])cleanupAudio(el);
-  activeAudio=[];
-  audioSessionReady=false;
-  audioSessionToken=Date.now().toString(36);
-  updateAudioStatus('Ton bitte einmal aktivieren.');
+function ensurePersistentAudioChannels(){
+  if(!signalAudio)signalAudio=createPersistentAudioChannel();
+  if(!voiceAudio)voiceAudio=createPersistentAudioChannel();
 }
 
 function updateAudioStatus(text){
@@ -2064,14 +2170,136 @@ function updateAudioStatus(text){
   if(status)status.textContent=text;
 }
 
-async function activateLocalAudioSession(){
-  // Wichtig für iOS Home-Screen-Web-App: bei jeder neuen App-Sitzung wird ein
-  // komplett neues HTMLAudioElement erzeugt statt ein alter AudioContext resumed.
-  const ok=await playLocalAudio('./audio/unlock.mp3',0.08);
-  if(ok){
+async function loadAudioBlob(path){
+  if(audioBlobCache.has(path))return audioBlobCache.get(path);
+
+  const promise=(async()=>{
+    const res=await fetch(path,{cache:'force-cache'});
+    if(!res.ok)throw new Error(`Audio ${res.status}`);
+    return await res.blob();
+  })();
+
+  audioBlobCache.set(path,promise);
+  try{
+    return await promise;
+  }catch(err){
+    audioBlobCache.delete(path);
+    throw err;
+  }
+}
+
+function releaseChannelUrl(kind){
+  if(kind==='voice'&&voiceObjectUrl){
+    try{URL.revokeObjectURL(voiceObjectUrl)}catch{}
+    voiceObjectUrl='';
+  }
+  if(kind==='signal'&&signalObjectUrl){
+    try{URL.revokeObjectURL(signalObjectUrl)}catch{}
+    signalObjectUrl='';
+  }
+}
+
+async function setChannelSource(el,path,kind){
+  const blob=await loadAudioBlob(path);
+  releaseChannelUrl(kind);
+  const url=URL.createObjectURL(blob);
+
+  if(kind==='voice')voiceObjectUrl=url;
+  else signalObjectUrl=url;
+
+  try{
+    el.pause();
+    el.currentTime=0;
+  }catch{}
+
+  el.src=url;
+  el.load();
+}
+
+async function primePersistentChannel(el){
+  await setChannelSource(el,'./audio/unlock.mp3',el===voiceAudio?'voice':'signal');
+  el.volume=0.06;
+
+  try{
+    await el.play();
+    // Playing a real media element inside the user gesture is what unlocks
+    // later playback most reliably in iOS Home-Screen PWAs.
+    await new Promise(resolve=>setTimeout(resolve,45));
+    el.pause();
+    el.currentTime=0;
+    return true;
+  }catch{
+    return false;
+  }
+}
+
+async function playLocalAudio(path,volume=1){
+  ensurePersistentAudioChannels();
+
+  const isVoice=path.includes('/voice/');
+  const el=isVoice?voiceAudio:signalAudio;
+  const kind=isVoice?'voice':'signal';
+
+  try{
+    await setChannelSource(el,path,kind);
+    el.volume=Math.max(0,Math.min(1,volume));
+    el.currentTime=0;
+
+    const playPromise=el.play();
+    await playPromise;
+
     audioSessionReady=true;
     updateAudioStatus('Ton aktiv ✓');
+    return true;
+  }catch(err){
+    console.warn('Audio playback failed',path,err);
+    audioSessionReady=false;
+    updateAudioStatus('Ton nicht aktiv – bitte „Ton testen / aktivieren“ antippen.');
+    return false;
   }
+}
+
+function cleanupAudio(){
+  // Persistent channels are intentionally kept alive for iOS.
+}
+
+function resetLocalAudioSession(){
+  ensurePersistentAudioChannels();
+
+  for(const el of [signalAudio,voiceAudio]){
+    try{
+      el.pause();
+      el.currentTime=0;
+    }catch{}
+  }
+
+  releaseChannelUrl('signal');
+  releaseChannelUrl('voice');
+
+  audioSessionReady=false;
+  audioSessionToken=Date.now().toString(36);
+  updateAudioStatus('Ton bitte einmal aktivieren.');
+}
+
+async function activateLocalAudioSession(){
+  ensurePersistentAudioChannels();
+
+  // Both channels are unlocked during the same real user gesture:
+  // one for beeps, one for spoken announcements.
+  const results=await Promise.all([
+    primePersistentChannel(signalAudio),
+    primePersistentChannel(voiceAudio)
+  ]);
+
+  const ok=results.every(Boolean);
+  audioSessionReady=ok;
+
+  if(ok){
+    updateAudioStatus('Ton aktiv ✓');
+  }else{
+    updateAudioStatus('Ton konnte nicht aktiviert werden – bitte erneut tippen.');
+  }
+
   return ok;
 }
 
@@ -2087,11 +2315,15 @@ async function ensureAudioReady(){
 async function testMobileSound(){
   resetLocalAudioSession();
   const ok=await activateLocalAudioSession();
-  if(ok){
-    setTimeout(()=>playLocalAudio('./audio/pause-end.mp3',0.95),120);
-    if(voiceAnnouncementsEnabled()){
-      setTimeout(()=>playLocalAudio('./audio/voice/weiter.mp3',1),650);
-    }
+
+  if(!ok)return;
+
+  await new Promise(resolve=>setTimeout(resolve,120));
+  await playLocalAudio('./audio/pause-end.mp3',1);
+
+  if(voiceAnnouncementsEnabled()){
+    await new Promise(resolve=>setTimeout(resolve,180));
+    await playLocalAudio('./audio/voice/weiter.mp3',1);
   }
 }
 
@@ -2202,6 +2434,7 @@ async function importJson(ev){
 
 
 updateWebAppMode();
+setActiveNav('plans');
 segmentDrafts=[defaultSegment()];renderSegments();
 load().catch(err=>{console.error(err);plansList.innerHTML='<div class="card"><b>Lokaler Speicher konnte nicht geöffnet werden.</b><p>Bitte die App neu öffnen.</p></div>'});
 

@@ -110,3 +110,28 @@ Jetzt:
 - neuer Button "Offline einrichten"
 - Service Worker wird bei manueller Einrichtung sauber neu registriert
 - Trainingsdaten/Medien in IndexedDB werden dabei nicht gelöscht
+
+
+UPDATE 1.2.0 – SOUND + LIQUID-GLASS NAVIGATION
+===============================================
+SOUND:
+- iOS-Audio wurde grundlegend umgebaut
+- keine neuen Audio-Elemente für jeden Signalton mehr
+- zwei dauerhaft vorhandene Audio-Kanäle:
+  1. Signaltöne
+  2. Sprachansagen
+- beide Kanäle werden beim ersten echten Tippen auf dem iPhone freigeschaltet
+- MP3-Dateien werden als Blob aus dem Offline-Cache geladen
+- danach wird derselbe Audio-Kanal wiederverwendet
+- "Ton testen / aktivieren" spielt Pausenton und anschließend "Weiter"
+
+NAVIGATION:
+- neue Apple-inspirierte Liquid-Glass Bottom Navigation
+- schwebende, transparente Glasfläche
+- stärkerer Blur und Sättigung
+- abgerundete Glas-Kapsel
+- neue Linien-Icons
+- aktiver Reiter bekommt eine helle Glaskapsel + blaue Hervorhebung
+- aktiver Reiter wird bei jedem Seitenwechsel automatisch aktualisiert
+- Navbar bleibt starr unten
+- Dynamic-Island-Schutz im Querformat bleibt erhalten
