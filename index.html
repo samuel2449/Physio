@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="apple-mobile-web-app-title" content="Physio Trainer">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#ffffff">
 <title>Physio Trainer Offline</title>
 <style>
 :root{
@@ -305,6 +305,111 @@ body.tv-mode #soundTestButton{display:none!important}
 
 .offline-mobile-nav{grid-template-columns:repeat(4,1fr)!important}
 .offline-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-size:12px;font-weight:800}
+
+/* v1.1.0 – Versionsanzeige / Update */
+.brand-title-row{display:flex;align-items:center;gap:8px;min-width:0}
+.version-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:3px 7px;border-radius:999px;background:#eef4ff;color:#1d4ed8;
+  font-size:11px;font-weight:850;line-height:1;white-space:nowrap
+}
+.update-banner{
+  position:fixed;left:12px;right:12px;
+  bottom:calc(82px + env(safe-area-inset-bottom));
+  z-index:85;pointer-events:none
+}
+.update-banner-inner{
+  width:min(620px,100%);margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px 12px;border-radius:16px;background:#111827;color:#fff;
+  box-shadow:0 12px 32px rgba(0,0,0,.28);pointer-events:auto
+}
+.update-banner-inner div{min-width:0}
+.update-banner-inner b{display:block;font-size:14px}
+.update-banner-inner span{display:block;margin-top:2px;color:#d0d5dd;font-size:12px}
+.update-banner-inner button{min-height:42px;white-space:nowrap}
+
+/* v1.1.0 – Navbar wirklich starr am unteren Bildschirmrand */
+@media(max-width:700px){
+  .mobile-nav{
+    display:grid!important;
+    position:fixed!important;
+    left:0!important;right:0!important;bottom:0!important;
+    width:100%!important;
+    z-index:80!important;
+    margin:0!important;
+    padding-top:7px!important;
+    padding-bottom:max(8px,env(safe-area-inset-bottom))!important;
+    background:rgba(255,255,255,.985)!important;
+    border-top:1px solid var(--line)!important;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    transform:translateZ(0);
+  }
+  .shell{
+    padding-bottom:calc(92px + env(safe-area-inset-bottom))!important;
+  }
+}
+
+/* v1.1.0 – Dynamic Island / Notch:
+   black-translucent wurde deaktiviert. Zusätzlich reservieren wir
+   in installierten iPhone-Web-Apps bewusst Schutzflächen. */
+body.webapp-mode{
+  --portrait-top-guard:max(env(safe-area-inset-top),10px);
+  --landscape-side-guard:max(env(safe-area-inset-left),env(safe-area-inset-right),118px);
+}
+@media(orientation:portrait){
+  body.webapp-mode:not(.tv-mode) .header-inner{
+    padding-top:max(11px,var(--portrait-top-guard))!important;
+  }
+}
+@media(orientation:landscape){
+  body.webapp-mode:not(.tv-mode) .header-inner,
+  body.webapp-mode:not(.tv-mode) .shell,
+  body.webapp-mode:not(.tv-mode) #activeTrainingBar{
+    padding-left:max(118px,calc(env(safe-area-inset-left) + 24px))!important;
+    padding-right:max(118px,calc(env(safe-area-inset-right) + 24px))!important;
+    box-sizing:border-box!important;
+  }
+
+  /* Navbar bleibt am Displayrand, nur die bedienbare Innenfläche meidet die Island. */
+  body.webapp-mode:not(.tv-mode) .mobile-nav{
+    padding-left:max(118px,calc(env(safe-area-inset-left) + 24px))!important;
+    padding-right:max(118px,calc(env(safe-area-inset-right) + 24px))!important;
+  }
+
+  body.webapp-mode:not(.tv-mode) .update-banner{
+    left:max(118px,calc(env(safe-area-inset-left) + 24px))!important;
+    right:max(118px,calc(env(safe-area-inset-right) + 24px))!important;
+  }
+}
+
+/* TV-Modus: wichtiger Inhalt liegt ausschließlich in einer mittleren Safe-Zone. */
+body.tv-mode{
+  --tv-island-guard:clamp(122px,13vw,150px)!important;
+}
+body.tv-mode #training{
+  padding-left:max(var(--tv-island-guard),calc(env(safe-area-inset-left) + 34px))!important;
+  padding-right:max(var(--tv-island-guard),calc(env(safe-area-inset-right) + 34px))!important;
+}
+body.tv-mode #tvExitButton,
+body.tv-mode #tvVideoClose{
+  right:max(var(--tv-island-guard),calc(env(safe-area-inset-right) + 22px))!important;
+}
+body.tv-mode .training-card{
+  max-width:1100px!important;
+  margin-left:auto!important;margin-right:auto!important;
+}
+body.tv-mode #trainName,
+body.tv-mode #trainDesc,
+body.tv-mode #trainMeta,
+body.tv-mode #timerLabel,
+body.tv-mode #timer,
+body.tv-mode #message{
+  max-width:100%!important;
+}
+body.tv-mode .update-banner{display:none!important}
+
 </style>
 </head>
 <body>
@@ -330,7 +435,10 @@ body.tv-mode #soundTestButton{display:none!important}
 <header>
 <div class="header-inner">
   <div class="brandrow">
-    <div class="brand"><h1>Physio Trainer</h1><small>Offline · lokal auf diesem Gerät</small></div>
+    <div class="brand">
+        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.1.0</span></div>
+        <small>Offline · lokal auf diesem Gerät</small>
+      </div>
     <div id="saveState" class="save-state"></div>
   </div>
   <nav class="desktop-nav">
@@ -341,6 +449,16 @@ body.tv-mode #soundTestButton{display:none!important}
   </nav>
 </div>
 </header>
+<div id="updateBanner" class="update-banner hidden" role="status" aria-live="polite">
+  <div class="update-banner-inner">
+    <div>
+      <b>Neue Version verfügbar</b>
+      <span id="updateVersionText">Update verfügbar</span>
+    </div>
+    <button class="primary" type="button" onclick="installAvailableUpdate()">Jetzt aktualisieren</button>
+  </div>
+</div>
+
 
 <div id="activeTrainingBar" class="active-training-bar hidden">
   <div class="active-training-inner">
@@ -490,7 +608,7 @@ body.tv-mode #soundTestButton{display:none!important}
   <div class="card">
     <h3 style="margin-top:0">Offline-App</h3>
     <p id="offlineStatus" class="muted">Offline-Funktion wird vorbereitet …</p>
-    <p class="small muted">Version 1.0.0</p>
+    <p class="small muted">Version 1.1.0</p>
   </div>
 </section>
 </main>
@@ -504,12 +622,15 @@ body.tv-mode #soundTestButton{display:none!important}
 
 <script>
 let data={exercises:[],plans:[],history:[],settings:{}};
-const APP_VERSION='1.0.0';
+const APP_VERSION='1.1.0';
 const DB_NAME='PhysioTrainerOffline';
 const DB_VERSION=1;
 let dbPromise=null;
 let mediaObjectUrls=new Map();
 let runtimeSaveAt=0;
+let latestAvailableVersion=null;
+let appServiceWorkerRegistration=null;
+
 let tvModeActive=false;
 
 let fullscreenHintDismissed=false;
@@ -807,6 +928,62 @@ function restoreRuntimeState(){
     }
   }catch{clearRuntimeState()}
 }
+
+function compareVersions(a,b){
+  const pa=String(a||'').split('.').map(n=>parseInt(n,10)||0);
+  const pb=String(b||'').split('.').map(n=>parseInt(n,10)||0);
+  const len=Math.max(pa.length,pb.length);
+  for(let i=0;i<len;i++){
+    const x=pa[i]||0,y=pb[i]||0;
+    if(x>y)return 1;
+    if(x<y)return -1;
+  }
+  return 0;
+}
+
+function showUpdateBanner(version){
+  latestAvailableVersion=version;
+  const banner=document.getElementById('updateBanner');
+  const text=document.getElementById('updateVersionText');
+  if(text)text.textContent=`Version ${version} ist verfügbar · installiert: ${APP_VERSION}`;
+  if(banner)banner.classList.remove('hidden');
+}
+
+function hideUpdateBanner(){
+  const banner=document.getElementById('updateBanner');
+  if(banner)banner.classList.add('hidden');
+}
+
+async function checkForAppUpdate(){
+  if(!navigator.onLine)return;
+  try{
+    const res=await fetch(`./version.json?t=${Date.now()}`,{cache:'no-store'});
+    if(!res.ok)return;
+    const info=await res.json();
+    const remote=String(info?.version||'').trim();
+    if(remote&&compareVersions(remote,APP_VERSION)>0){
+      showUpdateBanner(remote);
+    }else{
+      hideUpdateBanner();
+    }
+  }catch{}
+}
+
+async function installAvailableUpdate(){
+  const btn=document.querySelector('#updateBanner button');
+  if(btn){btn.disabled=true;btn.textContent='Aktualisiere …'}
+  try{
+    const reg=appServiceWorkerRegistration || await navigator.serviceWorker.getRegistration();
+    if(reg){
+      await reg.update();
+      if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});
+    }
+    setTimeout(()=>location.reload(),500);
+  }catch{
+    location.reload();
+  }
+}
+
 async function registerOfflineApp(){
   const status=document.getElementById('offlineStatus');
   if(!('serviceWorker' in navigator)){
@@ -815,9 +992,27 @@ async function registerOfflineApp(){
   }
   try{
     const reg=await navigator.serviceWorker.register('./sw.js');
+    appServiceWorkerRegistration=reg;
     await navigator.serviceWorker.ready;
-    if(status)status.innerHTML='<span class="offline-badge">✓ Offline-App bereit</span>';
+
+    if(status)status.innerHTML=`<span class="offline-badge">✓ Offline-App bereit · v${APP_VERSION}</span>`;
+
+    reg.addEventListener('updatefound',()=>{
+      const worker=reg.installing;
+      if(!worker)return;
+      worker.addEventListener('statechange',()=>{
+        if(worker.state==='installed'&&navigator.serviceWorker.controller){
+          checkForAppUpdate();
+        }
+      });
+    });
+
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{
+      // Erst durch den Benutzer-Updatebutton reloaden; verhindert Reload-Schleifen.
+    });
+
     reg.update().catch(()=>{});
+    checkForAppUpdate();
   }catch{
     if(status)status.textContent='Offline-Installation benötigt eine HTTPS-Adresse.';
   }
@@ -1635,7 +1830,10 @@ async function setVoiceAnnouncements(enabled){
 
 function freshAudioUrl(path){
   audioPlayCounter++;
-  return `${path}?v=1.0.0&s=${audioSessionToken}&n=${audioPlayCounter}`;
+  // Fragment erzeugt für das Audio-Element eine frische URL, wird aber NICHT
+  // an den Server/Service-Worker gesendet. Dadurch funktionieren vorab
+  // gecachte MP3-Dateien auch komplett offline.
+  return `${path}#play-${audioSessionToken}-${audioPlayCounter}`;
 }
 
 function cleanupAudio(el){
@@ -1701,14 +1899,17 @@ async function testMobileSound(){
   resetLocalAudioSession();
   const ok=await activateLocalAudioSession();
   if(ok){
-    setTimeout(()=>playLocalAudio('./audio/pause-end.mp3',0.9),80);
+    setTimeout(()=>playLocalAudio('./audio/pause-end.mp3',0.95),120);
+    if(voiceAnnouncementsEnabled()){
+      setTimeout(()=>playLocalAudio('./audio/voice/weiter.mp3',1),650);
+    }
   }
 }
 
 function localPauseVoicePath(text){
   if(/^Weiter$/i.test(text))return './audio/voice/weiter.mp3';
   if(/^Pause$/i.test(text))return './audio/voice/pause.mp3';
-  let m=text.match(/^(\\d+) Sekunde(?:n)? Pause$/i);
+  let m=text.match(/^(\d+) Sekunde(?:n)? Pause$/i);
   if(m){
     const n=Number(m[1]);
     if(n>=1&&n<=120)return `./audio/voice/pause-${n}.mp3`;
@@ -1859,6 +2060,29 @@ document.addEventListener('visibilitychange',()=>{
 document.addEventListener('pointerdown',()=>{
   if(!audioSessionReady)activateLocalAudioSession();
 },{passive:true});
+
+window.addEventListener('online',checkForAppUpdate);
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'){
+    checkForAppUpdate();
+  }
+});
+
+let firstAudioGestureArmed=false;
+async function armAudioFromGesture(){
+  if(firstAudioGestureArmed||audioSessionReady)return;
+  firstAudioGestureArmed=true;
+  const ok=await activateLocalAudioSession();
+  if(!ok)firstAudioGestureArmed=false;
+}
+document.addEventListener('pointerdown',armAudioFromGesture,{passive:true});
+document.addEventListener('touchend',armAudioFromGesture,{passive:true});
+window.addEventListener('pageshow',event=>{
+  if(event.persisted){
+    resetLocalAudioSession();
+    firstAudioGestureArmed=false;
+  }
+});
 </script>
 </body>
 </html>

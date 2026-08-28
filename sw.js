@@ -1,8 +1,9 @@
-const CACHE_NAME='physio-trainer-shell-1.0.0';
+const CACHE_NAME='physio-trainer-shell-1.1.0';
 const PRECACHE=[
   "./",
   "./index.html",
   "./manifest.webmanifest",
+  "./version.json",
   "./icon-192.png",
   "./icon-512.png",
   "./audio/exercise-end.mp3",
@@ -133,12 +134,73 @@ const PRECACHE=[
 ];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(PRECACHE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('message',event=>{
+  if(event.data?.type==='SKIP_WAITING')self.skipWaiting();
+});
+
 self.addEventListener('fetch',event=>{
-  const req=event.request;if(req.method!=='GET')return;
-  const url=new URL(req.url);if(url.origin!==self.location.origin)return;
-  if(req.mode==='navigate'){
-    event.respondWith(fetch(req).then(res=>{const copy=res.clone();caches.open(CACHE_NAME).then(c=>c.put('./index.html',copy)).catch(()=>{});return res}).catch(()=>caches.match('./index.html')));
+  const req=event.request;
+  if(req.method!=='GET')return;
+
+  const url=new URL(req.url);
+  if(url.origin!==self.location.origin)return;
+
+  // version.json immer zuerst aus dem Netz holen, damit Updates erkannt werden.
+  if(url.pathname.endsWith('/version.json')){
+    event.respondWith(
+      fetch(req,{cache:'no-store'})
+        .then(res=>{
+          if(res?.ok){
+            const copy=res.clone();
+            caches.open(CACHE_NAME).then(c=>c.put('./version.json',copy)).catch(()=>{});
+          }
+          return res;
+        })
+        .catch(()=>caches.match('./version.json'))
+    );
     return;
   }
-  event.respondWith(caches.match(req).then(hit=>hit||fetch(req).then(res=>{if(res?.ok){const copy=res.clone();caches.open(CACHE_NAME).then(c=>c.put(req,copy)).catch(()=>{})}return res})));
+
+  // Navigation: online aktualisieren, offline auf gecachte App zurückfallen.
+  if(req.mode==='navigate'){
+    event.respondWith(
+      fetch(req)
+        .then(res=>{
+          const copy=res.clone();
+          caches.open(CACHE_NAME).then(c=>c.put('./index.html',copy)).catch(()=>{});
+          return res;
+        })
+        .catch(()=>caches.match('./index.html'))
+    );
+    return;
+  }
+
+  // Audio: Suchparameter/Fragments dürfen das Offline-Caching nicht brechen.
+  if(url.pathname.includes('/audio/')){
+    event.respondWith(
+      caches.match(req,{ignoreSearch:true}).then(hit=>
+        hit || fetch(req).then(res=>{
+          if(res?.ok){
+            const clean=new Request(url.origin+url.pathname);
+            const copy=res.clone();
+            caches.open(CACHE_NAME).then(c=>c.put(clean,copy)).catch(()=>{});
+          }
+          return res;
+        })
+      )
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(req,{ignoreSearch:true}).then(hit=>
+      hit || fetch(req).then(res=>{
+        if(res?.ok){
+          const copy=res.clone();
+          caches.open(CACHE_NAME).then(c=>c.put(req,copy)).catch(()=>{});
+        }
+        return res;
+      })
+    )
+  );
 });

@@ -28,3 +28,28 @@ Nach erfolgreicher Installation funktioniert das Training offline und ohne PC.
 
 Die Webadresse enthält nur die Programmdateien.
 Persönliche Trainingsdaten, Fotos und Videos bleiben lokal auf dem iPhone.
+
+
+UPDATE 1.1.0
+============
+- Versionsnummer direkt im Kopfbereich
+- automatische Prüfung auf neue Version über version.json
+- Hinweis "Neue Version verfügbar" mit "Jetzt aktualisieren"
+- Dynamic-Island-Schutz verbessert
+- black-translucent Statusleiste entfernt, damit Inhalt nicht unter iOS-Systemflächen liegt
+- TV-Modus mit größerer seitlicher Safe-Zone
+- Navbar am iPhone starr ganz unten fixiert
+- Soundfehler im Offline-/App-Modus korrigiert:
+  Audiodateien verwenden keine wechselnden Netzwerk-Query-URLs mehr
+- Service Worker behandelt Audio cache-sicher und offline
+- Pausendauer-Sprachansage korrigiert
+- "Ton testen / aktivieren" testet Signalton + "Weiter"
+
+WIE KÜNFTIGE UPDATES FUNKTIONIEREN
+==================================
+Ab Version 1.1.0 prüft die App bei Internetverbindung version.json.
+Wenn auf GitHub eine neuere Version liegt, erscheint in der App:
+"Neue Version verfügbar" -> "Jetzt aktualisieren".
+
+Die lokalen Trainingsdaten in IndexedDB werden dadurch nicht ersetzt.
+Vor größeren Updates bleibt ein Vollbackup trotzdem empfohlen.
