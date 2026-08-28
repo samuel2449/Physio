@@ -306,7 +306,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .offline-mobile-nav{grid-template-columns:repeat(4,1fr)!important}
 .offline-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-size:12px;font-weight:800}
 
-/* v1.1.0 – Versionsanzeige / Update */
+/* v1.1.2 – Versionsanzeige / Update */
 .brand-title-row{display:flex;align-items:center;gap:8px;min-width:0}
 .version-badge{
   display:inline-flex;align-items:center;justify-content:center;
@@ -329,7 +329,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .update-banner-inner span{display:block;margin-top:2px;color:#d0d5dd;font-size:12px}
 .update-banner-inner button{min-height:42px;white-space:nowrap}
 
-/* v1.1.0 – Navbar wirklich starr am unteren Bildschirmrand */
+/* v1.1.2 – Navbar wirklich starr am unteren Bildschirmrand */
 @media(max-width:700px){
   .mobile-nav{
     display:grid!important;
@@ -351,7 +351,7 @@ body.tv-mode #soundTestButton{display:none!important}
   }
 }
 
-/* v1.1.0 – Dynamic Island / Notch:
+/* v1.1.2 – Dynamic Island / Notch:
    black-translucent wurde deaktiviert. Zusätzlich reservieren wir
    in installierten iPhone-Web-Apps bewusst Schutzflächen. */
 body.webapp-mode{
@@ -436,7 +436,7 @@ body.tv-mode .update-banner{display:none!important}
 <div class="header-inner">
   <div class="brandrow">
     <div class="brand">
-        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.1.0</span></div>
+        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.1.2</span></div>
         <small>Offline · lokal auf diesem Gerät</small>
       </div>
     <div id="saveState" class="save-state"></div>
@@ -592,8 +592,10 @@ body.tv-mode .update-banner{display:none!important}
     <div class="row" style="margin-top:10px">
       <button onclick="requestPersistentStorage()">Lokalen Speicher schützen</button>
       <button onclick="updateStorageInfo()">Speicher aktualisieren</button>
+      <button onclick="repairAppUpdate()">App-Update reparieren</button>
     </div>
     <p id="storagePersistInfo" class="small muted"></p>
+    <p class="small muted">„App-Update reparieren“ löscht nur den Offline-App-Cache und den Service Worker – Übungen, Pläne, Historie und Medien in IndexedDB bleiben erhalten.</p>
   </div>
   <div class="card">
     <h3 style="margin-top:0">Backup</h3>
@@ -607,8 +609,11 @@ body.tv-mode .update-banner{display:none!important}
   </div>
   <div class="card">
     <h3 style="margin-top:0">Offline-App</h3>
-    <p id="offlineStatus" class="muted">Offline-Funktion wird vorbereitet …</p>
-    <p class="small muted">Version 1.1.0</p>
+    <p id="offlineStatus" class="muted">Offline-Status wird geprüft …</p>
+    <div class="row" style="margin-top:10px">
+      <button onclick="checkOfflineStatus(true)">Offline-Status prüfen</button>
+    </div>
+    <p class="small muted">Version 1.1.2</p>
   </div>
 </section>
 </main>
@@ -622,7 +627,7 @@ body.tv-mode .update-banner{display:none!important}
 
 <script>
 let data={exercises:[],plans:[],history:[],settings:{}};
-const APP_VERSION='1.1.0';
+const APP_VERSION='1.1.2';
 const DB_NAME='PhysioTrainerOffline';
 const DB_VERSION=1;
 let dbPromise=null;
@@ -929,6 +934,69 @@ function restoreRuntimeState(){
   }catch{clearRuntimeState()}
 }
 
+
+async function deletePhysioShellCaches(){
+  if(!('caches' in window))return;
+  const keys=await caches.keys();
+  await Promise.all(
+    keys
+      .filter(k=>k.startsWith('physio-trainer-shell-'))
+      .map(k=>caches.delete(k))
+  );
+}
+
+async function unregisterPhysioServiceWorkers(){
+  if(!('serviceWorker' in navigator))return;
+  const regs=await navigator.serviceWorker.getRegistrations();
+  await Promise.all(regs.map(r=>r.unregister().catch(()=>false)));
+}
+
+async function repairAppUpdate(){
+  const ok=confirm(
+    'App-Update reparieren?\n\n' +
+    'Dabei werden nur der Offline-App-Cache und der Service Worker neu aufgebaut. ' +
+    'Deine Übungen, Trainingspläne, Historie, Fotos und Videos bleiben erhalten.'
+  );
+  if(!ok)return;
+
+  const btn=[...document.querySelectorAll('button')].find(b=>b.textContent.includes('App-Update reparieren'));
+  if(btn){btn.disabled=true;btn.textContent='Update wird repariert …'}
+
+  try{
+    await unregisterPhysioServiceWorkers();
+    await deletePhysioShellCaches();
+
+    // Cache-busting URL forces WebKit to request fresh HTML.
+    const url=new URL(location.href);
+    url.searchParams.set('app-update',Date.now().toString());
+    location.replace(url.toString());
+  }catch(err){
+    console.error(err);
+    location.reload();
+  }
+}
+
+async function forceInstallRemoteVersion(remoteVersion){
+  const guardKey='physio-forced-update-target';
+  const already=sessionStorage.getItem(guardKey);
+  if(already===remoteVersion)return;
+
+  sessionStorage.setItem(guardKey,remoteVersion);
+
+  try{
+    await unregisterPhysioServiceWorkers();
+    await deletePhysioShellCaches();
+
+    const url=new URL(location.href);
+    url.searchParams.set('v',remoteVersion);
+    url.searchParams.set('refresh',Date.now().toString());
+    location.replace(url.toString());
+  }catch(err){
+    console.error('Force update failed',err);
+    location.reload();
+  }
+}
+
 function compareVersions(a,b){
   const pa=String(a||'').split('.').map(n=>parseInt(n,10)||0);
   const pb=String(b||'').split('.').map(n=>parseInt(n,10)||0);
@@ -957,13 +1025,26 @@ function hideUpdateBanner(){
 async function checkForAppUpdate(){
   if(!navigator.onLine)return;
   try{
-    const res=await fetch(`./version.json?t=${Date.now()}`,{cache:'no-store'});
+    const res=await fetch(`./version.json?ts=${Date.now()}`,{
+      cache:'no-store',
+      headers:{'Cache-Control':'no-cache'}
+    });
     if(!res.ok)return;
+
     const info=await res.json();
     const remote=String(info?.version||'').trim();
-    if(remote&&compareVersions(remote,APP_VERSION)>0){
+    if(!remote)return;
+
+    if(compareVersions(remote,APP_VERSION)>0){
       showUpdateBanner(remote);
+
+      // Home-Screen-App: iOS/WebKit kann am alten App-Shell-Cache festhalten.
+      // Deshalb erzwingen wir hier einen kontrollierten Cache-/SW-Neustart.
+      if(isStandaloneWebApp()){
+        setTimeout(()=>forceInstallRemoteVersion(remote),250);
+      }
     }else{
+      sessionStorage.removeItem('physio-forced-update-target');
       hideUpdateBanner();
     }
   }catch{}
@@ -972,35 +1053,95 @@ async function checkForAppUpdate(){
 async function installAvailableUpdate(){
   const btn=document.querySelector('#updateBanner button');
   if(btn){btn.disabled=true;btn.textContent='Aktualisiere …'}
+
+  if(latestAvailableVersion){
+    await forceInstallRemoteVersion(latestAvailableVersion);
+    return;
+  }
+
+  await repairAppUpdate();
+}
+
+
+function withTimeout(promise,ms){
+  return Promise.race([
+    promise,
+    new Promise((_,reject)=>setTimeout(()=>reject(new Error('timeout')),ms))
+  ]);
+}
+
+async function checkOfflineStatus(showAlert=false){
+  const status=document.getElementById('offlineStatus');
+  if(!status)return;
+
+  if(!('serviceWorker' in navigator)){
+    status.innerHTML='<span class="storage-warn">Offline-Modus wird von diesem Browser nicht unterstützt.</span>';
+    if(showAlert)alert('Service Worker werden von diesem Browser nicht unterstützt.');
+    return false;
+  }
+
   try{
-    const reg=appServiceWorkerRegistration || await navigator.serviceWorker.getRegistration();
-    if(reg){
-      await reg.update();
-      if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});
+    const reg=await navigator.serviceWorker.getRegistration('./');
+    const controlled=!!navigator.serviceWorker.controller;
+    const hasRegistration=!!reg;
+
+    let cacheReady=false;
+    if('caches' in window){
+      const keys=await caches.keys();
+      cacheReady=keys.some(k=>k.startsWith('physio-trainer-shell-'));
     }
-    setTimeout(()=>location.reload(),500);
-  }catch{
-    location.reload();
+
+    if(controlled&&cacheReady){
+      status.innerHTML=`<span class="offline-badge">✓ Offline-App bereit · v${APP_VERSION}</span>`;
+      if(showAlert)alert('Offline-App ist bereit. Die App-Oberfläche ist lokal gespeichert.');
+      return true;
+    }
+
+    if(hasRegistration&&cacheReady){
+      status.innerHTML='<span class="offline-badge">✓ Offline-Dateien gespeichert</span><br><span class="small muted">Der Service Worker wird beim nächsten App-Start vollständig aktiv.</span>';
+      if(showAlert)alert('Die Offline-Dateien sind gespeichert. Bitte die App einmal komplett schließen und neu öffnen.');
+      return true;
+    }
+
+    if(hasRegistration){
+      status.innerHTML='<span class="small muted">Service Worker ist registriert, Offline-Dateien werden noch gespeichert.</span>';
+      if(showAlert)alert('Offline-Einrichtung ist noch nicht vollständig abgeschlossen. Bitte kurz online bleiben und erneut prüfen.');
+      return false;
+    }
+
+    status.innerHTML='<span class="storage-warn">Offline-App ist noch nicht eingerichtet.</span>';
+    if(showAlert)alert('Offline-App ist noch nicht eingerichtet. Bitte die Seite einmal mit Internetverbindung neu laden.');
+    return false;
+  }catch(err){
+    status.innerHTML='<span class="storage-warn">Offline-Status konnte nicht gelesen werden.</span>';
+    if(showAlert)alert('Offline-Status konnte nicht gelesen werden.');
+    return false;
   }
 }
 
 async function registerOfflineApp(){
   const status=document.getElementById('offlineStatus');
+
   if(!('serviceWorker' in navigator)){
-    if(status)status.textContent='Service Worker wird von diesem Browser nicht unterstützt.';
+    if(status)status.innerHTML='<span class="storage-warn">Offline-Modus wird von diesem Browser nicht unterstützt.</span>';
     return;
   }
+
   try{
     const reg=await navigator.serviceWorker.register('./sw.js');
     appServiceWorkerRegistration=reg;
-    await navigator.serviceWorker.ready;
 
-    if(status)status.innerHTML=`<span class="offline-badge">✓ Offline-App bereit · v${APP_VERSION}</span>`;
+    // iOS kann navigator.serviceWorker.ready sehr lange offen lassen.
+    // Deshalb maximal kurz warten und danach den realen Zustand separat prüfen.
+    try{
+      await withTimeout(navigator.serviceWorker.ready,3500);
+    }catch{}
 
     reg.addEventListener('updatefound',()=>{
       const worker=reg.installing;
       if(!worker)return;
       worker.addEventListener('statechange',()=>{
+        checkOfflineStatus(false);
         if(worker.state==='installed'&&navigator.serviceWorker.controller){
           checkForAppUpdate();
         }
@@ -1008,13 +1149,19 @@ async function registerOfflineApp(){
     });
 
     navigator.serviceWorker.addEventListener('controllerchange',()=>{
-      // Erst durch den Benutzer-Updatebutton reloaden; verhindert Reload-Schleifen.
+      checkOfflineStatus(false);
     });
 
     reg.update().catch(()=>{});
+    await checkOfflineStatus(false);
     checkForAppUpdate();
-  }catch{
-    if(status)status.textContent='Offline-Installation benötigt eine HTTPS-Adresse.';
+  }catch(err){
+    console.error('Service Worker registration failed',err);
+    if(status){
+      status.innerHTML=navigator.onLine
+        ?'<span class="storage-warn">Offline-App konnte nicht eingerichtet werden.</span>'
+        :'<span class="storage-warn">Offline-Einrichtung braucht einmal eine Internetverbindung.</span>';
+    }
   }
 }
 function formatBytes(bytes){
@@ -2065,6 +2212,7 @@ window.addEventListener('online',checkForAppUpdate);
 document.addEventListener('visibilitychange',()=>{
   if(document.visibilityState==='visible'){
     checkForAppUpdate();
+    checkOfflineStatus(false);
   }
 });
 
@@ -2083,6 +2231,8 @@ window.addEventListener('pageshow',event=>{
     firstAudioGestureArmed=false;
   }
 });
+
+setTimeout(checkForAppUpdate,700);
 </script>
 </body>
 </html>

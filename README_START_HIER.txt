@@ -53,3 +53,44 @@ Wenn auf GitHub eine neuere Version liegt, erscheint in der App:
 
 Die lokalen Trainingsdaten in IndexedDB werden dadurch nicht ersetzt.
 Vor größeren Updates bleibt ein Vollbackup trotzdem empfohlen.
+
+
+UPDATE 1.1.1 – IPHONE HOME-SCREEN UPDATE-REPARATUR
+===================================================
+Problem:
+Safari kann bereits die neue GitHub-Pages-Version zeigen, während die
+installierte Home-Screen-Web-App noch die alte Version aus ihrem App-Cache
+verwendet.
+
+Neu:
+- Home-Screen-App prüft version.json mit no-store
+- bei neuer Version wird der alte Physio-Service-Worker abgemeldet
+- nur Caches mit Namen "physio-trainer-shell-..." werden gelöscht
+- IndexedDB wird NICHT gelöscht
+- Übungen, Pläne, Historie, Fotos und Videos bleiben erhalten
+- anschließend wird index.html mit einer Cache-Busting-URL neu geladen
+- unter Backup & Speicher gibt es zusätzlich "App-Update reparieren"
+
+WICHTIG:
+Die Update-Reparatur löscht NICHT den lokalen Trainingsdatenbestand.
+Vor größeren Änderungen bleibt ein Vollbackup trotzdem empfehlenswert.
+
+
+UPDATE 1.1.2 – OFFLINE-STATUS
+==============================
+Behoben:
+Im Reiter Backup konnte dauerhaft "Offline-Funktion wird vorbereitet ..."
+stehen bleiben, obwohl die App bereits registriert war.
+
+Ursache:
+iOS kann navigator.serviceWorker.ready in einer Home-Screen-Web-App sehr
+lange offen halten.
+
+Jetzt:
+- Statusprüfung hat kein endloses Warten mehr
+- "Offline-App bereit" wenn Service Worker + Cache aktiv sind
+- "Offline-Dateien gespeichert" wenn Cache vorhanden, Worker aber erst
+  beim nächsten Start vollständig übernimmt
+- verständliche Fehlermeldung, wenn die Einrichtung fehlt
+- Button "Offline-Status prüfen"
+- erneute Prüfung beim Zurückkehren in die App

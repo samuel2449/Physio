@@ -1,4 +1,4 @@
-const CACHE_NAME='physio-trainer-shell-1.1.0';
+const CACHE_NAME='physio-trainer-shell-1.1.2';
 const PRECACHE=[
   "./",
   "./index.html",
