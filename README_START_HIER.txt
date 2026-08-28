@@ -135,3 +135,16 @@ NAVIGATION:
 - aktiver Reiter wird bei jedem Seitenwechsel automatisch aktualisiert
 - Navbar bleibt starr unten
 - Dynamic-Island-Schutz im Querformat bleibt erhalten
+
+
+UPDATE 1.2.1 BETA
+==================
+- lila BETA-Patch neben Versionsnummer
+- Trainingsstart funktioniert unabhängig vom Ton
+- keine Audio-Freischaltung darf Start/Pause/Weiter mehr blockieren
+- zwei feste Audio-Elemente für Signal und Sprache
+- Video startet nie automatisch
+- Video hat native Play/Pause-Steuerung
+- Video wird im Training nur als "Video ansehen"-Button gezeigt
+- große Ansicht nur nach explizitem Tippen
+- Schließen der Medienansicht pausiert Video
