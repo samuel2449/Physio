@@ -94,3 +94,19 @@ Jetzt:
 - verständliche Fehlermeldung, wenn die Einrichtung fehlt
 - Button "Offline-Status prüfen"
 - erneute Prüfung beim Zurückkehren in die App
+
+
+UPDATE 1.1.3 – OFFLINE-EINRICHTUNG ROBUSTER
+============================================
+Ursache der möglichen Offline-Fehlermeldung:
+Der alte Service Worker versuchte sehr viele Sprachdateien auf einmal zu cachen.
+Fehlte nur eine Datei oder schlug ein einzelner Abruf fehl, konnte die ganze
+Installation scheitern.
+
+Jetzt:
+- nur wichtige Kern-Dateien werden beim ersten Einrichten gespeichert
+- jede Kern-Datei wird einzeln verarbeitet; ein Fehler stoppt nicht alles
+- Sprachdateien für konkrete Pausenzeiten werden erst beim ersten Gebrauch gecacht
+- neuer Button "Offline einrichten"
+- Service Worker wird bei manueller Einrichtung sauber neu registriert
+- Trainingsdaten/Medien in IndexedDB werden dabei nicht gelöscht

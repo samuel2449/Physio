@@ -1,139 +1,48 @@
-const CACHE_NAME='physio-trainer-shell-1.1.2';
-const PRECACHE=[
-  "./",
-  "./index.html",
-  "./manifest.webmanifest",
-  "./version.json",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./audio/exercise-end.mp3",
-  "./audio/pause-end.mp3",
-  "./audio/unlock.mp3",
-  "./audio/voice/pause-1.mp3",
-  "./audio/voice/pause-10.mp3",
-  "./audio/voice/pause-100.mp3",
-  "./audio/voice/pause-101.mp3",
-  "./audio/voice/pause-102.mp3",
-  "./audio/voice/pause-103.mp3",
-  "./audio/voice/pause-104.mp3",
-  "./audio/voice/pause-105.mp3",
-  "./audio/voice/pause-106.mp3",
-  "./audio/voice/pause-107.mp3",
-  "./audio/voice/pause-108.mp3",
-  "./audio/voice/pause-109.mp3",
-  "./audio/voice/pause-11.mp3",
-  "./audio/voice/pause-110.mp3",
-  "./audio/voice/pause-111.mp3",
-  "./audio/voice/pause-112.mp3",
-  "./audio/voice/pause-113.mp3",
-  "./audio/voice/pause-114.mp3",
-  "./audio/voice/pause-115.mp3",
-  "./audio/voice/pause-116.mp3",
-  "./audio/voice/pause-117.mp3",
-  "./audio/voice/pause-118.mp3",
-  "./audio/voice/pause-119.mp3",
-  "./audio/voice/pause-12.mp3",
-  "./audio/voice/pause-120.mp3",
-  "./audio/voice/pause-13.mp3",
-  "./audio/voice/pause-14.mp3",
-  "./audio/voice/pause-15.mp3",
-  "./audio/voice/pause-16.mp3",
-  "./audio/voice/pause-17.mp3",
-  "./audio/voice/pause-18.mp3",
-  "./audio/voice/pause-19.mp3",
-  "./audio/voice/pause-2.mp3",
-  "./audio/voice/pause-20.mp3",
-  "./audio/voice/pause-21.mp3",
-  "./audio/voice/pause-22.mp3",
-  "./audio/voice/pause-23.mp3",
-  "./audio/voice/pause-24.mp3",
-  "./audio/voice/pause-25.mp3",
-  "./audio/voice/pause-26.mp3",
-  "./audio/voice/pause-27.mp3",
-  "./audio/voice/pause-28.mp3",
-  "./audio/voice/pause-29.mp3",
-  "./audio/voice/pause-3.mp3",
-  "./audio/voice/pause-30.mp3",
-  "./audio/voice/pause-31.mp3",
-  "./audio/voice/pause-32.mp3",
-  "./audio/voice/pause-33.mp3",
-  "./audio/voice/pause-34.mp3",
-  "./audio/voice/pause-35.mp3",
-  "./audio/voice/pause-36.mp3",
-  "./audio/voice/pause-37.mp3",
-  "./audio/voice/pause-38.mp3",
-  "./audio/voice/pause-39.mp3",
-  "./audio/voice/pause-4.mp3",
-  "./audio/voice/pause-40.mp3",
-  "./audio/voice/pause-41.mp3",
-  "./audio/voice/pause-42.mp3",
-  "./audio/voice/pause-43.mp3",
-  "./audio/voice/pause-44.mp3",
-  "./audio/voice/pause-45.mp3",
-  "./audio/voice/pause-46.mp3",
-  "./audio/voice/pause-47.mp3",
-  "./audio/voice/pause-48.mp3",
-  "./audio/voice/pause-49.mp3",
-  "./audio/voice/pause-5.mp3",
-  "./audio/voice/pause-50.mp3",
-  "./audio/voice/pause-51.mp3",
-  "./audio/voice/pause-52.mp3",
-  "./audio/voice/pause-53.mp3",
-  "./audio/voice/pause-54.mp3",
-  "./audio/voice/pause-55.mp3",
-  "./audio/voice/pause-56.mp3",
-  "./audio/voice/pause-57.mp3",
-  "./audio/voice/pause-58.mp3",
-  "./audio/voice/pause-59.mp3",
-  "./audio/voice/pause-6.mp3",
-  "./audio/voice/pause-60.mp3",
-  "./audio/voice/pause-61.mp3",
-  "./audio/voice/pause-62.mp3",
-  "./audio/voice/pause-63.mp3",
-  "./audio/voice/pause-64.mp3",
-  "./audio/voice/pause-65.mp3",
-  "./audio/voice/pause-66.mp3",
-  "./audio/voice/pause-67.mp3",
-  "./audio/voice/pause-68.mp3",
-  "./audio/voice/pause-69.mp3",
-  "./audio/voice/pause-7.mp3",
-  "./audio/voice/pause-70.mp3",
-  "./audio/voice/pause-71.mp3",
-  "./audio/voice/pause-72.mp3",
-  "./audio/voice/pause-73.mp3",
-  "./audio/voice/pause-74.mp3",
-  "./audio/voice/pause-75.mp3",
-  "./audio/voice/pause-76.mp3",
-  "./audio/voice/pause-77.mp3",
-  "./audio/voice/pause-78.mp3",
-  "./audio/voice/pause-79.mp3",
-  "./audio/voice/pause-8.mp3",
-  "./audio/voice/pause-80.mp3",
-  "./audio/voice/pause-81.mp3",
-  "./audio/voice/pause-82.mp3",
-  "./audio/voice/pause-83.mp3",
-  "./audio/voice/pause-84.mp3",
-  "./audio/voice/pause-85.mp3",
-  "./audio/voice/pause-86.mp3",
-  "./audio/voice/pause-87.mp3",
-  "./audio/voice/pause-88.mp3",
-  "./audio/voice/pause-89.mp3",
-  "./audio/voice/pause-9.mp3",
-  "./audio/voice/pause-90.mp3",
-  "./audio/voice/pause-91.mp3",
-  "./audio/voice/pause-92.mp3",
-  "./audio/voice/pause-93.mp3",
-  "./audio/voice/pause-94.mp3",
-  "./audio/voice/pause-95.mp3",
-  "./audio/voice/pause-96.mp3",
-  "./audio/voice/pause-97.mp3",
-  "./audio/voice/pause-98.mp3",
-  "./audio/voice/pause-99.mp3",
-  "./audio/voice/pause.mp3",
-  "./audio/voice/weiter.mp3"
+const CACHE_NAME='physio-trainer-shell-1.1.3';
+const CORE_ASSETS=[
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './version.json',
+  './icon-192.png',
+  './icon-512.png',
+  './audio/unlock.mp3',
+  './audio/exercise-end.mp3',
+  './audio/pause-end.mp3',
+  './audio/voice/pause.mp3',
+  './audio/voice/weiter.mp3'
 ];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(PRECACHE)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+
+self.addEventListener('install',event=>{
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(async cache=>{
+        // Cache each file separately. One missing file must NOT abort the entire install.
+        await Promise.allSettled(
+          CORE_ASSETS.map(async url=>{
+            try{
+              const req=new Request(url,{cache:'reload'});
+              const res=await fetch(req);
+              if(res.ok)await cache.put(url,res.clone());
+            }catch{}
+          })
+        );
+      })
+      .then(()=>self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate',event=>{
+  event.waitUntil(
+    caches.keys()
+      .then(keys=>Promise.all(
+        keys.filter(k=>k.startsWith('physio-trainer-shell-')&&k!==CACHE_NAME)
+            .map(k=>caches.delete(k))
+      ))
+      .then(()=>self.clients.claim())
+  );
+});
+
 self.addEventListener('message',event=>{
   if(event.data?.type==='SKIP_WAITING')self.skipWaiting();
 });
@@ -145,7 +54,7 @@ self.addEventListener('fetch',event=>{
   const url=new URL(req.url);
   if(url.origin!==self.location.origin)return;
 
-  // version.json immer zuerst aus dem Netz holen, damit Updates erkannt werden.
+  // Update version must always prefer the network.
   if(url.pathname.endsWith('/version.json')){
     event.respondWith(
       fetch(req,{cache:'no-store'})
@@ -161,13 +70,15 @@ self.addEventListener('fetch',event=>{
     return;
   }
 
-  // Navigation: online aktualisieren, offline auf gecachte App zurückfallen.
+  // App navigation: network-first, cached index fallback.
   if(req.mode==='navigate'){
     event.respondWith(
       fetch(req)
         .then(res=>{
-          const copy=res.clone();
-          caches.open(CACHE_NAME).then(c=>c.put('./index.html',copy)).catch(()=>{});
+          if(res?.ok){
+            const copy=res.clone();
+            caches.open(CACHE_NAME).then(c=>c.put('./index.html',copy)).catch(()=>{});
+          }
           return res;
         })
         .catch(()=>caches.match('./index.html'))
@@ -175,32 +86,37 @@ self.addEventListener('fetch',event=>{
     return;
   }
 
-  // Audio: Suchparameter/Fragments dürfen das Offline-Caching nicht brechen.
+  // Audio: cache on first use. This avoids an all-or-nothing preload of 120+ voice files.
   if(url.pathname.includes('/audio/')){
     event.respondWith(
-      caches.match(req,{ignoreSearch:true}).then(hit=>
-        hit || fetch(req).then(res=>{
+      caches.match(req,{ignoreSearch:true}).then(async hit=>{
+        if(hit)return hit;
+        try{
+          const res=await fetch(req);
           if(res?.ok){
             const clean=new Request(url.origin+url.pathname);
             const copy=res.clone();
             caches.open(CACHE_NAME).then(c=>c.put(clean,copy)).catch(()=>{});
           }
           return res;
-        })
-      )
+        }catch{
+          return Response.error();
+        }
+      })
     );
     return;
   }
 
+  // Everything else: cache first, then network and remember it.
   event.respondWith(
-    caches.match(req,{ignoreSearch:true}).then(hit=>
-      hit || fetch(req).then(res=>{
-        if(res?.ok){
-          const copy=res.clone();
-          caches.open(CACHE_NAME).then(c=>c.put(req,copy)).catch(()=>{});
-        }
-        return res;
-      })
-    )
+    caches.match(req,{ignoreSearch:true}).then(async hit=>{
+      if(hit)return hit;
+      const res=await fetch(req);
+      if(res?.ok){
+        const copy=res.clone();
+        caches.open(CACHE_NAME).then(c=>c.put(req,copy)).catch(()=>{});
+      }
+      return res;
+    })
   );
 });
