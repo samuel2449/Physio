@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-title" content="Physio Trainer">
+<meta name="theme-color" content="#000000">
+<title>Physio Trainer Offline</title>
+<style>
+:root{
+  --bg:#f4f6f8;--card:#fff;--text:#111827;--muted:#667085;--line:#e4e7ec;
+  --accent:#2563eb;--accent-dark:#1d4ed8;--soft:#eef4ff;--danger:#b42318;
+  --danger-bg:#fee4e2;--ok:#067647;--ok-bg:#ecfdf3;--warn:#b54708;--radius:18px
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{touch-action:manipulation}
+header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.header-inner{max-width:980px;margin:auto;padding:11px 14px}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand h1{font-size:21px;line-height:1.1;margin:0}.brand small,.small,.muted{color:var(--muted)}
+.save-state{font-size:12px;color:var(--muted);white-space:nowrap}
+.desktop-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.mobile-nav{display:none}
+.shell{max-width:980px;margin:auto;padding:0 14px 105px}
+.active-training-bar{
+  max-width:980px;margin:10px auto 0;padding:0 14px;
+}
+.active-training-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#111827;color:#fff;border-radius:15px;padding:10px 12px;
+}
+.active-training-copy{min-width:0}
+.active-training-copy b{display:block;font-size:14px}
+.active-training-copy span{display:block;font-size:12px;color:#d0d5dd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.active-training-inner button{background:#fff;color:#111827;white-space:nowrap;min-height:40px;padding:8px 11px}
+
+button{
+  border:0;border-radius:13px;padding:11px 14px;background:#edf1f6;color:#111827;
+  font-weight:700;cursor:pointer;min-height:44px
+}
+button.primary{background:var(--accent);color:white}
+button.primary:active{background:var(--accent-dark)}
+button.danger{background:var(--danger-bg);color:var(--danger)}
+button.ghost{background:#fff;border:1px solid var(--line)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.page-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:20px 0 12px}
+.page-head h2{font-size:23px;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:17px;margin:12px 0;box-shadow:0 5px 20px rgba(16,24,40,.04)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.space{justify-content:space-between}
+label{display:block;font-size:13px;font-weight:650;color:var(--muted);margin:0 0 6px}
+input,select,textarea{width:100%;min-width:0;border:1px solid #cfd5df;background:#fff;border-radius:12px;padding:12px 13px;color:var(--text);font-size:16px;min-height:46px}
+textarea{min-height:88px;resize:vertical}
+.hidden{display:none!important}
+.item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item-main{display:flex;align-items:center;gap:11px;min-width:0;flex:1}
+.item-copy{min-width:0}.item-copy b{display:block;overflow-wrap:anywhere}
+.item-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.thumb{width:64px;height:64px;border-radius:13px;background:#f2f4f7;border:1px solid var(--line);overflow:hidden;display:grid;place-items:center;flex:0 0 auto}
+.thumb img,.thumb video{width:100%;height:100%;object-fit:contain;background:#fff}.placeholder{font-size:23px;color:#98a2b3}
+.empty{text-align:center;color:var(--muted);padding:25px 10px}
+.media-upload{border:1.5px dashed #b8c2d1;border-radius:15px;padding:14px;background:#fafbfc}
+.media-preview{margin-top:12px;border:1px solid var(--line);border-radius:15px;overflow:hidden;background:#0b0f16;display:flex;align-items:center;justify-content:center;min-height:160px}
+.media-preview img,.media-preview video{display:block;width:100%;max-height:420px;object-fit:contain}
+.segment-list{display:grid;gap:10px;margin-top:10px}
+.segment-row{border:1px solid var(--line);border-radius:15px;padding:13px;background:#fafbfc}
+.segment-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.segment-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.segment-summary{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.segment-chip{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;background:#f2f4f7;color:#344054;font-size:12px;font-weight:750}
+.training-shell{max-width:720px;margin:auto}
+.training-card{text-align:center;padding:18px}
+.progress-meta{font-size:13px;font-weight:700;color:var(--muted)}
+.progress{height:10px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:10px 0 18px}
+.progress div{height:100%;background:var(--accent);transition:width .25s ease}
+.training-media{border-radius:18px;overflow:hidden;background:#0b0f16;border:1px solid #1d2939;margin:12px 0 17px}
+.training-media img,.training-media video{display:block;width:100%;max-height:46vh;object-fit:contain;background:#0b0f16}
+.training-card h2{font-size:27px;line-height:1.15;margin:15px 0 7px}
+.training-description{font-size:16px;line-height:1.45;margin:0 auto 12px;max-width:620px}
+.training-meta{font-weight:750;font-size:17px}
+.training-side{display:inline-flex;align-items:center;justify-content:center;margin:11px auto 0;padding:9px 14px;border-radius:999px;background:var(--soft);color:var(--accent-dark);font-weight:850;font-size:16px}
+.timer{font-size:clamp(58px,18vw,92px);line-height:1;font-weight:850;letter-spacing:-4px;font-variant-numeric:tabular-nums;margin:26px 0 14px}
+.training-actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:18px}
+.training-actions .primary{font-size:19px;min-height:58px}
+.secondary-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
+.notice{padding:12px;border-radius:12px;background:var(--ok-bg);color:var(--ok);margin:12px 0;font-weight:650}
+.serverbox{background:#f8fafc;border:1px solid var(--line);padding:12px;border-radius:12px;overflow-wrap:anywhere}
+.history-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}
+.history-stat{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px}
+.history-stat span{display:block;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.history-stat b{display:block;margin-top:3px;font-size:14px}
+.status-pill{display:inline-flex;align-items:center;border-radius:999px;padding:4px 8px;font-size:12px;font-weight:800}
+.status-pill.done{background:var(--ok-bg);color:var(--ok)}.status-pill.stopped{background:#fff6ed;color:var(--warn)}
+.history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.history-head h3{margin:0 0 4px;font-size:18px}
+.history-exercises{margin:12px 0 0;padding:0;list-style:none}.history-exercises li{padding:9px 0;border-top:1px solid var(--line)}
+.history-toggle{margin-top:10px;width:100%}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+@media(max-width:700px){
+  .shell{padding:0 10px 98px}.header-inner{padding:10px 12px}.desktop-nav{display:none}
+  .mobile-nav{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:40;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.98);border-top:1px solid var(--line);padding:7px 8px calc(7px + env(safe-area-inset-bottom));backdrop-filter:blur(12px)}
+  .mobile-nav button{background:transparent;padding:7px 2px;min-height:50px;border-radius:10px;font-size:10.5px;color:#475467}.nav-icon{display:block;font-size:19px;line-height:1.1;margin-bottom:3px}
+  .grid,.segment-grid{grid-template-columns:1fr}.page-head{margin-top:16px}.card{border-radius:16px;padding:14px}
+  .item{flex-direction:column}.item-main,.item-actions{width:100%}.item-actions{display:grid;grid-template-columns:repeat(2,1fr)}
+  .segment-head{align-items:flex-start}.segment-head .row{justify-content:flex-end}
+  .training-card{padding:13px}.training-card h2{font-size:25px}.secondary-actions{grid-template-columns:1fr}
+  .history-summary{grid-template-columns:1fr 1fr}.history-stat:first-child{grid-column:1/-1}
+}
+@media(max-width:390px){.brand h1{font-size:19px}.save-state{display:none}.item-actions{grid-template-columns:1fr}}
+
+/* TV-/Screen-Mirroring-Modus */
+.tv-mode-toggle{background:#111827;color:#fff}
+#tvExitButton{
+  display:none;position:fixed;
+  right:max(18px,calc(env(safe-area-inset-right) + 10px));
+  top:max(14px,calc(env(safe-area-inset-top) + 8px));
+  z-index:10040;
+  background:rgba(17,24,39,.72);color:#fff;border:1px solid rgba(255,255,255,.18);
+  min-height:42px;padding:8px 12px;backdrop-filter:blur(10px)
+}
+#tvRotateHint{
+  display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+  z-index:10050;width:min(88vw,440px);padding:18px;border-radius:18px;
+  background:rgba(17,24,39,.96);color:#fff;text-align:center;
+  border:1px solid rgba(255,255,255,.2)
+}
+#tvVideoButton{
+  display:none;background:#fff;color:#111827;border:1px solid rgba(255,255,255,.18)
+}
+#tvVideoOverlay{
+  display:none;position:fixed;inset:0;z-index:10060;background:#000;
+  align-items:center;justify-content:center;
+  padding:
+    max(8px,env(safe-area-inset-top))
+    max(8px,env(safe-area-inset-right))
+    max(8px,env(safe-area-inset-bottom))
+    max(8px,env(safe-area-inset-left))
+}
+#tvVideoOverlay.active{display:flex}
+#tvVideoOverlay video,
+#tvVideoOverlay img{
+  width:100%;height:100%;object-fit:contain;background:#000
+}
+#tvVideoClose{
+  position:absolute;
+  right:max(18px,calc(env(safe-area-inset-right) + 10px));
+  top:max(14px,calc(env(safe-area-inset-top) + 8px));
+  z-index:2;
+  background:rgba(17,24,39,.78);color:#fff;border:1px solid rgba(255,255,255,.22)
+}
+
+body.tv-mode{overflow:hidden;background:#000}
+body.tv-mode header,
+body.tv-mode .mobile-nav,
+body.tv-mode #activeTrainingBar{display:none!important}
+body.tv-mode #tvExitButton{display:block}
+body.tv-mode #tvVideoButton.has-media{display:inline-flex}
+body.tv-mode .shell{max-width:none;margin:0;padding:0}
+body.tv-mode main.shell>section:not(#training){display:none!important}
+
+body.tv-mode #training{
+  display:block!important;position:fixed;inset:0;z-index:10000;
+  overflow:hidden;background:#000;color:#fff;
+  padding-top:max(18px,calc(env(safe-area-inset-top) + 10px));
+  padding-right:max(32px,calc(env(safe-area-inset-right) + 24px));
+  padding-bottom:max(18px,calc(env(safe-area-inset-bottom) + 10px));
+  padding-left:max(32px,calc(env(safe-area-inset-left) + 24px));
+  box-sizing:border-box;
+}
+body.tv-mode .training-shell{
+  max-width:none;width:100%;height:100%;min-width:0
+}
+body.tv-mode .training-card{
+  width:100%;height:100%;min-width:0;margin:0;padding:0;
+  border:0;border-radius:0;box-shadow:none;background:#000;color:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:8px
+}
+
+/* Fortschritt ist jetzt Teil des normalen Layouts und kann nichts überdecken. */
+body.tv-mode #trainCount{
+  position:static;width:100%;color:#98a2b3;font-size:15px;
+  text-align:left;padding-right:130px;box-sizing:border-box;
+  flex:0 0 auto
+}
+body.tv-mode .progress{
+  position:static;width:100%;height:7px;margin:0 0 16px 0;
+  background:#1f2937;flex:0 0 auto
+}
+
+body.tv-mode #trainingMedia{display:none!important}
+body.tv-mode #trainName{
+  font-size:clamp(42px,6vw,92px);line-height:1.0;margin:0;
+  letter-spacing:-.04em;max-width:92%;min-width:0
+}
+body.tv-mode #trainDesc{
+  color:#cbd5e1;font-size:clamp(17px,2vw,29px);line-height:1.25;
+  margin:4px 0 0;max-width:78%
+}
+body.tv-mode #trainMeta{
+  margin-top:10px;font-size:clamp(22px,2.8vw,40px);color:#e5e7eb
+}
+body.tv-mode #trainSide{
+  margin:6px 0 0;font-size:clamp(24px,3vw,44px);
+  padding:10px 20px;background:#1d4ed8;color:#fff
+}
+body.tv-mode #timerLabel{
+  color:#94a3b8!important;font-size:clamp(18px,1.9vw,27px)!important;
+  margin:14px 0 0!important
+}
+body.tv-mode #timer{
+  font-size:clamp(112px,18vw,290px);letter-spacing:-.065em;
+  line-height:.85;margin:2px 0 8px;color:#fff;font-weight:900
+}
+body.tv-mode #message{font-size:24px;max-width:80%}
+body.tv-mode .training-actions{
+  width:min(720px,82%);margin-top:10px
+}
+body.tv-mode .training-actions .primary{
+  min-height:60px;font-size:21px
+}
+body.tv-mode .secondary-actions{
+  width:min(820px,88%);margin-top:4px;
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap
+}
+body.tv-mode .secondary-actions button{
+  min-height:46px;font-size:16px;padding:9px 14px
+}
+body.tv-mode .training-card>div:last-child{margin-top:2px!important}
+body.tv-mode #audioStatus,
+body.tv-mode #autoPauseNote,
+body.tv-mode #training label.row{display:none!important}
+
+@media (orientation:portrait){
+  body.tv-mode #tvRotateHint{display:block}
+  body.tv-mode .training-card{filter:blur(5px);opacity:.4}
+}
+
+@media (orientation:landscape) and (max-height:520px){
+  body.tv-mode #training{
+    padding-top:max(10px,calc(env(safe-area-inset-top) + 6px));
+    padding-right:max(34px,calc(env(safe-area-inset-right) + 26px));
+    padding-bottom:max(10px,calc(env(safe-area-inset-bottom) + 6px));
+    padding-left:max(34px,calc(env(safe-area-inset-left) + 26px));
+  }
+  body.tv-mode .training-card{
+    justify-content:flex-start;
+    gap:3px;
+  }
+  body.tv-mode #trainCount{font-size:12px;padding-right:118px}
+  body.tv-mode .progress{height:5px;margin-bottom:7px}
+  body.tv-mode #trainName{font-size:clamp(28px,5.5vw,50px);max-width:88%}
+  body.tv-mode #trainDesc{font-size:13px;max-width:82%;line-height:1.15}
+  body.tv-mode #trainMeta{font-size:18px;margin-top:4px}
+  body.tv-mode #trainSide{font-size:18px;padding:6px 11px;margin-top:2px}
+  body.tv-mode #timerLabel{font-size:13px!important;margin-top:5px!important}
+  body.tv-mode #timer{font-size:clamp(76px,18vw,148px);margin:0}
+  body.tv-mode #message{font-size:18px}
+  body.tv-mode .training-actions{width:min(580px,76%);margin-top:3px}
+  body.tv-mode .training-actions .primary{min-height:42px;font-size:16px}
+  body.tv-mode .secondary-actions{width:88%;gap:5px;margin-top:2px}
+  body.tv-mode .secondary-actions button{min-height:38px;font-size:12px;padding:6px 9px}
+  body.tv-mode .training-card>div:last-child{margin-top:0!important}
+}
+
+
+/* iPhone-PWA: feste Dynamic-Island-Schutzzonen als Fallback, weil iOS in
+   installierten Web-Apps Safe-Area-Werte zeitweise als 0 liefern kann. */
+@media (orientation:landscape){
+  body.webapp-mode:not(.tv-mode) .header-inner,
+  body.webapp-mode:not(.tv-mode) .shell,
+  body.webapp-mode:not(.tv-mode) .mobile-nav{
+    padding-left:max(88px,calc(env(safe-area-inset-left) + 22px))!important;
+    padding-right:max(88px,calc(env(safe-area-inset-right) + 22px))!important;
+    box-sizing:border-box
+  }
+}
+body.tv-mode{
+  --tv-island-guard:clamp(88px,10vw,118px);
+}
+body.tv-mode #training{
+  padding-left:max(var(--tv-island-guard),calc(env(safe-area-inset-left) + 28px))!important;
+  padding-right:max(var(--tv-island-guard),calc(env(safe-area-inset-right) + 28px))!important;
+}
+body.tv-mode #tvExitButton,
+body.tv-mode #tvVideoClose{
+  right:max(var(--tv-island-guard),calc(env(safe-area-inset-right) + 18px))!important;
+}
+body.tv-mode #trainCount{padding-right:0!important;text-align:center!important}
+body.tv-mode .progress{max-width:100%!important}
+#soundTestButton{margin-top:7px;min-height:42px}
+body.tv-mode #soundTestButton{display:none!important}
+
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.offline-mobile-nav{grid-template-columns:repeat(4,1fr)!important}
+.offline-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-size:12px;font-weight:800}
+</style>
+</head>
+<body>
+
+<div id="installFullscreenHint">
+  <b>Vollbild am iPhone</b>
+  <div class="small" style="color:#d0d5dd">Safari: Teilen → „Zum Home-Bildschirm“. Danach Physio Trainer über das neue Symbol öffnen.</div>
+  <div class="hint-actions">
+    <button onclick="dismissFullscreenHint()">Verstanden</button>
+  </div>
+</div>
+
+<button id="tvExitButton" onclick="exitTvMode()">TV-Modus beenden</button>
+<div id="tvVideoOverlay">
+  <button id="tvVideoClose" onclick="closeTvMedia()">Zurück zum Training</button>
+  <div id="tvVideoContent" style="width:100%;height:100%"></div>
+</div>
+
+<div id="tvRotateHint">
+  <b style="font-size:22px">iPhone quer drehen</b>
+  <div style="margin-top:7px;color:#d0d5dd">Im Querformat wird die TV-Fläche beim Screen Mirroring deutlich besser genutzt.</div>
+</div>
+<header>
+<div class="header-inner">
+  <div class="brandrow">
+    <div class="brand"><h1>Physio Trainer</h1><small>Offline · lokal auf diesem Gerät</small></div>
+    <div id="saveState" class="save-state"></div>
+  </div>
+  <nav class="desktop-nav">
+    <button onclick="show('plans')">Trainingspläne</button>
+    <button onclick="show('exercises')">Übungen</button>
+    <button onclick="show('history')">Historie</button>
+    <button onclick="show('backup')">Backup</button>
+  </nav>
+</div>
+</header>
+
+<div id="activeTrainingBar" class="active-training-bar hidden">
+  <div class="active-training-inner">
+    <div class="active-training-copy">
+      <b>Training läuft</b>
+      <span id="activeTrainingStatus">Laufendes Training</span>
+    </div>
+    <button onclick="openActiveTraining()">Zurück zum Training</button>
+  </div>
+</div>
+
+<main class="shell">
+<section id="plans">
+  <div class="page-head"><h2>Trainingspläne</h2><button class="primary" onclick="newPlan()">+ Neuer Plan</button></div>
+  <div id="plansList"></div>
+</section>
+
+<section id="exercises" class="hidden">
+  <div class="page-head"><h2>Übungen</h2><button class="primary" onclick="editExercise()">+ Neue Übung</button></div>
+  <div id="exerciseForm" class="card hidden">
+    <input type="hidden" id="exId"><input type="hidden" id="exMediaUrl"><input type="hidden" id="exMediaType"><input type="hidden" id="exMediaId"><input type="hidden" id="exMediaName"><input type="hidden" id="exOriginalMediaId">
+    <div class="grid">
+      <div><label>Name</label><input id="exName" placeholder="z. B. Hüftbeuger dehnen"></div>
+      <div><label>Beschreibung / Hinweise</label><textarea id="exDesc"></textarea></div>
+    </div>
+    <div style="margin-top:14px">
+      <label>Foto oder Video</label>
+      <div class="media-upload">
+        <input id="mediaFile" type="file" accept="image/*,video/*" onchange="uploadMedia(event)">
+        <div id="uploadStatus" class="small muted">Optional. Wird direkt auf diesem Gerät gespeichert.</div>
+      </div>
+      <div id="mediaPreviewWrap" class="media-preview hidden"></div>
+      <div id="removeMediaWrap" class="row hidden" style="margin-top:9px"><button class="danger" onclick="removeCurrentMedia()">Foto / Video entfernen</button></div>
+    </div>
+    <div class="row" style="margin-top:15px"><button class="primary" onclick="saveExercise()">Übung speichern</button><button onclick="closeExercise()">Abbrechen</button></div>
+  </div>
+  <div id="exerciseList"></div>
+</section>
+
+<section id="planEdit" class="hidden">
+  <div class="page-head"><h2>Plan bearbeiten</h2><button onclick="show('plans')">Zurück</button></div>
+
+  <div class="card">
+    <label>Name des Trainingsplans</label><input id="planName">
+    <div class="row" style="margin-top:12px"><button class="primary" onclick="savePlanName()">Speichern</button></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Übung hinzufügen</h3>
+    <div class="grid">
+      <div><label>Übung</label><select id="addEx"></select></div>
+      <div>
+        <label>Modus</label>
+        <select id="mode" onchange="modeChanged()">
+          <option value="reps">Wiederholungen</option>
+          <option value="time">Zeit</option>
+          <option value="reps_time">Wiederholungen + Zeit je Wiederholung</option>
+        </select>
+      </div>
+      <div><label>Pause nach Satz / Wiederholung (Sek.)</label><input id="rest" type="number" min="0" value="0"></div>
+      <div>
+        <label>Nach der Pause</label>
+        <select id="afterPause">
+          <option value="auto">Automatisch weiter</option>
+          <option value="manual">Manuell starten</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <div class="row space"><div><b>Sätze / Abschnitte</b><div class="small muted">Jeder Satz hat eigene Seite und eigene Werte.</div></div><button onclick="addSegment()">+ Satz hinzufügen</button></div>
+      <div id="segmentList" class="segment-list"></div>
+    </div>
+
+    <div class="row" style="margin-top:14px">
+      <button id="savePlanItemBtn" class="primary" onclick="savePlanItem()">Übung zum Plan hinzufügen</button>
+      <button id="cancelPlanItemEditBtn" class="hidden" onclick="cancelPlanItemEdit()">Bearbeitung abbrechen</button>
+    </div>
+  </div>
+
+  <div class="card"><h3 style="margin-top:0">Ablauf</h3><div id="planItems"></div></div>
+</section>
+
+<section id="training" class="hidden">
+  <div class="training-shell">
+    <div class="card training-card">
+      <div id="trainCount" class="progress-meta"></div>
+      <div class="progress"><div id="bar"></div></div>
+      <div id="trainingMedia" class="training-media hidden"></div>
+      <h2 id="trainName"></h2>
+      <p id="trainDesc" class="training-description muted"></p>
+      <div id="trainMeta" class="training-meta"></div>
+      <div id="autoPauseNote" class="small muted" style="margin-top:6px"></div>
+      <div id="audioStatus" class="small muted" style="margin-top:4px">Ton wird beim ersten Start aktiviert.</div>
+      <button id="soundTestButton" type="button" onclick="testMobileSound()">Ton testen / aktivieren</button>
+      <label class="row" style="justify-content:center;margin-top:10px">
+        <input id="voiceToggle" type="checkbox" checked style="width:auto;min-height:auto" onchange="setVoiceAnnouncements(this.checked)">
+        <span>Sprachansage „Pause“ / „Weiter“</span>
+      </label>
+      <div id="trainSide" class="training-side hidden"></div>
+      <div id="timerLabel" class="progress-meta hidden" style="margin-top:22px;font-size:15px"></div>
+      <div id="timer" class="timer hidden">00:30</div>
+      <div id="message" class="notice hidden"></div>
+
+      <div class="training-actions">
+        <button id="start" class="primary" onclick="startStep()">Satz starten</button>
+        <button id="done" class="primary hidden" onclick="manualDone()">Wiederholung erledigt</button>
+      </div>
+      <div class="secondary-actions">
+        <button id="pause" class="hidden" onclick="pauseTimer()">Pause</button>
+        <button id="skip" onclick="nextExercise()">Übung überspringen</button>
+        <button id="tvModeButton" class="tv-mode-toggle" onclick="enterTvMode()">TV-Modus</button>
+        <button id="tvVideoButton" onclick="openTvMedia()">Video ansehen</button>
+      </div>
+      <div style="margin-top:10px"><button class="ghost" onclick="endTraining()">Training beenden</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="history" class="hidden">
+  <div class="page-head"><h2>Trainingshistorie</h2><button id="clearHistoryBtn" class="danger" onclick="clearHistory()">Historie löschen</button></div>
+  <div id="historyStats"></div><div id="historyList"></div>
+</section>
+
+<section id="backup" class="hidden">
+  <div class="page-head"><h2>Backup & Speicher</h2></div>
+  <div class="card">
+    <h3 style="margin-top:0">Offline-Speicher</h3>
+    <p>Übungen, Trainingspläne, Historie, Fotos und Videos liegen direkt auf diesem Gerät.</p>
+    <div id="storageInfo" class="serverbox">Speicher wird ermittelt …</div>
+    <div class="row" style="margin-top:10px">
+      <button onclick="requestPersistentStorage()">Lokalen Speicher schützen</button>
+      <button onclick="updateStorageInfo()">Speicher aktualisieren</button>
+    </div>
+    <p id="storagePersistInfo" class="small muted"></p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">Backup</h3>
+    <div class="row">
+      <button class="primary" onclick="exportFullBackup()">Vollbackup inkl. Medien</button>
+      <button onclick="exportJson()">Kleines Backup ohne Medien</button>
+      <button onclick="document.getElementById('importFile').click()">Backup wiederherstellen</button>
+      <input id="importFile" class="hidden" type="file" accept=".json,.physio.json,application/json" onchange="importJson(event)">
+    </div>
+    <p class="small muted">Vollbackups mit großen Videos können entsprechend groß werden.</p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">Offline-App</h3>
+    <p id="offlineStatus" class="muted">Offline-Funktion wird vorbereitet …</p>
+    <p class="small muted">Version 1.0.0</p>
+  </div>
+</section>
+</main>
+
+<nav class="mobile-nav offline-mobile-nav">
+  <button onclick="show('plans')"><span class="nav-icon">▤</span>Pläne</button>
+  <button onclick="show('exercises')"><span class="nav-icon">●</span>Übungen</button>
+  <button onclick="show('history')"><span class="nav-icon">◷</span>Historie</button>
+  <button onclick="show('backup')"><span class="nav-icon">↥</span>Backup</button>
+</nav>
+
+<script>
+let data={exercises:[],plans:[],history:[],settings:{}};
+const APP_VERSION='1.0.0';
+const DB_NAME='PhysioTrainerOffline';
+const DB_VERSION=1;
+let dbPromise=null;
+let mediaObjectUrls=new Map();
+let runtimeSaveAt=0;
+let tvModeActive=false;
+
+let fullscreenHintDismissed=false;
+
+function isStandaloneWebApp(){
+  return window.matchMedia?.('(display-mode: standalone)').matches ||
+         window.matchMedia?.('(display-mode: fullscreen)').matches ||
+         window.navigator.standalone===true;
+}
+
+function updateWebAppMode(){
+  const standalone=isStandaloneWebApp();
+  document.body.classList.toggle('webapp-mode',standalone);
+
+  const hint=document.getElementById('installFullscreenHint');
+  if(hint){
+    const isIOS=/iPhone|iPad|iPod/i.test(navigator.userAgent);
+    hint.style.display=(!standalone&&isIOS&&!fullscreenHintDismissed)?'block':'none';
+  }
+}
+
+function dismissFullscreenHint(){
+  fullscreenHintDismissed=true;
+  const hint=document.getElementById('installFullscreenHint');
+  if(hint)hint.style.display='none';
+}
+
+
+let activePlan=null, editingPlanItemId=null, trainingState=null, timerHandle=null, segmentDrafts=[];
+const ids=['plans','exercises','planEdit','training','history','backup'];
+const uid=()=>crypto.randomUUID?.()||Math.random().toString(36).slice(2);
+const esc=s=>(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+const BODY_SIDE_LABELS={
+  none:'Nicht relevant',
+  left_leg:'Linkes Bein',
+  right_leg:'Rechtes Bein',
+  both_legs:'Beide Beine',
+  alternate_legs:'Beine abwechselnd',
+  left_arm:'Linker Arm',
+  right_arm:'Rechter Arm',
+  both_arms:'Beide Arme',
+  alternate_arms:'Arme abwechselnd',
+  left_side:'Linke Körperseite',
+  right_side:'Rechte Körperseite',
+  both_sides:'Beide Körperseiten'
+};
+const sideLabel=v=>BODY_SIDE_LABELS[v||'none']||'Nicht relevant';
+const sideOptions=selected=>Object.entries(BODY_SIDE_LABELS).map(([v,l])=>`<option value="${v}" ${v===selected?'selected':''}>${esc(l)}</option>`).join('');
+
+function segmentsForItem(item){
+  if(Array.isArray(item.segments)&&item.segments.length){
+    return item.segments.map(s=>({
+      bodySide:s.bodySide||'none',
+      reps:Math.max(1,Number(s.reps)||1),
+      duration:Math.max(0,Number(s.duration)||0)
+    }));
+  }
+  const count=Math.max(1,Number(item.sets)||1);
+  return Array.from({length:count},()=>({
+    bodySide:item.bodySide||'none',
+    reps:item.mode==='time'?1:Math.max(1,Number(item.reps)||1),
+    duration:item.mode==='reps'?0:Math.max(1,Number(item.duration)||30)
+  }));
+}
+
+function segmentText(item,s){
+  if(item.mode==='reps')return `${s.reps} Wdh.`;
+  if(item.mode==='time')return `${s.duration} Sek.`;
+  return `${s.reps} Wdh. × ${s.duration} Sek.`;
+}
+
+function segmentSummary(item){
+  return `<div class="segment-summary">${segmentsForItem(item).map((s,i)=>`<span class="segment-chip">Satz ${i+1}: ${esc(sideLabel(s.bodySide))} · ${esc(segmentText(item,s))}</span>`).join('')}</div>`;
+}
+
+
+function syncTvMediaState(){
+  const btn=document.getElementById('tvVideoButton');
+  if(!btn)return;
+
+  if(!trainingState){
+    btn.classList.remove('has-media');
+    return;
+  }
+
+  try{
+    const {ex}=cur();
+    if(ex?.mediaUrl){
+      btn.classList.add('has-media');
+      btn.textContent=ex.mediaType==='video'?'Video ansehen':'Foto ansehen';
+    }else{
+      btn.classList.remove('has-media');
+    }
+  }catch{
+    btn.classList.remove('has-media');
+  }
+}
+
+async function enterTvMode(){
+  if(!trainingState)return;
+
+  tvModeActive=true;
+  document.body.classList.add('tv-mode');
+  syncTvMediaState();
+  window.scrollTo(0,0);
+
+  // Best effort: echte Browser-Vollbildansicht, wo der Browser es erlaubt.
+  // Auf iPhone Safari kann dies für normale Webseiten eingeschränkt sein.
+  try{
+    const el=document.documentElement;
+    const request=el.requestFullscreen||el.webkitRequestFullscreen;
+    if(request)await request.call(el);
+  }catch{}
+
+  try{
+    if(screen.orientation?.lock){
+      await screen.orientation.lock('landscape');
+    }
+  }catch{}
+}
+
+function exitTvMode(){
+  closeTvMedia();
+
+  tvModeActive=false;
+  document.body.classList.remove('tv-mode');
+
+  try{
+    if(document.fullscreenElement&&document.exitFullscreen){
+      document.exitFullscreen().catch(()=>{});
+    }else if(document.webkitFullscreenElement&&document.webkitExitFullscreen){
+      document.webkitExitFullscreen();
+    }
+  }catch{}
+
+  try{
+    if(screen.orientation?.unlock)screen.orientation.unlock();
+  }catch{}
+}
+
+function openTvMedia(){
+  if(!trainingState)return;
+
+  let ex;
+  try{
+    ex=cur().ex;
+  }catch{
+    return;
+  }
+
+  if(!ex?.mediaUrl)return;
+
+  const overlay=document.getElementById('tvVideoOverlay');
+  const content=document.getElementById('tvVideoContent');
+
+  if(ex.mediaType==='video'){
+    content.innerHTML=`<video id="tvOverlayVideo" src="${esc(ex.mediaUrl)}" controls playsinline autoplay></video>`;
+    const video=document.getElementById('tvOverlayVideo');
+
+    // Wenn iOS echtes Video-Fullscreen anbietet, darf das Video diese Fläche nutzen.
+    try{
+      if(video?.webkitEnterFullscreen){
+        setTimeout(()=>video.webkitEnterFullscreen(),80);
+      }else{
+        video?.play?.().catch(()=>{});
+      }
+    }catch{}
+  }else{
+    content.innerHTML=`<img src="${esc(ex.mediaUrl)}" alt="${esc(ex.name||'Übungsfoto')}">`;
+  }
+
+  overlay.classList.add('active');
+}
+
+function closeTvMedia(){
+  const overlay=document.getElementById('tvVideoOverlay');
+  const content=document.getElementById('tvVideoContent');
+  if(!overlay||!content)return;
+
+  const video=content.querySelector('video');
+  try{video?.pause()}catch{}
+
+  overlay.classList.remove('active');
+  content.innerHTML='';
+}
+
+
+function reqPromise(req){
+  return new Promise((resolve,reject)=>{
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error('IndexedDB Fehler'));
+  });
+}
+function txDone(tx){
+  return new Promise((resolve,reject)=>{
+    tx.oncomplete=()=>resolve();
+    tx.onerror=()=>reject(tx.error||new Error('IndexedDB Fehler'));
+    tx.onabort=()=>reject(tx.error||new Error('IndexedDB abgebrochen'));
+  });
+}
+function openOfflineDb(){
+  if(dbPromise)return dbPromise;
+  dbPromise=new Promise((resolve,reject)=>{
+    const req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains('kv'))db.createObjectStore('kv');
+      if(!db.objectStoreNames.contains('media'))db.createObjectStore('media',{keyPath:'id'});
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error('Lokale Datenbank konnte nicht geöffnet werden.'));
+  });
+  return dbPromise;
+}
+async function dbGet(store,key){
+  const db=await openOfflineDb();
+  return reqPromise(db.transaction(store,'readonly').objectStore(store).get(key));
+}
+async function dbPut(store,value,key){
+  const db=await openOfflineDb();
+  const tx=db.transaction(store,'readwrite');
+  if(key===undefined)tx.objectStore(store).put(value);else tx.objectStore(store).put(value,key);
+  await txDone(tx);
+}
+async function dbDelete(store,key){
+  const db=await openOfflineDb();
+  const tx=db.transaction(store,'readwrite');
+  tx.objectStore(store).delete(key);
+  await txDone(tx);
+}
+async function dbClear(store){
+  const db=await openOfflineDb();
+  const tx=db.transaction(store,'readwrite');
+  tx.objectStore(store).clear();
+  await txDone(tx);
+}
+function defaultData(){return {exercises:[],plans:[],history:[],settings:{voiceAnnouncements:true}}}
+function normalizeData(input){
+  const x=input&&typeof input==='object'?input:defaultData();
+  x.exercises=(Array.isArray(x.exercises)?x.exercises:[]).map(e=>({
+    ...e,mediaId:e.mediaId||'',mediaName:e.mediaName||'',mediaType:e.mediaType||'',mediaUrl:''
+  }));
+  x.plans=(Array.isArray(x.plans)?x.plans:[]).map(p=>({...p,items:(p.items||[]).map(i=>({
+    ...i,afterPause:i.afterPause==='manual'?'manual':'auto',segments:segmentsForItem(i)
+  }))}));
+  x.history=Array.isArray(x.history)?x.history:[];
+  x.settings=x.settings&&typeof x.settings==='object'?x.settings:{};
+  if(typeof x.settings.voiceAnnouncements!=='boolean')x.settings.voiceAnnouncements=true;
+  return x;
+}
+function stateForStorage(){
+  const copy=JSON.parse(JSON.stringify(data));
+  copy.exercises=(copy.exercises||[]).map(e=>({...e,mediaUrl:''}));
+  return copy;
+}
+function revokeExerciseMediaUrl(ex){
+  const old=ex?.id?mediaObjectUrls.get(ex.id):null;
+  if(old){try{URL.revokeObjectURL(old)}catch{} mediaObjectUrls.delete(ex.id)}
+}
+async function hydrateExerciseMedia(ex){
+  revokeExerciseMediaUrl(ex);
+  ex.mediaUrl='';
+  if(!ex.mediaId)return;
+  const rec=await dbGet('media',ex.mediaId);
+  if(rec?.blob){
+    ex.mediaUrl=URL.createObjectURL(rec.blob);
+    mediaObjectUrls.set(ex.id,ex.mediaUrl);
+    ex.mediaType=rec.type||ex.mediaType||'';
+    ex.mediaName=rec.name||ex.mediaName||'';
+  }
+}
+async function hydrateAllMedia(){for(const ex of data.exercises)await hydrateExerciseMedia(ex)}
+function saveRuntimeState(force=false){
+  if(!trainingState){localStorage.removeItem('physio-active-training-v1');return}
+  const now=Date.now();
+  if(!force&&now-runtimeSaveAt<900)return;
+  runtimeSaveAt=now;
+  try{localStorage.setItem('physio-active-training-v1',JSON.stringify(trainingState))}catch{}
+}
+function clearRuntimeState(){try{localStorage.removeItem('physio-active-training-v1')}catch{}}
+function restoreRuntimeState(){
+  try{
+    const raw=localStorage.getItem('physio-active-training-v1');
+    if(!raw)return;
+    const restored=JSON.parse(raw);
+    const plan=data.plans.find(p=>p.id===restored?.planId);
+    if(!plan?.items?.length)return clearRuntimeState();
+    if(restored.exerciseIndex<0||restored.exerciseIndex>=plan.items.length)return clearRuntimeState();
+    trainingState=restored;
+    updateActiveTrainingBar('plans');
+    if(trainingState.countdownType&&!trainingState.paused){
+      syncCountdownNow();
+      if(trainingState&&trainingState.countdownType&&!timerHandle)timerHandle=setInterval(syncCountdownNow,250);
+    }
+  }catch{clearRuntimeState()}
+}
+async function registerOfflineApp(){
+  const status=document.getElementById('offlineStatus');
+  if(!('serviceWorker' in navigator)){
+    if(status)status.textContent='Service Worker wird von diesem Browser nicht unterstützt.';
+    return;
+  }
+  try{
+    const reg=await navigator.serviceWorker.register('./sw.js');
+    await navigator.serviceWorker.ready;
+    if(status)status.innerHTML='<span class="offline-badge">✓ Offline-App bereit</span>';
+    reg.update().catch(()=>{});
+  }catch{
+    if(status)status.textContent='Offline-Installation benötigt eine HTTPS-Adresse.';
+  }
+}
+function formatBytes(bytes){
+  const n=Number(bytes)||0;
+  if(n<1024)return `${n} B`;
+  if(n<1048576)return `${(n/1024).toFixed(1)} KB`;
+  if(n<1073741824)return `${(n/1048576).toFixed(1)} MB`;
+  return `${(n/1073741824).toFixed(2)} GB`;
+}
+async function updateStorageInfo(){
+  const el=document.getElementById('storageInfo'); if(!el)return;
+  if(!navigator.storage?.estimate){el.textContent='Speicherbelegung kann nicht angezeigt werden.';return}
+  try{
+    const x=await navigator.storage.estimate(),u=Number(x.usage)||0,q=Number(x.quota)||0;
+    el.innerHTML=`Verwendet: <b>${formatBytes(u)}</b>${q?` von ca. <b>${formatBytes(q)}</b> (${Math.round(u/q*100)} %)` : ''}`;
+  }catch{el.textContent='Speicherbelegung konnte nicht ermittelt werden.'}
+}
+async function requestPersistentStorage(){
+  const el=document.getElementById('storagePersistInfo');
+  if(!navigator.storage?.persist){
+    if(el)el.textContent='iOS verwaltet diesen Speicher selbst. Regelmäßige Backups werden empfohlen.';
+    return;
+  }
+  try{
+    const ok=await navigator.storage.persist();
+    if(el)el.textContent=ok?'Lokaler Speicher wurde als dauerhaft angefordert ✓':'Der Browser entscheidet über die Speicherfreigabe. Bitte regelmäßig sichern.';
+  }catch{if(el)el.textContent='Speicherschutz konnte nicht angefordert werden.'}
+}
+async function load(){
+  await openOfflineDb();
+  data=normalizeData((await dbGet('kv','state'))||defaultData());
+  await hydrateAllMedia();
+  const vt=document.getElementById('voiceToggle'); if(vt)vt.checked=data.settings.voiceAnnouncements;
+  renderPlans();
+  restoreRuntimeState();
+  registerOfflineApp();
+  updateStorageInfo();
+}
+
+async function persist(){
+  const el=document.getElementById('saveState'); if(el)el.textContent='Speichere …';
+  try{
+    await dbPut('kv',stateForStorage(),'state');
+    saveRuntimeState(true);
+    if(el)el.textContent='Lokal gespeichert ✓';
+    setTimeout(()=>{if(el)el.textContent=''},1300);
+    updateStorageInfo();
+  }catch(err){
+    if(el)el.textContent='Speicherfehler';
+    alert('Lokales Speichern ist fehlgeschlagen. Bitte freien iPhone-Speicher prüfen.');
+    throw err;
+  }
+}
+
+function show(id){
+  if(id==='training'&&!trainingState){
+    id='plans';
+  }
+
+  ids.forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));
+  window.scrollTo(0,0);
+
+  if(id==='plans')renderPlans();
+  if(id==='exercises')renderExercises();
+  if(id==='history')renderHistory();
+
+  updateActiveTrainingBar(id);
+}
+
+function openActiveTraining(){
+  if(!trainingState)return show('plans');
+  show('training');
+  syncCountdownNow();
+}
+
+function updateActiveTrainingBar(currentView){
+  const bar=document.getElementById('activeTrainingBar');
+  const status=document.getElementById('activeTrainingStatus');
+  if(!bar||!status)return;
+
+  if(!trainingState||currentView==='training'){
+    bar.classList.add('hidden');
+    return;
+  }
+
+  bar.classList.remove('hidden');
+
+  try{
+    const {p,item,ex,segments}=cur();
+    const seg=segments[trainingState.segmentIndex];
+
+    if(trainingState.countdownType==='exercise'){
+      status.textContent=`${ex.name} · Übung ${formatSeconds(getCountdownRemaining())}`;
+    }else if(trainingState.countdownType==='rest'){
+      status.textContent=`${ex.name} · Pause ${formatSeconds(getCountdownRemaining())}`;
+    }else if(trainingState.paused){
+      status.textContent=`${ex.name} · angehalten`;
+    }else{
+      status.textContent=`${ex.name} · Satz ${trainingState.segmentIndex+1}/${segments.length}`;
+    }
+  }catch{
+    status.textContent='Laufendes Training';
+  }
+}
+
+function mediaMarkup(e,compact=false){
+  if(!e?.mediaUrl)return compact?'<div class="placeholder">＋</div>':'';
+  return e.mediaType==='video'
+    ? (compact?`<video src="${esc(e.mediaUrl)}" muted preload="metadata"></video>`:`<video src="${esc(e.mediaUrl)}" controls playsinline preload="metadata"></video>`)
+    : `<img src="${esc(e.mediaUrl)}" alt="${esc(e.name||'Übungsfoto')}">`;
+}
+
+/* Übungen */
+function editExercise(id=''){
+  const e=data.exercises.find(x=>x.id===id);
+  exId.value=e?.id||'';exName.value=e?.name||'';exDesc.value=e?.description||'';
+  exMediaUrl.value=e?.mediaUrl||'';exMediaType.value=e?.mediaType||'';
+  exMediaId.value=e?.mediaId||'';exMediaName.value=e?.mediaName||'';exOriginalMediaId.value=e?.mediaId||'';
+  mediaFile.value='';uploadStatus.textContent='Optional. Wird direkt auf diesem Gerät gespeichert.';
+  setMediaPreview(e?.mediaUrl||'',e?.mediaType||'');
+  exerciseForm.classList.remove('hidden');
+}
+async function closeExercise(){
+  const original=exOriginalMediaId.value,current=exMediaId.value;
+  if(current&&current!==original){try{await dbDelete('media',current)}catch{}}
+  exerciseForm.classList.add('hidden');
+}
+function setMediaPreview(url,type){
+  if(!url){mediaPreviewWrap.classList.add('hidden');removeMediaWrap.classList.add('hidden');mediaPreviewWrap.innerHTML='';return}
+  mediaPreviewWrap.classList.remove('hidden');removeMediaWrap.classList.remove('hidden');
+  mediaPreviewWrap.innerHTML=type==='video'?`<video src="${esc(url)}" controls playsinline></video>`:`<img src="${esc(url)}" alt="Vorschau">`;
+}
+async function uploadMedia(ev){
+  const f=ev.target.files?.[0]; if(!f)return;
+  if(!(f.type.startsWith('image/')||f.type.startsWith('video/')))return alert('Bitte Bild oder Video auswählen.');
+  if(f.size>300*1024*1024)return alert('Maximal 300 MB pro Datei.');
+  uploadStatus.textContent='Wird lokal gespeichert …';
+  const previous=exMediaId.value,original=exOriginalMediaId.value;
+  if(previous&&previous!==original){try{await dbDelete('media',previous)}catch{}}
+  const id=uid();
+  try{
+    await dbPut('media',{id,blob:f,type:f.type,name:f.name,size:f.size,updatedAt:new Date().toISOString()});
+    const url=URL.createObjectURL(f);
+    exMediaId.value=id;exMediaUrl.value=url;exMediaType.value=f.type.startsWith('video/')?'video':'image';exMediaName.value=f.name;
+    setMediaPreview(url,exMediaType.value);
+    uploadStatus.textContent=`Lokal gespeichert ✓ · ${formatBytes(f.size)}`;
+    updateStorageInfo();
+  }catch{uploadStatus.textContent='Speichern fehlgeschlagen';alert('Foto/Video konnte nicht lokal gespeichert werden.')}
+}
+function removeCurrentMedia(){exMediaUrl.value='';exMediaType.value='';exMediaId.value='';exMediaName.value='';setMediaPreview('','')}
+async function saveExercise(){
+  const id=exId.value,name=exName.value.trim(); if(!name)return alert('Name fehlt.');
+  const existing=id?data.exercises.find(x=>x.id===id):null,oldMediaId=existing?.mediaId||'';
+  const obj={name,description:exDesc.value.trim(),mediaId:exMediaId.value||'',mediaName:exMediaName.value||'',mediaUrl:exMediaUrl.value||'',mediaType:exMediaType.value||''};
+  let ex;
+  if(existing){revokeExerciseMediaUrl(existing);Object.assign(existing,obj);ex=existing}
+  else{ex={id:uid(),...obj};data.exercises.push(ex)}
+  if(ex.mediaId)await hydrateExerciseMedia(ex);
+  await persist();
+  if(oldMediaId&&oldMediaId!==ex.mediaId){try{await dbDelete('media',oldMediaId)}catch{}}
+  exOriginalMediaId.value=ex.mediaId||'';
+  exerciseForm.classList.add('hidden');renderExercises();
+}
+async function deleteExercise(id){
+  if(data.plans.some(p=>p.items.some(i=>i.exerciseId===id)))return alert('Übung wird noch verwendet.');
+  if(!confirm('Übung löschen?'))return;
+  const ex=data.exercises.find(x=>x.id===id);
+  if(ex){revokeExerciseMediaUrl(ex);if(ex.mediaId){try{await dbDelete('media',ex.mediaId)}catch{}}}
+  data.exercises=data.exercises.filter(x=>x.id!==id);
+  await persist();renderExercises();
+}
+function renderExercises(){
+  exerciseList.innerHTML=data.exercises.length?'<div class="card">'+data.exercises.map(e=>`
+    <div class="item"><div class="item-main"><div class="thumb">${mediaMarkup(e,true)}</div><div class="item-copy"><b>${esc(e.name)}</b><div class="small muted">${esc(e.description||'')}</div></div></div>
+    <div class="item-actions"><button onclick="editExercise('${e.id}')">Bearbeiten</button><button class="danger" onclick="deleteExercise('${e.id}')">Löschen</button></div></div>`).join('')+'</div>':'<div class="card empty">Noch keine Übungen.</div>';
+}
+
+/* Pläne */
+function renderPlans(){
+  plansList.innerHTML=data.plans.length?data.plans.map(p=>`<div class="card item"><div class="item-copy"><b>${esc(p.name)}</b><div class="small muted">${p.items.length} Übungen</div></div>
+  <div class="item-actions"><button class="primary" onclick="startTraining('${p.id}')">Starten</button><button onclick="editPlan('${p.id}')">Bearbeiten</button><button class="danger" onclick="deletePlan('${p.id}')">Löschen</button></div></div>`).join(''):'<div class="card empty">Noch kein Trainingsplan.</div>';
+}
+async function newPlan(){const p={id:uid(),name:'Neuer Trainingsplan',items:[]};data.plans.push(p);await persist();editPlan(p.id)}
+function editPlan(id){
+  activePlan=id;
+  const p=data.plans.find(x=>x.id===id);
+  planName.value=p.name;
+  addEx.innerHTML=data.exercises.map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join('');
+  resetPlanItemEditor();
+  renderPlanItems();
+  show('planEdit');
+}
+async function savePlanName(){const p=data.plans.find(x=>x.id===activePlan);p.name=planName.value.trim()||'Trainingsplan';await persist()}
+async function deletePlan(id){if(!confirm('Plan löschen?'))return;data.plans=data.plans.filter(x=>x.id!==id);await persist();renderPlans()}
+
+function defaultSegment(){
+  const m=mode.value;
+  return {bodySide:'none',reps:m==='time'?1:10,duration:m==='reps'?0:90};
+}
+function readSegments(){
+  const m=mode.value;
+  const rows=[...document.querySelectorAll('.segment-row')];
+  if(rows.length)segmentDrafts=rows.map(r=>({
+    bodySide:r.querySelector('.seg-side').value,
+    reps:m==='time'?1:Math.max(1,+r.querySelector('.seg-reps')?.value||1),
+    duration:m==='reps'?0:Math.max(1,+r.querySelector('.seg-duration')?.value||30)
+  }));
+}
+function renderSegments(){
+  if(!segmentDrafts.length)segmentDrafts=[defaultSegment()];
+  const m=mode.value;
+  segmentList.innerHTML=segmentDrafts.map((s,i)=>`<div class="segment-row">
+    <div class="segment-head"><b>Satz ${i+1}</b><div class="row">
+      <button onclick="moveSegment(${i},-1)" ${i===0?'disabled':''}>↑</button>
+      <button onclick="moveSegment(${i},1)" ${i===segmentDrafts.length-1?'disabled':''}>↓</button>
+      <button class="danger" onclick="removeSegment(${i})" ${segmentDrafts.length===1?'disabled':''}>Entfernen</button>
+    </div></div>
+    <div class="segment-grid">
+      <div><label>Körperseite</label><select class="seg-side">${sideOptions(s.bodySide)}</select></div>
+      ${m!=='time'?`<div><label>Wiederholungen</label><input class="seg-reps" type="number" min="1" value="${s.reps||1}"></div>`:''}
+      ${m!=='reps'?`<div><label>Dauer (Sekunden)</label><input class="seg-duration" type="number" min="1" value="${s.duration||90}"></div>`:''}
+    </div></div>`).join('');
+}
+function modeChanged(){readSegments();segmentDrafts=segmentDrafts.map(s=>({...s,reps:mode.value==='time'?1:(s.reps||10),duration:mode.value==='reps'?0:(s.duration||90)}));renderSegments()}
+function addSegment(){readSegments();segmentDrafts.push(defaultSegment());renderSegments()}
+function removeSegment(i){readSegments();if(segmentDrafts.length<=1)return;segmentDrafts.splice(i,1);renderSegments()}
+function moveSegment(i,d){readSegments();const j=i+d;if(j<0||j>=segmentDrafts.length)return;[segmentDrafts[i],segmentDrafts[j]]=[segmentDrafts[j],segmentDrafts[i]];renderSegments()}
+
+function resetPlanItemEditor(){
+  editingPlanItemId=null;
+  if(data.exercises.length)addEx.value=data.exercises[0].id;
+  mode.value='reps';
+  rest.value='0';
+  afterPause.value='auto';
+  segmentDrafts=[defaultSegment()];
+  renderSegments();
+  savePlanItemBtn.textContent='Übung zum Plan hinzufügen';
+  cancelPlanItemEditBtn.classList.add('hidden');
+}
+
+function editPlanItem(itemId){
+  const p=data.plans.find(x=>x.id===activePlan);
+  const item=p?.items.find(x=>x.id===itemId);
+  if(!item)return;
+
+  editingPlanItemId=itemId;
+  addEx.value=item.exerciseId;
+  mode.value=item.mode||'reps';
+  rest.value=Math.max(0,Number(item.rest)||0);
+  afterPause.value=item.afterPause==='manual'?'manual':'auto';
+  segmentDrafts=segmentsForItem(item).map(s=>({...s}));
+  renderSegments();
+
+  savePlanItemBtn.textContent='Änderungen speichern';
+  cancelPlanItemEditBtn.classList.remove('hidden');
+
+  document.getElementById('segmentList').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function cancelPlanItemEdit(){
+  resetPlanItemEditor();
+}
+
+
+
+async function savePlanItem(){
+  if(!data.exercises.length)return alert('Bitte zuerst eine Übung anlegen.');
+  readSegments();
+  if(!segmentDrafts.length)return alert('Mindestens einen Satz anlegen.');
+
+  const p=data.plans.find(x=>x.id===activePlan);
+  if(!p)return;
+
+  const itemData={
+    exerciseId:addEx.value,
+    mode:mode.value,
+    rest:Math.max(0,+rest.value||0),
+    afterPause:afterPause.value==='manual'?'manual':'auto',
+    segments:segmentDrafts.map(s=>({
+      bodySide:s.bodySide||'none',
+      reps:mode.value==='time'?1:Math.max(1,Number(s.reps)||1),
+      duration:mode.value==='reps'?0:Math.max(1,Number(s.duration)||30)
+    }))
+  };
+
+  if(editingPlanItemId){
+    const item=p.items.find(x=>x.id===editingPlanItemId);
+    if(!item)return alert('Die Plan-Übung wurde nicht gefunden.');
+    Object.assign(item,itemData);
+  }else{
+    p.items.push({id:uid(),...itemData});
+  }
+
+  await persist();
+  resetPlanItemEditor();
+  renderPlanItems();
+}
+function renderPlanItems(){
+  const p=data.plans.find(x=>x.id===activePlan);
+  planItems.innerHTML=p.items.length?p.items.map((i,n)=>{const e=data.exercises.find(x=>x.id===i.exerciseId);return `<div class="item">
+    <div class="item-main"><div class="thumb">${mediaMarkup(e,true)}</div><div class="item-copy"><b>${n+1}. ${esc(e?.name||'Übung')}</b><div class="small muted">${segmentsForItem(i).length} Sätze${i.rest?` · ${i.rest}s Pause`:''} · ${i.afterPause==='manual'?'danach manuell':'danach automatisch'}</div>${segmentSummary(i)}</div></div>
+    <div class="row">
+      <button onclick="editPlanItem('${i.id}')">Bearbeiten</button>
+      <button onclick="moveItem(${n},-1)" ${n===0?'disabled':''}>↑</button>
+      <button onclick="moveItem(${n},1)" ${n===p.items.length-1?'disabled':''}>↓</button>
+      <button class="danger" onclick="removeItem('${i.id}')">Entfernen</button>
+    </div></div>`}).join(''):'<div class="empty">Noch keine Übungen.</div>';
+}
+async function moveItem(n,d){const p=data.plans.find(x=>x.id===activePlan),j=n+d;if(j<0||j>=p.items.length)return;[p.items[n],p.items[j]]=[p.items[j],p.items[n]];await persist();renderPlanItems()}
+async function removeItem(id){
+  const p=data.plans.find(x=>x.id===activePlan);
+  p.items=p.items.filter(x=>x.id!==id);
+  if(editingPlanItemId===id)resetPlanItemEditor();
+  await persist();
+  renderPlanItems();
+}
+
+
+function planSnapshot(plan){
+  return (plan.items||[]).map((item,index)=>{
+    const ex=data.exercises.find(x=>x.id===item.exerciseId);
+    return {
+      position:index+1,
+      exerciseId:item.exerciseId,
+      name:ex?.name||'Übung',
+      description:ex?.description||'',
+      mode:item.mode||'reps',
+      rest:Math.max(0,Number(item.rest)||0),
+      afterPause:item.afterPause==='manual'?'manual':'auto',
+      segments:segmentsForItem(item).map(s=>({...s}))
+    };
+  });
+}
+
+async function saveTrainingHistory(status){
+  if(!trainingState||trainingState.historySaved)return;
+
+  const p=data.plans.find(x=>x.id===trainingState.planId);
+  if(!p)return;
+
+  const endedAt=new Date().toISOString();
+  const startedAt=trainingState.startedAt||endedAt;
+
+  data.history=Array.isArray(data.history)?data.history:[];
+  data.history.unshift({
+    id:uid(),
+    planId:p.id,
+    planName:trainingState.planNameSnapshot||p.name,
+    exercises:trainingState.exerciseSnapshot||planSnapshot(p),
+    startedAt,
+    endedAt,
+    durationMs:Math.max(0,new Date(endedAt)-new Date(startedAt)),
+    status:status==='completed'?'completed':'stopped'
+  });
+
+  trainingState.historySaved=true;
+  await persist();
+}
+
+/* Training */
+function cur(){
+  const p=data.plans.find(x=>x.id===trainingState.planId),item=p.items[trainingState.exerciseIndex],ex=data.exercises.find(x=>x.id===item.exerciseId)||{name:'Übung',description:''};
+  return {p,item,ex,segments:segmentsForItem(item)};
+}
+function startTraining(id){
+  const p=data.plans.find(x=>x.id===id);
+  if(!p)return alert('Trainingsplan wurde nicht gefunden.');
+  if(!p.items.length)return alert('Plan ist leer.');
+
+  const invalid=p.items.find(i=>!data.exercises.some(e=>e.id===i.exerciseId));
+  if(invalid)return alert('Im Trainingsplan befindet sich eine nicht mehr vorhandene Übung. Bitte den Plan bearbeiten.');
+
+  trainingState={
+    planId:id,
+    exerciseIndex:0,
+    segmentIndex:0,
+    rep:1,
+    phase:'ready',
+    paused:false,
+    remaining:0,
+    countdownType:null,
+    countdownTarget:null,
+    countdownEndAt:null,
+    countdownCompleting:false,
+    startedAt:new Date().toISOString(),
+    planNameSnapshot:p.name,
+    exerciseSnapshot:planSnapshot(p),
+    historySaved:false
+  };
+
+  saveRuntimeState(true);
+  show('training');
+  renderTraining();
+}
+function renderTraining(){
+  clearInterval(timerHandle);const {p,item,ex,segments}=cur(),seg=segments[trainingState.segmentIndex];
+  trainCount.textContent=`Übung ${trainingState.exerciseIndex+1} von ${p.items.length}`;
+  bar.style.width=`${100*trainingState.exerciseIndex/p.items.length}%`;
+  trainName.textContent=ex.name;trainDesc.textContent=ex.description||'';
+  trainMeta.textContent=`Satz ${trainingState.segmentIndex+1} von ${segments.length} · ${segmentText(item,seg)}`;
+  autoPauseNote.textContent=item.afterPause==='manual'
+    ?'Nach der Pause: manuell starten'
+    :'Nach der Pause: automatisch weiter';
+  if(seg.bodySide&&seg.bodySide!=='none'){trainSide.textContent=sideLabel(seg.bodySide);trainSide.classList.remove('hidden')}else trainSide.classList.add('hidden');
+  renderTrainingMedia(ex);
+  timer.classList.add('hidden');timerLabel.classList.add('hidden');message.classList.add('hidden');start.classList.remove('hidden');done.classList.add('hidden');pause.classList.add('hidden');skip.classList.remove('hidden');
+  start.textContent=trainingState.segmentIndex===0?'Übung / Satz starten':`Satz ${trainingState.segmentIndex+1} starten`;
+  updateActiveTrainingBar('training');
+}
+function renderTrainingMedia(ex){
+  if(!ex.mediaUrl){
+    trainingMedia.classList.add('hidden');
+    trainingMedia.innerHTML='';
+    syncTvMediaState();
+    return;
+  }
+
+  trainingMedia.classList.remove('hidden');
+  trainingMedia.innerHTML=mediaMarkup(ex,false);
+  syncTvMediaState();
+}
+async function startStep(){
+  if(!audioSessionReady){
+    await unlockAudio();
+  }
+  const {item,segments}=cur(),seg=segments[trainingState.segmentIndex];trainingState.phase='active';
+  if(item.mode==='reps'){start.classList.add('hidden');done.classList.remove('hidden');trainMeta.textContent=`Satz ${trainingState.segmentIndex+1}/${segments.length} · Wiederholung ${trainingState.rep}/${seg.reps}`}
+  else runTimed(seg.duration);
+}
+function formatSeconds(seconds){
+  const s=Math.max(0,Math.ceil(Number(seconds)||0));
+  const m=Math.floor(s/60);
+  const r=s%60;
+  return `${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`;
+}
+
+function getCountdownRemaining(){
+  if(!trainingState)return 0;
+  if(trainingState.paused)return Math.max(0,Number(trainingState.remaining)||0);
+  if(trainingState.countdownEndAt){
+    return Math.max(0,Math.ceil((trainingState.countdownEndAt-Date.now())/1000));
+  }
+  return Math.max(0,Number(trainingState.remaining)||0);
+}
+
+function paintCountdown(){
+  if(!trainingState)return;
+  const remaining=getCountdownRemaining();
+  trainingState.remaining=remaining;
+  timer.textContent=formatSeconds(remaining);
+  saveRuntimeState();
+
+  const visibleView=!document.getElementById('training').classList.contains('hidden');
+  updateActiveTrainingBar(visibleView?'training':'other');
+}
+
+function startCountdown(seconds,type,target=null){
+  clearInterval(timerHandle);
+  timerHandle=null;
+
+  const total=Math.max(0,Math.ceil(Number(seconds)||0));
+  trainingState.remaining=total;
+  trainingState.countdownType=type;
+  trainingState.countdownTarget=target;
+  trainingState.countdownEndAt=Date.now()+total*1000;
+  trainingState.countdownCompleting=false;
+  trainingState.paused=false;
+  saveRuntimeState(true);
+
+  paintCountdown();
+
+  timerHandle=setInterval(syncCountdownNow,250);
+}
+
+function syncCountdownNow(){
+  if(!trainingState)return;
+
+  if(trainingState.countdownType&&!trainingState.paused){
+    paintCountdown();
+
+    if(getCountdownRemaining()<=0&&!trainingState.countdownCompleting){
+      trainingState.countdownCompleting=true;
+      clearInterval(timerHandle);
+      timerHandle=null;
+      finishCountdown();
+    }
+  }else{
+    const trainingVisible=!document.getElementById('training').classList.contains('hidden');
+    updateActiveTrainingBar(trainingVisible?'training':'other');
+  }
+}
+
+function finishCountdown(){
+  if(!trainingState)return;
+
+  const type=trainingState.countdownType;
+  const target=trainingState.countdownTarget;
+
+  trainingState.countdownType=null;
+  trainingState.countdownTarget=null;
+  trainingState.countdownEndAt=null;
+  trainingState.remaining=0;
+  trainingState.countdownCompleting=false;
+  trainingState.paused=false;
+
+  timer.textContent='00:00';
+
+  if(type==='exercise'){
+    playExerciseFinishedSound();
+    afterRep();
+    return;
+  }
+
+  if(type==='rest'){
+    playPauseFinishedSound();
+    setTimeout(()=>speakGerman('Weiter'),220);
+    continueAfterRest(target);
+  }
+}
+
+function runTimed(sec){
+  const {item,segments}=cur(),seg=segments[trainingState.segmentIndex];
+
+  start.classList.add('hidden');
+  done.classList.add('hidden');
+  pause.classList.remove('hidden');
+
+  timerLabel.textContent='Übungs-Countdown';
+  timerLabel.classList.remove('hidden');
+  timer.classList.remove('hidden');
+  pause.textContent='Countdown anhalten';
+
+  trainMeta.textContent=`Satz ${trainingState.segmentIndex+1}/${segments.length}${item.mode==='reps_time'?` · Wiederholung ${trainingState.rep}/${seg.reps}`:''}`;
+
+  startCountdown(seg.duration,'exercise',null);
+}
+
+function updateTimer(){
+  paintCountdown();
+}
+
+async function pauseTimer(){
+  if(!audioSessionReady)await unlockAudio();
+  if(!trainingState||!trainingState.countdownType)return;
+
+  if(!trainingState.paused){
+    trainingState.remaining=getCountdownRemaining();
+    trainingState.paused=true;
+    trainingState.countdownEndAt=null;
+    clearInterval(timerHandle);
+    timerHandle=null;
+  }else{
+    trainingState.paused=false;
+    trainingState.countdownEndAt=Date.now()+Math.max(0,trainingState.remaining)*1000;
+    timerHandle=setInterval(syncCountdownNow,250);
+  }
+
+  const isRest=trainingState.countdownType==='rest';
+  if(trainingState.paused){
+    pause.textContent=isRest?'Pause fortsetzen':'Countdown fortsetzen';
+  }else{
+    pause.textContent=isRest?'Pause anhalten':'Countdown anhalten';
+  }
+
+  paintCountdown();
+}
+
+async function manualDone(){
+  if(!audioSessionReady)await unlockAudio();
+  afterRep();
+}
+function afterRep(){
+  const {p,item,segments}=cur();
+  const seg=segments[trainingState.segmentIndex];
+
+  // Weitere Wiederholung im selben Satz.
+  if((item.mode==='reps_time'||item.mode==='reps')&&trainingState.rep<seg.reps){
+    trainingState.rep++;
+
+    if(item.rest>0){
+      return runRest(item.rest,'rep');
+    }
+
+    return waitNextRep();
+  }
+
+  // Nächster Satz derselben Übung.
+  if(trainingState.segmentIndex<segments.length-1){
+    trainingState.segmentIndex++;
+    trainingState.rep=1;
+
+    if(item.rest>0){
+      return runRest(item.rest,'segment');
+    }
+
+    return waitNextSegment();
+  }
+
+  // Nächste Übung.
+  if(trainingState.exerciseIndex<p.items.length-1){
+    if(item.rest>0){
+      return runRest(item.rest,'exercise');
+    }
+
+    return nextExercise(false);
+  }
+
+  // Training fertig.
+  nextExercise(false);
+}
+
+function waitNextRep(){
+  const {item,segments}=cur(),seg=segments[trainingState.segmentIndex];
+
+  trainingState.countdownType=null;
+  trainingState.countdownTarget=null;
+  trainingState.countdownEndAt=null;
+
+  timer.classList.add('hidden');
+  timerLabel.classList.add('hidden');
+  pause.classList.add('hidden');
+  done.classList.add('hidden');
+  start.classList.remove('hidden');
+
+  start.textContent='Nächste Wiederholung starten';
+  trainMeta.textContent=`Satz ${trainingState.segmentIndex+1}/${segments.length} · Wiederholung ${trainingState.rep}/${seg.reps}`;
+}
+
+function waitNextSegment(){
+  const {item,segments}=cur(),seg=segments[trainingState.segmentIndex];
+
+  trainingState.countdownType=null;
+  trainingState.countdownTarget=null;
+  trainingState.countdownEndAt=null;
+
+  timer.classList.add('hidden');
+  timerLabel.classList.add('hidden');
+  pause.classList.add('hidden');
+  done.classList.add('hidden');
+  start.classList.remove('hidden');
+
+  start.textContent=`Satz ${trainingState.segmentIndex+1} starten`;
+  trainMeta.textContent=`Bereit: Satz ${trainingState.segmentIndex+1}/${segments.length} · ${segmentText(item,seg)}`;
+
+  if(seg.bodySide&&seg.bodySide!=='none'){
+    trainSide.textContent=sideLabel(seg.bodySide);
+    trainSide.classList.remove('hidden');
+  }else{
+    trainSide.classList.add('hidden');
+  }
+}
+
+function runRest(sec,target='segment'){
+  const restSeconds=Math.max(0,Math.ceil(Number(sec)||0));
+
+  if(restSeconds<=0){
+    if(target==='rep')return waitNextRep();
+    if(target==='exercise')return nextExercise(false);
+    return waitNextSegment();
+  }
+
+  done.classList.add('hidden');
+  start.classList.add('hidden');
+  pause.classList.remove('hidden');
+
+  timerLabel.textContent='Pausen-Countdown';
+  timerLabel.classList.remove('hidden');
+  timer.classList.remove('hidden');
+
+  const {p,item,segments}=cur();
+
+  if(target==='rep'){
+    trainMeta.textContent=`Pause vor Wiederholung ${trainingState.rep}`;
+  }else if(target==='exercise'){
+    const nextItem=p.items[trainingState.exerciseIndex+1];
+    const nextExerciseData=data.exercises.find(e=>e.id===nextItem?.exerciseId);
+    trainMeta.textContent=nextExerciseData?`Pause vor: ${nextExerciseData.name}`:'Pause vor der nächsten Übung';
+  }else{
+    const seg=segments[trainingState.segmentIndex];
+    trainMeta.textContent=`Pause vor Satz ${trainingState.segmentIndex+1} · ${segmentText(item,seg)}`;
+  }
+
+  trainSide.classList.add('hidden');
+  pause.textContent='Pause anhalten';
+
+  const pauseText=restSeconds===1
+    ?'1 Sekunde Pause'
+    :`${restSeconds} Sekunden Pause`;
+  speakGerman(pauseText);
+  startCountdown(restSeconds,'rest',target);
+}
+
+function continueAfterRest(target){
+  timer.classList.add('hidden');
+  timerLabel.classList.add('hidden');
+  pause.classList.add('hidden');
+
+  const {item}=cur();
+  const automatic=item.afterPause!=='manual';
+
+  if(target==='exercise'){
+    if(automatic){
+      nextExercise(true);
+    }else{
+      nextExercise(false);
+    }
+    return;
+  }
+
+  if(target==='rep'){
+    if(automatic){
+      startStep();
+    }else{
+      waitNextRep();
+    }
+    return;
+  }
+
+  if(automatic){
+    const {item:nextItem,segments}=cur();
+    const seg=segments[trainingState.segmentIndex];
+
+    trainMeta.textContent=`Satz ${trainingState.segmentIndex+1}/${segments.length} · ${segmentText(nextItem,seg)}`;
+
+    if(seg.bodySide&&seg.bodySide!=='none'){
+      trainSide.textContent=sideLabel(seg.bodySide);
+      trainSide.classList.remove('hidden');
+    }else{
+      trainSide.classList.add('hidden');
+    }
+
+    startStep();
+  }else{
+    waitNextSegment();
+  }
+}
+
+async function nextExercise(autoStart=false){
+  clearInterval(timerHandle);
+  timerHandle=null;
+  trainingState.countdownType=null;
+  trainingState.countdownTarget=null;
+  trainingState.countdownEndAt=null;
+  trainingState.countdownCompleting=false;
+  trainingState.paused=false;
+  trainingState.remaining=0;
+
+  const {p}=cur();
+
+  if(trainingState.exerciseIndex>=p.items.length-1){
+    bar.style.width='100%';
+    trainName.textContent='Training abgeschlossen ✓';
+    trainDesc.textContent='';
+    trainMeta.textContent='';
+    timer.classList.add('hidden');
+    timerLabel.classList.add('hidden');
+    trainSide.classList.add('hidden');
+    trainingMedia.classList.add('hidden');
+
+    ['start','done','pause','skip'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+    message.classList.remove('hidden');
+    message.textContent='Der Trainingsplan ist vollständig erledigt.';
+
+    await saveTrainingHistory('completed');
+    clearRuntimeState();
+    return;
+  }
+
+  trainingState.exerciseIndex++;
+  trainingState.segmentIndex=0;
+  trainingState.rep=1;
+  trainingState.phase='ready';
+  saveRuntimeState(true);
+
+  renderTraining();
+  window.scrollTo(0,0);
+
+  // Nur wenn wir gerade aus einem abgelaufenen Pausen-Countdown kommen,
+  // startet die nächste Übung automatisch.
+  if(autoStart){
+    startStep();
+  }
+}
+async function endTraining(){
+  clearInterval(timerHandle);
+  timerHandle=null;
+
+  if(trainingState&&!trainingState.historySaved){
+    await saveTrainingHistory('stopped');
+  }
+
+  trainingState=null;
+  clearRuntimeState();
+  exitTvMode();
+  updateActiveTrainingBar('plans');
+  show('plans');
+}
+let audioSessionReady=false;
+let audioSessionToken=Date.now().toString(36);
+let audioPlayCounter=0;
+let activeAudio=[];
+
+function voiceAnnouncementsEnabled(){
+  return data?.settings?.voiceAnnouncements!==false;
+}
+
+async function setVoiceAnnouncements(enabled){
+  data.settings=data.settings&&typeof data.settings==='object'?data.settings:{};
+  data.settings.voiceAnnouncements=!!enabled;
+  await persist();
+  if(enabled)activateLocalAudioSession();
+}
+
+function freshAudioUrl(path){
+  audioPlayCounter++;
+  return `${path}?v=1.0.0&s=${audioSessionToken}&n=${audioPlayCounter}`;
+}
+
+function cleanupAudio(el){
+  const i=activeAudio.indexOf(el);
+  if(i>=0)activeAudio.splice(i,1);
+  try{el.pause();el.removeAttribute('src');el.load()}catch{}
+}
+
+async function playLocalAudio(path,volume=1){
+  try{
+    const el=new Audio();
+    el.preload='auto';
+    el.playsInline=true;
+    el.volume=Math.max(0,Math.min(1,volume));
+    el.src=freshAudioUrl(path);
+    activeAudio.push(el);
+    el.addEventListener('ended',()=>cleanupAudio(el),{once:true});
+    el.addEventListener('error',()=>cleanupAudio(el),{once:true});
+    await el.play();
+    audioSessionReady=true;
+    updateAudioStatus('Ton aktiv ✓');
+    return true;
+  }catch(err){
+    updateAudioStatus('Ton blockiert – bitte „Ton testen“ tippen.');
+    return false;
+  }
+}
+
+function resetLocalAudioSession(){
+  for(const el of [...activeAudio])cleanupAudio(el);
+  activeAudio=[];
+  audioSessionReady=false;
+  audioSessionToken=Date.now().toString(36);
+  updateAudioStatus('Ton bitte einmal aktivieren.');
+}
+
+function updateAudioStatus(text){
+  const status=document.getElementById('audioStatus');
+  if(status)status.textContent=text;
+}
+
+async function activateLocalAudioSession(){
+  // Wichtig für iOS Home-Screen-Web-App: bei jeder neuen App-Sitzung wird ein
+  // komplett neues HTMLAudioElement erzeugt statt ein alter AudioContext resumed.
+  const ok=await playLocalAudio('./audio/unlock.mp3',0.08);
+  if(ok){
+    audioSessionReady=true;
+    updateAudioStatus('Ton aktiv ✓');
+  }
+  return ok;
+}
+
+async function unlockAudio(){
+  if(audioSessionReady)return true;
+  return activateLocalAudioSession();
+}
+
+async function ensureAudioReady(){
+  return audioSessionReady;
+}
+
+async function testMobileSound(){
+  resetLocalAudioSession();
+  const ok=await activateLocalAudioSession();
+  if(ok){
+    setTimeout(()=>playLocalAudio('./audio/pause-end.mp3',0.9),80);
+  }
+}
+
+function localPauseVoicePath(text){
+  if(/^Weiter$/i.test(text))return './audio/voice/weiter.mp3';
+  if(/^Pause$/i.test(text))return './audio/voice/pause.mp3';
+  let m=text.match(/^(\\d+) Sekunde(?:n)? Pause$/i);
+  if(m){
+    const n=Number(m[1]);
+    if(n>=1&&n<=120)return `./audio/voice/pause-${n}.mp3`;
+    return './audio/voice/pause.mp3';
+  }
+  return null;
+}
+
+function speakGerman(text){
+  if(!voiceAnnouncementsEnabled())return;
+  const path=localPauseVoicePath(text);
+  if(path)playLocalAudio(path,1);
+}
+
+function playExerciseFinishedSound(){
+  playLocalAudio('./audio/exercise-end.mp3',1);
+  if(navigator.vibrate)navigator.vibrate([140,80,220]);
+}
+
+function playPauseFinishedSound(){
+  playLocalAudio('./audio/pause-end.mp3',1);
+  if(navigator.vibrate)navigator.vibrate([90,60,90,60,150]);
+}
+
+function beep(){playExerciseFinishedSound()}
+function formatDateTime(iso){return new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(iso))}
+function formatTime(iso){return new Intl.DateTimeFormat('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date(iso))}
+function formatDuration(ms){const t=Math.round((Number(ms)||0)/1000),h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60;return h?`${h} Std. ${m} Min.`:m?`${m} Min. ${s} Sek.`:`${s} Sek.`}
+function historySegments(e){return `<div class="segment-summary">${segmentsForItem(e).map((s,i)=>`<span class="segment-chip">Satz ${i+1}: ${esc(sideLabel(s.bodySide))} · ${esc(segmentText(e,s))}</span>`).join('')}</div>`}
+function toggleHistory(id){const el=document.getElementById('hx-'+id),btn=document.getElementById('hb-'+id),open=el.classList.contains('hidden');el.classList.toggle('hidden',!open);btn.textContent=open?'Übungen ausblenden':'Übungen anzeigen'}
+function renderHistory(){
+  const h=data.history||[];clearHistoryBtn.disabled=!h.length;
+  if(!h.length){historyStats.innerHTML='';historyList.innerHTML='<div class="card empty">Noch kein Training.</div>';return}
+  const complete=h.filter(x=>x.status==='completed').length,total=h.reduce((a,x)=>a+(Number(x.durationMs)||0),0);
+  historyStats.innerHTML=`<div class="card"><div class="history-summary"><div class="history-stat"><span>Trainings</span><b>${h.length}</b></div><div class="history-stat"><span>Abgeschlossen</span><b>${complete}</b></div><div class="history-stat"><span>Gesamtzeit</span><b>${formatDuration(total)}</b></div></div></div>`;
+  historyList.innerHTML=h.map(x=>`<div class="card"><div class="history-head"><div><h3>${esc(x.planName||'Trainingsplan')}</h3><div class="small muted">${formatDateTime(x.startedAt)}</div></div><span class="status-pill ${x.status==='completed'?'done':'stopped'}">${x.status==='completed'?'Abgeschlossen':'Beendet'}</span></div>
+    <div class="history-summary"><div class="history-stat"><span>Dauer</span><b>${formatDuration(x.durationMs)}</b></div><div class="history-stat"><span>Start</span><b>${formatTime(x.startedAt)}</b></div><div class="history-stat"><span>Ende</span><b>${formatTime(x.endedAt)}</b></div></div>
+    <button class="ghost history-toggle" id="hb-${x.id}" onclick="toggleHistory('${x.id}')">Übungen anzeigen</button>
+    <ul class="history-exercises hidden" id="hx-${x.id}">${(x.exercises||[]).map((e,i)=>`<li><b>${i+1}. ${esc(e.name)}</b>${historySegments(e)}</li>`).join('')}</ul></div>`).join('');
+}
+async function clearHistory(){if(!(data.history||[]).length)return;if(!confirm('Historie löschen?'))return;data.history=[];await persist();renderHistory()}
+
+/* Backup / Offline storage */
+async function deliverBackupFile(blob,name){
+  const file=new File([blob],name,{type:blob.type||'application/json'});
+  try{
+    if(navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:'Physio Trainer Backup'});return}
+  }catch(err){if(err?.name==='AbortError')return}
+  const a=document.createElement('a'),url=URL.createObjectURL(blob);
+  a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+async function exportJson(){
+  const payload={backupVersion:2,appVersion:APP_VERSION,createdAt:new Date().toISOString(),includesMedia:false,data:stateForStorage()};
+  await deliverBackupFile(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),'physio-backup-ohne-medien.json');
+}
+function blobToDataUrl(blob){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(blob)})}
+function dataUrlToBlob(dataUrl){
+  const [head,body]=dataUrl.split(','),type=(head.match(/^data:([^;]+)/)||[])[1]||'application/octet-stream',bytes=atob(body||''),arr=new Uint8Array(bytes.length);
+  for(let i=0;i<bytes.length;i++)arr[i]=bytes.charCodeAt(i);
+  return new Blob([arr],{type});
+}
+async function exportFullBackup(){
+  const state=stateForStorage(),media=[];let total=0;
+  for(const ex of state.exercises||[]){if(!ex.mediaId)continue;const rec=await dbGet('media',ex.mediaId);if(rec?.blob)total+=rec.blob.size||0}
+  if(total>100*1024*1024&&!confirm(`Die Medien umfassen ca. ${formatBytes(total)}. Trotzdem Vollbackup erstellen?`))return;
+  const el=document.getElementById('saveState');if(el)el.textContent='Backup wird erstellt …';
+  try{
+    for(const ex of state.exercises||[]){
+      if(!ex.mediaId)continue;
+      const rec=await dbGet('media',ex.mediaId);if(!rec?.blob)continue;
+      media.push({id:rec.id,name:rec.name||'medium',type:rec.type||rec.blob.type,size:rec.blob.size,dataUrl:await blobToDataUrl(rec.blob)});
+    }
+    const payload={backupVersion:2,appVersion:APP_VERSION,createdAt:new Date().toISOString(),includesMedia:true,data:state,media};
+    await deliverBackupFile(new Blob([JSON.stringify(payload)],{type:'application/json'}),'physio-vollbackup.physio.json');
+  }finally{if(el)el.textContent=''}
+}
+async function importJson(ev){
+  const f=ev.target.files?.[0];if(!f)return;
+  try{
+    const parsed=JSON.parse(await f.text());
+    let incoming=parsed?.backupVersion>=2&&parsed.data?parsed.data:parsed;
+    const mediaEntries=parsed?.backupVersion>=2&&Array.isArray(parsed.media)?parsed.media:[];
+    if(!Array.isArray(incoming?.exercises)||!Array.isArray(incoming?.plans))throw 0;
+    if(!confirm('Bestehende lokale Daten durch dieses Backup ersetzen?'))return;
+    for(const url of mediaObjectUrls.values()){try{URL.revokeObjectURL(url)}catch{}}
+    mediaObjectUrls.clear();await dbClear('media');
+    for(const item of mediaEntries){
+      if(!item?.id||!item?.dataUrl)continue;
+      const blob=dataUrlToBlob(item.dataUrl);
+      await dbPut('media',{id:item.id,blob,type:item.type||blob.type,name:item.name||'medium',size:blob.size,updatedAt:new Date().toISOString()});
+    }
+    let legacy=0;
+    incoming.exercises=(incoming.exercises||[]).map(e=>{if(!e.mediaId&&e.mediaUrl)legacy++;return {...e,mediaId:e.mediaId||'',mediaName:e.mediaName||'',mediaUrl:'',mediaType:e.mediaType||''}});
+    data=normalizeData(incoming);await hydrateAllMedia();await persist();clearRuntimeState();
+    alert(legacy?`Import abgeschlossen. ${legacy} Medium/Medien aus der alten PC-Version müssen einmal neu ausgewählt werden.`:'Import abgeschlossen.');
+    show('plans');updateStorageInfo();
+  }catch{alert('Ungültige oder beschädigte Backup-Datei.')}
+  finally{ev.target.value=''}
+}
+
+
+updateWebAppMode();
+segmentDrafts=[defaultSegment()];renderSegments();
+load().catch(err=>{console.error(err);plansList.innerHTML='<div class="card"><b>Lokaler Speicher konnte nicht geöffnet werden.</b><p>Bitte die App neu öffnen.</p></div>'});
+
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&trainingState){
+    syncCountdownNow();
+
+    if(trainingState.countdownType&&!trainingState.paused&&!timerHandle){
+      timerHandle=setInterval(syncCountdownNow,250);
+    }
+  }
+});
+
+window.addEventListener('focus',()=>{
+  if(trainingState)syncCountdownNow();
+});
+
+
+
+
+
+
+
+window.addEventListener('orientationchange',()=>{
+  if(tvModeActive)setTimeout(syncTvMediaState,150);
+});
+window.addEventListener('resize',()=>{
+  if(tvModeActive)syncTvMediaState();
+});
+
+window.matchMedia?.('(display-mode: standalone)').addEventListener?.('change',updateWebAppMode);
+window.matchMedia?.('(display-mode: fullscreen)').addEventListener?.('change',updateWebAppMode);
+
+// iOS-PWA Audio-Lifecycle: nach Wiederaufnahme nicht versuchen, einen alten
+// AudioContext zu retten, sondern beim nächsten echten Tap eine neue Audio-Sitzung.
+window.addEventListener('pageshow',()=>{
+  resetLocalAudioSession();
+  updateWebAppMode?.();
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'){
+    resetLocalAudioSession();
+  }
+});
+document.addEventListener('pointerdown',()=>{
+  if(!audioSessionReady)activateLocalAudioSession();
+},{passive:true});
+</script>
+</body>
+</html>

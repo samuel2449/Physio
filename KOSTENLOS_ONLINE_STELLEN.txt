@@ -1,0 +1,24 @@
+KOSTENLOSE ADRESSE MIT GITHUB PAGES
+==================================
+
+Eine eigene Domain brauchst du nicht.
+
+1. Kostenlosen GitHub-Account verwenden/erstellen.
+2. Neues Repository anlegen, z.B. "physio-trainer".
+3. Den kompletten Inhalt dieses Ordners hochladen.
+4. GitHub: Settings -> Pages.
+5. Source: Deploy from a branch.
+6. Branch: main, Folder: /(root).
+7. Speichern.
+
+Danach bekommst du kostenlos eine HTTPS-Adresse, z.B.:
+https://DEINNAME.github.io/physio-trainer/
+
+Diese Adresse am iPhone in Safari öffnen:
+Teilen -> Zum Home-Bildschirm.
+
+Danach kann die App offline verwendet werden.
+
+WICHTIG:
+Die auf GitHub liegenden Dateien sind nur die App selbst.
+Deine Übungen, Historie, Fotos und Videos werden lokal im iPhone gespeichert.
