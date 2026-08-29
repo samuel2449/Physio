@@ -306,7 +306,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .offline-mobile-nav{grid-template-columns:repeat(4,1fr)!important}
 .offline-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-size:12px;font-weight:800}
 
-/* v1.2.3 – Versionsanzeige / Update */
+/* v1.3.0 – Versionsanzeige / Update */
 .brand-title-row{display:flex;align-items:center;gap:8px;min-width:0}
 .version-badge{
   display:inline-flex;align-items:center;justify-content:center;
@@ -329,7 +329,7 @@ body.tv-mode #soundTestButton{display:none!important}
 .update-banner-inner span{display:block;margin-top:2px;color:#d0d5dd;font-size:12px}
 .update-banner-inner button{min-height:42px;white-space:nowrap}
 
-/* v1.2.3 – Navbar wirklich starr am unteren Bildschirmrand */
+/* v1.3.0 – Navbar wirklich starr am unteren Bildschirmrand */
 @media(max-width:700px){
   .mobile-nav{
     display:grid!important;
@@ -351,7 +351,7 @@ body.tv-mode #soundTestButton{display:none!important}
   }
 }
 
-/* v1.2.3 – Dynamic Island / Notch:
+/* v1.3.0 – Dynamic Island / Notch:
    black-translucent wurde deaktiviert. Zusätzlich reservieren wir
    in installierten iPhone-Web-Apps bewusst Schutzflächen. */
 body.webapp-mode{
@@ -411,7 +411,7 @@ body.tv-mode #message{
 body.tv-mode .update-banner{display:none!important}
 
 
-/* v1.2.3 – Apple-inspirierte Liquid-Glass Bottom Navigation */
+/* v1.3.0 – Apple-inspirierte Liquid-Glass Bottom Navigation */
 @media(max-width:700px){
   .offline-mobile-nav{
     grid-template-columns:repeat(4,minmax(0,1fr))!important;
@@ -550,7 +550,7 @@ body.tv-mode .update-banner{display:none!important}
 }
 
 
-/* v1.2.3 – Medien unten + schönerer Button */
+/* v1.3.0 – Medien unten + schönerer Button */
 .training-media-bottom{
   margin-top:16px !important;
   border-radius:20px;
@@ -586,7 +586,7 @@ body.tv-mode .update-banner{display:none!important}
 .training-media-button .media-text small{color:#475467;font-size:11px;font-weight:650}
 
 
-/* v1.2.3 – Video-Overlay mit eigenen Controls + schönerer TV-Modus */
+/* v1.3.0 – Video-Overlay mit eigenen Controls + schönerer TV-Modus */
 #mediaViewerOverlay{
   display:none;position:fixed;inset:0;z-index:10100;
   background:
@@ -703,6 +703,44 @@ body.tv-mode #tvVideoButton.has-media{
   body.tv-mode .progress{height:8px!important;width:min(78vw,1040px)!important}
 }
 
+
+/* v1.3.0 – Übungsgruppen */
+.group-builder-card{border:1px solid rgba(124,58,237,.16);background:linear-gradient(180deg,rgba(250,248,255,.96),rgba(247,248,252,.94))}
+.group-builder-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.group-select-label{display:inline-flex;align-items:center;gap:7px;margin:8px 0 0;font-size:12px;color:#475467;font-weight:700}
+.group-select-label input{width:18px!important;min-height:18px!important;margin:0}
+.group-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  margin:12px 0 8px;padding:11px 12px;border-radius:17px;
+  background:linear-gradient(180deg,rgba(124,58,237,.12),rgba(99,102,241,.07));
+  border:1px solid rgba(124,58,237,.18)
+}
+.group-banner-main{display:flex;align-items:center;gap:10px;min-width:0}
+.group-badge{display:inline-flex;align-items:center;justify-content:center;padding:5px 9px;border-radius:999px;background:#7c3aed;color:#fff;font-size:11px;font-weight:900;white-space:nowrap}
+.group-config{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.group-config label{font-size:11px;color:#667085;margin:0}
+.group-config input{width:72px;min-height:38px;padding:7px 8px}
+.group-member{border-left:3px solid rgba(124,58,237,.5);padding-left:10px}
+.group-round-indicator{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;background:rgba(124,58,237,.12);color:#6d28d9;font-size:12px;font-weight:850;margin-top:6px}
+
+/* v1.3.0 – TV-Modus ruhiger, klarer, mit dezentem Exit */
+body.tv-mode #tvExitButton{
+  min-height:30px!important;padding:6px 9px!important;font-size:11px!important;opacity:.38!important;
+  border:1px solid rgba(255,255,255,.07)!important;background:rgba(11,15,24,.28)!important;
+  box-shadow:none!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important
+}
+body.tv-mode #tvExitButton:active,body.tv-mode #tvExitButton:hover{opacity:.78!important}
+body.tv-mode .training-card::before{
+  background:linear-gradient(180deg,rgba(12,18,31,.61),rgba(6,9,17,.48))!important;
+  border:1px solid rgba(255,255,255,.065)!important
+}
+body.tv-mode #trainName{font-weight:850;letter-spacing:-.045em}
+body.tv-mode #timer{font-variant-numeric:tabular-nums}
+body.tv-mode #trainSide{border-radius:999px!important;background:linear-gradient(180deg,#3b82f6,#2563eb)!important}
+body.tv-mode .group-round-indicator{background:rgba(139,92,246,.18);color:#ddd6fe;border:1px solid rgba(196,181,253,.18)}
+
+@media(max-width:700px){.group-builder-grid{grid-template-columns:1fr 1fr}}
+
 </style>
 </head>
 <body>
@@ -741,7 +779,7 @@ body.tv-mode #tvVideoButton.has-media{
 <div class="header-inner">
   <div class="brandrow">
     <div class="brand">
-        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.2.3</span><span class="beta-badge">BETA</span></div>
+        <div class="brand-title-row"><h1>Physio Trainer</h1><span id="appVersionBadge" class="version-badge">v1.3.0</span><span id="betaBadge" class="beta-badge">BETA</span></div>
         <small>Offline · lokal auf diesem Gerät</small>
       </div>
     <div id="saveState" class="save-state"></div>
@@ -844,6 +882,23 @@ body.tv-mode #tvVideoButton.has-media{
     </div>
   </div>
 
+  <div class="card group-builder-card">
+    <div class="row space">
+      <div>
+        <h3 style="margin:0">Übungsgruppe</h3>
+        <div class="small muted">Markiere unten mindestens zwei direkt aufeinanderfolgende Übungen. Die Gruppe kann danach mehrfach wiederholt werden.</div>
+      </div>
+    </div>
+    <div class="grid group-builder-grid" style="margin-top:12px">
+      <div><label>Runden</label><input id="groupRoundsInput" type="number" min="2" max="20" value="3"></div>
+      <div><label>Pause zwischen Gruppenrunden (Sek.)</label><input id="groupRestInput" type="number" min="1" max="1800" value="30"></div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="primary" type="button" onclick="createGroupFromSelection()">Markierte Übungen gruppieren</button>
+      <button type="button" onclick="clearGroupSelection()">Markierung löschen</button>
+    </div>
+  </div>
+
   <div class="card"><h3 style="margin-top:0">Ablauf</h3><div id="planItems"></div></div>
 </section>
 
@@ -856,12 +911,8 @@ body.tv-mode #tvVideoButton.has-media{
       <p id="trainDesc" class="training-description muted"></p>
       <div id="trainMeta" class="training-meta"></div>
       <div id="autoPauseNote" class="small muted" style="margin-top:6px"></div>
-      <div id="audioStatus" class="small muted" style="margin-top:4px">Ton über „Ton testen / aktivieren“ einmal freischalten.</div>
+      <div id="audioStatus" class="small muted" style="margin-top:4px">Signaltöne über „Ton testen / aktivieren“ einmal freischalten.</div>
       <button id="soundTestButton" type="button" onclick="testMobileSound()">Ton testen / aktivieren</button>
-      <label class="row" style="justify-content:center;margin-top:10px">
-        <input id="voiceToggle" type="checkbox" checked style="width:auto;min-height:auto" onchange="setVoiceAnnouncements(this.checked)">
-        <span>Sprachansage „Pause“ / „Weiter“</span>
-      </label>
       <div id="trainSide" class="training-side hidden"></div>
       <div id="timerLabel" class="progress-meta hidden" style="margin-top:22px;font-size:15px"></div>
       <div id="timer" class="timer hidden">00:30</div>
@@ -873,7 +924,7 @@ body.tv-mode #tvVideoButton.has-media{
       </div>
       <div class="secondary-actions">
         <button id="pause" class="hidden" onclick="pauseTimer()">Pause</button>
-        <button id="skip" onclick="nextExercise()">Übung überspringen</button>
+        <button id="skip" onclick="skipExercise()">Übung überspringen</button>
         <button id="tvModeButton" class="tv-mode-toggle" onclick="enterTvMode()">TV-Modus</button>
         <button id="tvVideoButton" onclick="openTvMedia()">Video ansehen</button>
       </div>
@@ -919,7 +970,7 @@ body.tv-mode #tvVideoButton.has-media{
       <button class="primary" onclick="setupOfflineNow()">Offline einrichten</button>
       <button onclick="checkOfflineStatus(true)">Offline-Status prüfen</button>
     </div>
-    <p class="small muted">Version 1.2.3</p>
+    <p class="small muted">Version 1.3.0</p>
   </div>
 </section>
 </main>
@@ -953,7 +1004,7 @@ body.tv-mode #tvVideoButton.has-media{
 
 <script>
 let data={exercises:[],plans:[],history:[],settings:{}};
-const APP_VERSION='1.2.3';
+const APP_VERSION='1.3.0';
 const DB_NAME='PhysioTrainerOffline';
 const DB_VERSION=1;
 let dbPromise=null;
@@ -1042,7 +1093,25 @@ function segmentSummary(item){
 
 
 let mediaViewerVideo=null;
+let mediaViewerAutoPausedTraining=false;
+let mediaViewerPreviousPauseText='';
 
+
+function pauseTrainingForMedia(){
+  mediaViewerAutoPausedTraining=false;
+  if(!trainingState||!trainingState.countdownType||trainingState.paused)return;
+  trainingState.remaining=getCountdownRemaining();trainingState.paused=true;trainingState.countdownEndAt=null;
+  clearInterval(timerHandle);timerHandle=null;mediaViewerAutoPausedTraining=true;
+  mediaViewerPreviousPauseText=pause.textContent||'';pause.textContent='Video geöffnet · Training angehalten';
+  saveRuntimeState(true);paintCountdown();
+}
+function resumeTrainingAfterMedia(){
+  if(!mediaViewerAutoPausedTraining||!trainingState||!trainingState.countdownType)return;
+  trainingState.paused=false;trainingState.countdownEndAt=Date.now()+Math.max(0,trainingState.remaining)*1000;
+  clearInterval(timerHandle);timerHandle=setInterval(syncCountdownNow,250);
+  pause.textContent=mediaViewerPreviousPauseText || (trainingState.countdownType==='rest'?'Pause anhalten':'Countdown anhalten');
+  mediaViewerAutoPausedTraining=false;saveRuntimeState(true);paintCountdown();
+}
 function updateMediaViewerControls(){
   const controls=document.getElementById('mediaViewerControls');
   const playBtn=document.getElementById('mediaViewerPlayPause');
@@ -1065,9 +1134,10 @@ function bindMediaViewerVideo(video){
   video.muted=false;
   video.defaultMuted=false;
   video.volume=1;
+  video.muted=false;video.defaultMuted=false;
   video.playsInline=true;
   video.setAttribute('playsinline','');
-  ['play','pause','volumechange','ended','loadedmetadata'].forEach(evt=>{
+  ['play','pause','volumechange','ended','loadedmetadata','canplay'].forEach(evt=>{
     video.addEventListener(evt, updateMediaViewerControls);
   });
   updateMediaViewerControls();
@@ -1075,6 +1145,7 @@ function bindMediaViewerVideo(video){
 
 function openMediaViewer(){
   if(!trainingState)return;
+  pauseTrainingForMedia();
   let ex;
   try{ex=cur().ex}catch{return}
   if(!ex?.mediaUrl)return;
@@ -1150,6 +1221,7 @@ function closeMediaViewer(){
   controls.classList.add('hidden');
   content.innerHTML='';
   mediaViewerVideo=null;
+  resumeTrainingAfterMedia();
 }
 
 function syncTvMediaState(){
@@ -1270,18 +1342,29 @@ async function dbClear(store){
   tx.objectStore(store).clear();
   await txDone(tx);
 }
-function defaultData(){return {exercises:[],plans:[],history:[],settings:{voiceAnnouncements:true}}}
+function defaultData(){return {exercises:[],plans:[],history:[],settings:{}}}
 function normalizeData(input){
   const x=input&&typeof input==='object'?input:defaultData();
   x.exercises=(Array.isArray(x.exercises)?x.exercises:[]).map(e=>({
     ...e,mediaId:e.mediaId||'',mediaName:e.mediaName||'',mediaType:e.mediaType||'',mediaUrl:''
   }));
-  x.plans=(Array.isArray(x.plans)?x.plans:[]).map(p=>({...p,items:(p.items||[]).map(i=>({
-    ...i,afterPause:i.afterPause==='manual'?'manual':'auto',segments:segmentsForItem(i)
-  }))}));
+  x.plans=(Array.isArray(x.plans)?x.plans:[]).map(p=>{
+    const items=(p.items||[]).map(i=>({
+      ...i,afterPause:i.afterPause==='manual'?'manual':'auto',segments:segmentsForItem(i)
+    }));
+    const validIds=new Set(items.map(i=>i.id));
+    const groups=(Array.isArray(p.groups)?p.groups:[])
+      .map(g=>({
+        id:g.id||uid(),
+        itemIds:(Array.isArray(g.itemIds)?g.itemIds:[]).filter(id=>validIds.has(id)),
+        rounds:Math.max(2,Math.min(20,Number(g.rounds)||3)),
+        rest:Math.max(1,Math.min(1800,Number(g.rest)||30))
+      }))
+      .filter(g=>g.itemIds.length>=2);
+    return {...p,items,groups};
+  });
   x.history=Array.isArray(x.history)?x.history:[];
   x.settings=x.settings&&typeof x.settings==='object'?x.settings:{};
-  if(typeof x.settings.voiceAnnouncements!=='boolean')x.settings.voiceAnnouncements=true;
   return x;
 }
 function stateForStorage(){
@@ -1394,6 +1477,23 @@ async function forceInstallRemoteVersion(remoteVersion){
   }
 }
 
+
+function applyVersionPresentation(info={}){
+  const versionBadge=document.getElementById('appVersionBadge');
+  const beta=document.getElementById('betaBadge');
+  if(versionBadge)versionBadge.textContent=`v${APP_VERSION}`;
+  if(beta){
+    const enabled=info.betaTag!==false;
+    beta.classList.toggle('hidden',!enabled);
+    beta.textContent=String(info.betaLabel||'BETA').trim()||'BETA';
+  }
+}
+async function loadVersionPresentation(){
+  try{
+    const res=await fetch(`./version.json?ui=${Date.now()}`,{cache:'no-store'});
+    if(res.ok)applyVersionPresentation(await res.json());else applyVersionPresentation({betaTag:true,betaLabel:'BETA'});
+  }catch{applyVersionPresentation({betaTag:true,betaLabel:'BETA'})}
+}
 function compareVersions(a,b){
   const pa=String(a||'').split('.').map(n=>parseInt(n,10)||0);
   const pb=String(b||'').split('.').map(n=>parseInt(n,10)||0);
@@ -1429,6 +1529,7 @@ async function checkForAppUpdate(){
     if(!res.ok)return;
 
     const info=await res.json();
+    applyVersionPresentation(info);
     const remote=String(info?.version||'').trim();
     if(!remote)return;
 
@@ -1632,7 +1733,6 @@ async function load(){
   await openOfflineDb();
   data=normalizeData((await dbGet('kv','state'))||defaultData());
   await hydrateAllMedia();
-  const vt=document.getElementById('voiceToggle'); if(vt)vt.checked=data.settings.voiceAnnouncements;
   renderPlans();
   restoreRuntimeState();
   registerOfflineApp();
@@ -1793,7 +1893,7 @@ function renderPlans(){
   plansList.innerHTML=data.plans.length?data.plans.map(p=>`<div class="card item"><div class="item-copy"><b>${esc(p.name)}</b><div class="small muted">${p.items.length} Übungen</div></div>
   <div class="item-actions"><button class="primary" onclick="startTraining('${p.id}')">Starten</button><button onclick="editPlan('${p.id}')">Bearbeiten</button><button class="danger" onclick="deletePlan('${p.id}')">Löschen</button></div></div>`).join(''):'<div class="card empty">Noch kein Trainingsplan.</div>';
 }
-async function newPlan(){const p={id:uid(),name:'Neuer Trainingsplan',items:[]};data.plans.push(p);await persist();editPlan(p.id)}
+async function newPlan(){const p={id:uid(),name:'Neuer Trainingsplan',items:[],groups:[]};data.plans.push(p);await persist();editPlan(p.id)}
 function editPlan(id){
   activePlan=id;
   const p=data.plans.find(x=>x.id===id);
@@ -1908,24 +2008,94 @@ async function savePlanItem(){
   resetPlanItemEditor();
   renderPlanItems();
 }
+
+function planGroups(plan){
+  plan.groups=Array.isArray(plan.groups)?plan.groups:[];
+  return plan.groups;
+}
+function groupForItem(plan,itemId){
+  return planGroups(plan).find(g=>g.itemIds.includes(itemId))||null;
+}
+function groupForIndex(plan,index){
+  const item=plan.items[index];
+  return item?groupForItem(plan,item.id):null;
+}
+function groupIndices(plan,group){
+  return group.itemIds.map(id=>plan.items.findIndex(i=>i.id===id)).filter(i=>i>=0).sort((a,b)=>a-b);
+}
+function groupPosition(plan,group,index){
+  const indices=groupIndices(plan,group);
+  return {indices,pos:indices.indexOf(index),first:indices[0],last:indices[indices.length-1]};
+}
+function groupNumber(plan,group){return Math.max(1,planGroups(plan).findIndex(g=>g.id===group.id)+1)}
+function groupRound(group){
+  trainingState.groupRounds=trainingState.groupRounds&&typeof trainingState.groupRounds==='object'?trainingState.groupRounds:{};
+  return Math.max(1,Number(trainingState.groupRounds[group.id])||1);
+}
+function setGroupRound(group,round){
+  trainingState.groupRounds=trainingState.groupRounds&&typeof trainingState.groupRounds==='object'?trainingState.groupRounds:{};
+  trainingState.groupRounds[group.id]=Math.max(1,round);
+}
+function clearGroupSelection(){document.querySelectorAll('.group-select').forEach(x=>x.checked=false)}
+async function createGroupFromSelection(){
+  const p=data.plans.find(x=>x.id===activePlan);if(!p)return;
+  const selected=[...document.querySelectorAll('.group-select:checked')].map(x=>x.value);
+  if(selected.length<2)return alert('Bitte mindestens zwei direkt aufeinanderfolgende Übungen markieren.');
+  if(selected.some(id=>groupForItem(p,id)))return alert('Mindestens eine markierte Übung gehört bereits zu einer Gruppe. Bitte diese Gruppe zuerst aufheben.');
+  const indices=selected.map(id=>p.items.findIndex(i=>i.id===id)).sort((a,b)=>a-b);
+  if(indices.some((v,i)=>i>0&&v!==indices[i-1]+1))return alert('Eine Gruppe muss aus direkt aufeinanderfolgenden Übungen bestehen.');
+  const orderedIds=indices.map(i=>p.items[i].id);
+  const rounds=Math.max(2,Math.min(20,Number(groupRoundsInput.value)||3));
+  const rest=Math.max(1,Math.min(1800,Number(groupRestInput.value)||30));
+  p.groups=planGroups(p);
+  p.groups.push({id:uid(),itemIds:orderedIds,rounds,rest});
+  await persist();clearGroupSelection();renderPlanItems();
+}
+async function updateGroupConfig(groupId,field,value){
+  const p=data.plans.find(x=>x.id===activePlan);const g=planGroups(p).find(x=>x.id===groupId);if(!g)return;
+  if(field==='rounds')g.rounds=Math.max(2,Math.min(20,Number(value)||3));
+  if(field==='rest')g.rest=Math.max(1,Math.min(1800,Number(value)||30));
+  await persist();renderPlanItems();
+}
+async function removeExerciseGroup(groupId){
+  const p=data.plans.find(x=>x.id===activePlan);if(!p)return;
+  p.groups=planGroups(p).filter(g=>g.id!==groupId);await persist();renderPlanItems();
+}
+function groupHeaderHtml(plan,group){
+  const nr=groupNumber(plan,group);
+  return `<div class="group-banner"><div class="group-banner-main"><span class="group-badge">Gruppe ${nr}</span><div><b>${group.itemIds.length} Übungen</b><div class="small muted">Wird ${group.rounds}× hintereinander absolviert</div></div></div><div class="group-config"><label>Runden <input type="number" min="2" max="20" value="${group.rounds}" onchange="updateGroupConfig('${group.id}','rounds',this.value)"></label><label>Gruppenpause <input type="number" min="1" max="1800" value="${group.rest}" onchange="updateGroupConfig('${group.id}','rest',this.value)"></label><button type="button" onclick="removeExerciseGroup('${group.id}')">Gruppe aufheben</button></div></div>`;
+}
 function renderPlanItems(){
   const p=data.plans.find(x=>x.id===activePlan);
-  planItems.innerHTML=p.items.length?p.items.map((i,n)=>{const e=data.exercises.find(x=>x.id===i.exerciseId);return `<div class="item">
-    <div class="item-main"><div class="thumb">${mediaMarkup(e,true)}</div><div class="item-copy"><b>${n+1}. ${esc(e?.name||'Übung')}</b><div class="small muted">${segmentsForItem(i).length} Sätze${i.rest?` · ${i.rest}s Pause`:''} · ${i.afterPause==='manual'?'danach manuell':'danach automatisch'}</div>${segmentSummary(i)}</div></div>
-    <div class="row">
-      <button onclick="editPlanItem('${i.id}')">Bearbeiten</button>
-      <button onclick="moveItem(${n},-1)" ${n===0?'disabled':''}>↑</button>
-      <button onclick="moveItem(${n},1)" ${n===p.items.length-1?'disabled':''}>↓</button>
-      <button class="danger" onclick="removeItem('${i.id}')">Entfernen</button>
-    </div></div>`}).join(''):'<div class="empty">Noch keine Übungen.</div>';
+  if(!p.items.length){planItems.innerHTML='<div class="empty">Noch keine Übungen.</div>';return}
+  let out='';
+  p.items.forEach((i,n)=>{
+    const e=data.exercises.find(x=>x.id===i.exerciseId);
+    const g=groupForItem(p,i.id);
+    if(g){
+      const gp=groupPosition(p,g,n);
+      if(gp.pos===0)out+=groupHeaderHtml(p,g);
+    }
+    out+=`<div class="item ${g?'group-member':''}">
+      <div class="item-main"><div class="thumb">${mediaMarkup(e,true)}</div><div class="item-copy"><b>${n+1}. ${esc(e?.name||'Übung')}</b><div class="small muted">${segmentsForItem(i).length} Sätze${i.rest?` · ${i.rest}s Pause`:''} · ${i.afterPause==='manual'?'danach manuell':'danach automatisch'}</div>${segmentSummary(i)}<label class="group-select-label"><input class="group-select" type="checkbox" value="${i.id}" ${g?'disabled':''}> ${g?`Gruppe ${groupNumber(p,g)}`:'Für Gruppe markieren'}</label></div></div>
+      <div class="row"><button onclick="editPlanItem('${i.id}')">Bearbeiten</button><button onclick="moveItem(${n},-1)" ${n===0||g?'disabled':''}>↑</button><button onclick="moveItem(${n},1)" ${n===p.items.length-1||g?'disabled':''}>↓</button><button class="danger" onclick="removeItem('${i.id}')">Entfernen</button></div>
+    </div>`;
+  });
+  planItems.innerHTML=out;
 }
-async function moveItem(n,d){const p=data.plans.find(x=>x.id===activePlan),j=n+d;if(j<0||j>=p.items.length)return;[p.items[n],p.items[j]]=[p.items[j],p.items[n]];await persist();renderPlanItems()}
+async function moveItem(n,d){
+  const p=data.plans.find(x=>x.id===activePlan),item=p.items[n],j=n+d;
+  if(groupForItem(p,item.id))return alert('Gruppenübungen können nicht einzeln verschoben werden. Bitte die Gruppe zuerst aufheben.');
+  if(j<0||j>=p.items.length)return;
+  if(groupForItem(p,p.items[j].id))return alert('Eine Übung kann nicht in eine bestehende Gruppe hineingeschoben werden. Bitte die Gruppe zuerst aufheben.');
+  [p.items[n],p.items[j]]=[p.items[j],p.items[n]];await persist();renderPlanItems();
+}
 async function removeItem(id){
   const p=data.plans.find(x=>x.id===activePlan);
   p.items=p.items.filter(x=>x.id!==id);
+  p.groups=planGroups(p).map(g=>({...g,itemIds:g.itemIds.filter(x=>x!==id)})).filter(g=>g.itemIds.length>=2);
   if(editingPlanItemId===id)resetPlanItemEditor();
-  await persist();
-  renderPlanItems();
+  await persist();renderPlanItems();
 }
 
 
@@ -1940,6 +2110,7 @@ function planSnapshot(plan){
       mode:item.mode||'reps',
       rest:Math.max(0,Number(item.rest)||0),
       afterPause:item.afterPause==='manual'?'manual':'auto',
+      group:(()=>{const g=groupForItem(plan,item.id);return g?{id:g.id,rounds:g.rounds,rest:g.rest,itemIds:[...g.itemIds]}:null})(),
       segments:segmentsForItem(item).map(s=>({...s}))
     };
   });
@@ -1960,6 +2131,7 @@ async function saveTrainingHistory(status){
     planId:p.id,
     planName:trainingState.planNameSnapshot||p.name,
     exercises:trainingState.exerciseSnapshot||planSnapshot(p),
+    groups:planGroups(p).map(g=>({id:g.id,itemIds:[...g.itemIds],rounds:g.rounds,rest:g.rest})),
     startedAt,
     endedAt,
     durationMs:Math.max(0,new Date(endedAt)-new Date(startedAt)),
@@ -1995,6 +2167,7 @@ function startTraining(id){
     countdownTarget:null,
     countdownEndAt:null,
     countdownCompleting:false,
+    groupRounds:{},
     startedAt:new Date().toISOString(),
     planNameSnapshot:p.name,
     exerciseSnapshot:planSnapshot(p),
@@ -2007,10 +2180,18 @@ function startTraining(id){
 }
 function renderTraining(){
   clearInterval(timerHandle);const {p,item,ex,segments}=cur(),seg=segments[trainingState.segmentIndex];
-  trainCount.textContent=`Übung ${trainingState.exerciseIndex+1} von ${p.items.length}`;
+  const g=groupForIndex(p,trainingState.exerciseIndex);
+  if(g){
+    const gp=groupPosition(p,g,trainingState.exerciseIndex),round=groupRound(g);
+    trainCount.textContent=`Gruppe ${groupNumber(p,g)} · Runde ${round}/${g.rounds} · Übung ${gp.pos+1}/${gp.indices.length}`;
+  }else{
+    trainCount.textContent=`Übung ${trainingState.exerciseIndex+1} von ${p.items.length}`;
+  }
   bar.style.width=`${100*trainingState.exerciseIndex/p.items.length}%`;
   trainName.textContent=ex.name;trainDesc.textContent=ex.description||'';
   trainMeta.textContent=`Satz ${trainingState.segmentIndex+1} von ${segments.length} · ${segmentText(item,seg)}`;
+  const oldGroupRound=document.getElementById('groupRoundIndicator');if(oldGroupRound)oldGroupRound.remove();
+  if(g){const round=groupRound(g),chip=document.createElement('div');chip.id='groupRoundIndicator';chip.className='group-round-indicator';chip.textContent=`Gruppe ${groupNumber(p,g)} · Runde ${round} von ${g.rounds} · danach ${g.rest}s Gruppenpause`;trainMeta.insertAdjacentElement('afterend',chip)}
   autoPauseNote.textContent=item.afterPause==='manual'
     ?'Nach der Pause: manuell starten'
     :'Nach der Pause: automatisch weiter';
@@ -2136,7 +2317,6 @@ function finishCountdown(){
 
   if(type==='rest'){
     playPauseFinishedSound();
-    setTimeout(()=>speakGerman('Weiter'),220);
     continueAfterRest(target);
   }
 }
@@ -2219,6 +2399,17 @@ function afterRep(){
     return waitNextSegment();
   }
 
+  if(item.mode==='reps')playExerciseFinishedSound();
+
+  const activeGroup=groupForIndex(p,trainingState.exerciseIndex);
+  if(activeGroup){
+    const gp=groupPosition(p,activeGroup,trainingState.exerciseIndex);
+    const round=groupRound(activeGroup);
+    if(trainingState.exerciseIndex===gp.last && round<activeGroup.rounds){
+      return runGroupRest(activeGroup);
+    }
+  }
+
   // Nächste Übung.
   if(trainingState.exerciseIndex<p.items.length-1){
     if(item.rest>0){
@@ -2273,6 +2464,24 @@ function waitNextSegment(){
   }
 }
 
+
+function runGroupRest(group){
+  const round=groupRound(group);
+  const seconds=Math.max(1,Number(group.rest)||30);
+  playGroupRoundSound();
+  done.classList.add('hidden');start.classList.add('hidden');pause.classList.remove('hidden');
+  timerLabel.textContent='Gruppenpause';timerLabel.classList.remove('hidden');timer.classList.remove('hidden');
+  trainMeta.textContent=`Gruppe ${groupNumber(cur().p,group)} · Runde ${round}/${group.rounds} abgeschlossen · danach Runde ${round+1}/${group.rounds}`;
+  trainSide.classList.add('hidden');pause.textContent='Pause anhalten';
+  startCountdown(seconds,'rest',`group:${group.id}`);
+}
+function restartGroupRound(groupId){
+  const {p}=cur();const group=planGroups(p).find(g=>g.id===groupId);if(!group)return nextExercise(false);
+  const gp=groupPosition(p,group,trainingState.exerciseIndex);
+  setGroupRound(group,groupRound(group)+1);
+  trainingState.exerciseIndex=gp.first;trainingState.segmentIndex=0;trainingState.rep=1;trainingState.phase='ready';
+  saveRuntimeState(true);renderTraining();window.scrollTo(0,0);startStep();
+}
 function runRest(sec,target='segment'){
   const restSeconds=Math.max(0,Math.ceil(Number(sec)||0));
 
@@ -2306,10 +2515,7 @@ function runRest(sec,target='segment'){
   trainSide.classList.add('hidden');
   pause.textContent='Pause anhalten';
 
-  const pauseText=restSeconds===1
-    ?'1 Sekunde Pause'
-    :`${restSeconds} Sekunden Pause`;
-  speakGerman(pauseText);
+  playRestStartSound();
   startCountdown(restSeconds,'rest',target);
 }
 
@@ -2317,6 +2523,11 @@ function continueAfterRest(target){
   timer.classList.add('hidden');
   timerLabel.classList.add('hidden');
   pause.classList.add('hidden');
+
+  if(typeof target==='string'&&target.startsWith('group:')){
+    restartGroupRound(target.slice(6));
+    return;
+  }
 
   const {item}=cur();
   const automatic=item.afterPause!=='manual';
@@ -2358,6 +2569,14 @@ function continueAfterRest(target){
   }
 }
 
+
+function skipExercise(){
+  if(!trainingState)return;
+  clearInterval(timerHandle);timerHandle=null;
+  const {p}=cur();const g=groupForIndex(p,trainingState.exerciseIndex);
+  if(g){const gp=groupPosition(p,g,trainingState.exerciseIndex);if(trainingState.exerciseIndex===gp.last&&groupRound(g)<g.rounds)return runGroupRest(g)}
+  nextExercise(false);
+}
 async function nextExercise(autoStart=false){
   clearInterval(timerHandle);
   timerHandle=null;
@@ -2383,6 +2602,7 @@ async function nextExercise(autoStart=false){
     ['start','done','pause','skip'].forEach(id=>document.getElementById(id).classList.add('hidden'));
     message.classList.remove('hidden');
     message.textContent='Der Trainingsplan ist vollständig erledigt.';
+    playTrainingCompleteSound();
 
     await saveTrainingHistory('completed');
     clearRuntimeState();
@@ -2422,14 +2642,6 @@ let audioSessionReady=false;
 let audioContext=null;
 let chosenSpeechVoice=null;
 
-function voiceAnnouncementsEnabled(){
-  return data?.settings?.voiceAnnouncements!==false;
-}
-async function setVoiceAnnouncements(enabled){
-  data.settings=data.settings&&typeof data.settings==='object'?data.settings:{};
-  data.settings.voiceAnnouncements=!!enabled;
-  await persist();
-}
 function updateAudioStatus(text){
   const status=document.getElementById('audioStatus');
   if(status)status.textContent=text;
@@ -2439,32 +2651,6 @@ function getAudioContext(){
   if(!Ctx)return null;
   if(!audioContext)audioContext=new Ctx();
   return audioContext;
-}
-function pickGermanVoice(){
-  const synth=window.speechSynthesis;
-  if(!synth||!synth.getVoices)return null;
-  const voices=synth.getVoices()||[];
-  chosenSpeechVoice=
-    voices.find(v=>/^de[-_]/i.test(v.lang) && /siri|anna|petra|markus|deutsch|german/i.test(v.name)) ||
-    voices.find(v=>/^de[-_]/i.test(v.lang)) ||
-    null;
-  return chosenSpeechVoice;
-}
-function speakGerman(text){
-  if(!voiceAnnouncementsEnabled())return;
-  try{
-    if(!('speechSynthesis' in window))return;
-    const utter=new SpeechSynthesisUtterance(text);
-    utter.lang='de-DE';
-    utter.rate=0.98;
-    utter.pitch=1;
-    utter.volume=1;
-    utter.voice=chosenSpeechVoice || pickGermanVoice();
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utter);
-  }catch(err){
-    console.warn('speech failed',err);
-  }
 }
 function makeTone(freq=880,duration=0.22,gainValue=0.14,type='sine',delay=0){
   const ctx=getAudioContext();
@@ -2482,6 +2668,17 @@ function makeTone(freq=880,duration=0.22,gainValue=0.14,type='sine',delay=0){
   osc.stop(ctx.currentTime+delay+duration+0.03);
   return true;
 }
+function playRestStartSound(){
+  const ok=makeTone(420,0.12,0.08,'triangle',0);
+  if(ok){audioSessionReady=true;updateAudioStatus('Ton aktiv ✓')}
+}
+function playGroupRoundSound(){
+  makeTone(520,0.13,0.09,'sine',0);makeTone(660,0.16,0.1,'sine',0.15);makeTone(820,0.2,0.11,'sine',0.32);
+}
+function playTrainingCompleteSound(){
+  makeTone(660,0.14,0.1,'sine',0);makeTone(880,0.16,0.11,'sine',0.17);makeTone(1100,0.28,0.12,'sine',0.36);
+}
+
 function playExerciseFinishedSound(){
   const ok1=makeTone(880,0.18,0.12,'sine',0);
   const ok2=makeTone(1174,0.22,0.12,'sine',0.18);
@@ -2504,28 +2701,8 @@ function playPauseFinishedSound(){
   }
   if(navigator.vibrate)navigator.vibrate([90,60,90,60,150]);
 }
-function playLocalAudio(path,volume=1){
-  const p=String(path||'');
-  if(p.includes('/voice/')){
-    const file=p.split('/').pop()||'';
-    if(file==='weiter.mp3')speakGerman('Weiter');
-    else if(file==='pause.mp3')speakGerman('Pause');
-    else{
-      const mm=file.match(/^pause-(\d+)\.mp3$/);
-      if(mm)speakGerman(`${Number(mm[1])} Sekunden Pause`);
-    }
-    return true;
-  }
-  if(p.includes('pause-end.mp3')){
-    playPauseFinishedSound();
-    return true;
-  }
-  playExerciseFinishedSound();
-  return true;
-}
 function cleanupAudio(){}
 function resetLocalAudioSession(){
-  try{window.speechSynthesis?.cancel?.()}catch{}
   audioSessionReady=false;
   updateAudioStatus('Ton bitte einmal aktivieren.');
 }
@@ -2563,14 +2740,7 @@ async function ensureAudioReady(){
   audioSessionReady=ctx.state==='running';
   return audioSessionReady;
 }
-async function testMobileSound(){
-  const ok=await activateLocalAudioSession();
-  if(!ok)return;
-  playPauseFinishedSound();
-  if(voiceAnnouncementsEnabled()){
-    setTimeout(()=>speakGerman('Weiter'),500);
-  }
-}
+async function testMobileSound(){const ok=await activateLocalAudioSession();if(!ok)return;playExerciseFinishedSound();setTimeout(()=>playPauseFinishedSound(),420)}
 function beep(){playExerciseFinishedSound()}
 function formatDateTime(iso){return new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(iso))}
 function formatTime(iso){return new Intl.DateTimeFormat('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(new Date(iso))}
@@ -2650,6 +2820,7 @@ async function importJson(ev){
 
 
 updateWebAppMode();
+loadVersionPresentation();
 setActiveNav('plans');
 segmentDrafts=[defaultSegment()];renderSegments();
 load().catch(err=>{console.error(err);plansList.innerHTML='<div class="card"><b>Lokaler Speicher konnte nicht geöffnet werden.</b><p>Bitte die App neu öffnen.</p></div>'});
@@ -2711,12 +2882,6 @@ document.addEventListener('visibilitychange',()=>{
 
 setTimeout(checkForAppUpdate,700);
 
-if('speechSynthesis' in window){
-  try{
-    window.speechSynthesis.onvoiceschanged=()=>pickGermanVoice();
-    pickGermanVoice();
-  }catch{}
-}
 </script>
 </body>
 </html>
